@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "145862576076",
+    "project_id": "teamtodoapp",
+    "storage_bucket": "teamtodoapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145862576076:android:f3d8ef03f03a44b222ff69",
+        "android_client_info": {
+          "package_name": "com.example.team_todo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145862576076-ps61kdkam4b91jtje4ck7fo541udltm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDUc2dHgU_D5utYIyDp1tRdFgfivnA7hE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145862576076-ps61kdkam4b91jtje4ck7fo541udltm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
