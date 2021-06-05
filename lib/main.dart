@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'features/auth/auth-controller.dart';
+import 'features/auth/auth_binding.dart';
 import 'features/auth/auth_screen.dart';
 import 'features/home/home_binding.dart';
 import 'features/home/home_screen.dart';
+import 'utils/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   injectDependencies();
-  LoginController loginContrller = Get.find();
-  if (await loginContrller.hasLoggedIn()) {
+  AuthController loginContrller = Get.find();
+  if (loginContrller.hasLoggedIn()) {
     runApp(App("/"));
   } else {
-    runApp(App("/login"));
+    runApp(App("/auth"));
   }
 }
 
@@ -24,7 +26,7 @@ Future<void> init() async {
 }
 
 void injectDependencies() {
-  Get.put(LoginController());
+  AuthBinding().dependencies();
 }
 
 class App extends StatelessWidget {
@@ -37,7 +39,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       initialRoute: initialRoute,
       getPages: [
-        GetPage(name: "/login", page: () => LoginScreen()),
+        GetPage(name: "/auth", page: () => AuthScreen()),
         GetPage(
           name: "/",
           page: () => HomeScreen(),
@@ -55,9 +57,7 @@ class App extends StatelessWidget {
       defaultTransition: Transition.cupertino,
       transitionDuration: Duration(milliseconds: 800),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primarySwatch: Colors.grey,
-          scaffoldBackgroundColor: Colors.grey[300]),
+      theme: kAppTheme,
     );
   }
 }

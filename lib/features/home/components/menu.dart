@@ -12,11 +12,10 @@ class Menu extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildMenuItem("Orders", Icons.table_view_outlined, () {
-                Get.toNamed("/orders");
-              }),
-              _buildMenuItem("Customers", Icons.person_outline, () {}),
-              _buildMenuItem("Products", Icons.ad_units_outlined, () {}),
+              _buildMenuItem("Teams", Icons.group_outlined, () {}),
+              _buildMenuItem("Tasks", Icons.event_note_outlined, () {}),
+              _buildMenuItem(
+                  "Notifications", Icons.notifications_outlined, () {}),
             ],
           ),
         ],
@@ -33,15 +32,20 @@ class Menu extends StatelessWidget {
           decoration: BoxDecoration(shape: BoxShape.circle),
           width: 96,
           height: 96,
-          padding: EdgeInsets.all(8),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 iconData,
-                size: 48,
+                size: 44,
               ),
-              Text(title),
+              SizedBox(
+                height: 4,
+              ),
+              Text(
+                title,
+                style: TextStyle(fontSize: 16),
+              ),
             ],
           ),
         ),

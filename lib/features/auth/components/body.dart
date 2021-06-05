@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/utils/constants.dart';
 
 import '../auth-controller.dart';
 
-class Body extends GetWidget<LoginController> {
-  final _usernameEdtController = TextEditingController();
-  final _passwordEdtController = TextEditingController();
+class Body extends GetWidget<AuthController> {
+  final _usernameEdtController = TextEditingController(text: 'user@gmail.com');
+  final _passwordEdtController = TextEditingController(text: 'useruser');
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class Body extends GetWidget<LoginController> {
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: Colors.black54,
+                color: kPrimarySwatch,
                 fontStyle: FontStyle.italic,
               ),
             )));

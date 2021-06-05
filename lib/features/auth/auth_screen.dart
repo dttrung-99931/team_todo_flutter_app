@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:team_todo_app/features/auth/components/body.dart';
+import 'package:team_todo_app/utils/constants.dart';
 
-class LoginScreen extends StatelessWidget {
+class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +14,7 @@ class LoginScreen extends StatelessWidget {
               child: Body()),
         ),
       ),
-      backgroundColor: Colors.grey,
+      backgroundColor: kPrimarySwatch[400],
       resizeToAvoidBottomInset: true,
     );
   }

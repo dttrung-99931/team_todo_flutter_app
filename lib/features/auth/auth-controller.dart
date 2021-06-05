@@ -1,64 +1,37 @@
-import 'dart:convert';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:team_todo_app/utils/constants.dart';
+import 'package:team_todo_app/core/base_controller.dart';
 
-class LoginController extends GetxController {
-  final _isLoading = false.obs;
-  bool get isLoading => _isLoading.value;
-  final _auth = FirebaseAuth.instance;
+import 'auth_service.dart';
+import 'user_service.dart';
 
+class AuthController extends BaseController {
   final _isLoginScreen = true.obs;
   get isLoginScreen => _isLoginScreen.value;
 
-  final _user = Rx<User>();
-  get user => _user.value;
+  final _authService = Get.find<AuthService>();
+  final _userService = Get.find<UserService>();
 
-  Future<bool> hasLoggedIn() async {
-    return _auth.currentUser != null;
-    // var prefs = await SharedPreferences.getInstance();
-    // var userJson = prefs.getString(Constants.KEY_USER);
-    // return userJson != null && userJson.isNotEmpty;
-  }
+  bool hasLoggedIn() => _authService.hasLoggedIn();
 
   Future<bool> login(String email, String password) async {
-    try {
-      var userCredential = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      _user.value = userCredential.user;
-      _isLoading.value = false;
-      return true;
-    } catch (e) {}
-    print('@@loggiend failed');
-    _isLoading.value = false;
-    return false;
+    isLoading = true;
+    var loginSuccessful = await _authService.login(email, password);
+    isLoading = false;
+    return loginSuccessful;
   }
 
   Future<bool> signUp(String email, String password) async {
-    try {
-      var userCredential = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      _user.value = userCredential.user;
-      _isLoading.value = false;
-      return true;
-    } catch (e) {
-      print('@@sign failed $e');
+    isLoading = true;
+    var signupSuccessful = await _authService.signUp(email, password);
+    if (signupSuccessful) {
+      await _userService.insert(_authService.user);
     }
-    _isLoading.value = false;
-    return false;
-  }
-
-  Future<void> _saveUser(User user) async {
-    var prefs = await SharedPreferences.getInstance();
-    var userJson = jsonEncode(user);
-    prefs.setString(Constants.KEY_USER, userJson);
+    isLoading = false;
+    return signupSuccessful;
   }
 
   Future<void> signOut() async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString(Constants.KEY_USER, "");
+    _authService.signOut();
   }
 
   void swithScreen() {
