@@ -12,7 +12,9 @@ class Menu extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildMenuItem("Teams", Icons.group_outlined, () {}),
+              _buildMenuItem("Teams", Icons.group_outlined, () {
+                Get.toNamed('/teams');
+              }),
               _buildMenuItem("Tasks", Icons.event_note_outlined, () {}),
               _buildMenuItem(
                   "Notifications", Icons.notifications_outlined, () {}),

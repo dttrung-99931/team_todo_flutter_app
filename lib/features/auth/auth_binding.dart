@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'auth-controller.dart';
+import 'auth_controller.dart';
 import 'auth_service.dart';
 import 'user_service.dart';
 

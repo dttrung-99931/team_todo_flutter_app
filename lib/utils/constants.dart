@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Collections {
-  static const Users = "users";
+  static const users = "users";
+  static const teams = "teams";
+  static const teamIDs = "teamIDs";
 }
 
 class Fields {
   static const email = "email";
+  static const teamIDs = "teamIDs";
 }
 
 const kPrimarySwatch = Colors.teal;
@@ -14,5 +17,6 @@ final kAppTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey[300],
     primaryIconTheme: IconThemeData(color: kPrimarySwatch),
     iconTheme: IconThemeData(color: kPrimarySwatch),
-    accentIconTheme: IconThemeData(color: kPrimarySwatch));
+    accentIconTheme: IconThemeData(color: kPrimarySwatch),
+    appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)));
 const double kDefaultPadding = 8;

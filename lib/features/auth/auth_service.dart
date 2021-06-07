@@ -5,7 +5,13 @@ class AuthService extends GetxService {
   final _auth = FirebaseAuth.instance;
 
   final _user = Rx<User>();
-  get user => _user.value;
+  User get user => _user.value;
+
+  @override
+  void onInit() {
+    _user.value = _auth.currentUser;
+    super.onInit();
+  }
 
   Future<bool> login(String email, String password) async {
     try {
@@ -32,7 +38,7 @@ class AuthService extends GetxService {
   }
 
   bool hasLoggedIn() {
-    return _auth.currentUser != null;
+    return user != null;
   }
 
   Future<void> signOut() async {

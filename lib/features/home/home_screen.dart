@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/features/auth/auth-controller.dart';
+import 'package:team_todo_app/core/base_get_widget.dart';
+import 'package:team_todo_app/features/auth/auth_controller.dart';
 import 'package:team_todo_app/utils/constants.dart';
 import 'components/body.dart';
 import 'home_controller.dart';
 
-class HomeScreen extends GetWidget<HomeController> {
+class HomeScreen extends BaseGetWidget<HomeController> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -69,19 +70,10 @@ class HomeScreen extends GetWidget<HomeController> {
   }
 
   Future<void> _showExitAlertDialog() async {
-    var alertDialog = AlertDialog(
-      actions: [
-        TextButton(
-          onPressed: () async {
-            AuthController authController = Get.find();
-            authController.signOut();
-            Get.toNamed('/auth');
-          },
-          child: Text("OK"),
-        )
-      ],
-      title: Text("Do you want to sign out?"),
-    );
-    Get.dialog(alertDialog);
+    showAlertDialog("Do you want to sign out?", () {
+      AuthController authController = Get.find();
+      authController.signOut();
+      Get.toNamed('/auth');
+    });
   }
 }

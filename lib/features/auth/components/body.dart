@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/utils/constants.dart';
 
-import '../auth-controller.dart';
+import '../auth_controller.dart';
 
 class Body extends GetWidget<AuthController> {
   final _usernameEdtController = TextEditingController(text: 'user@gmail.com');
