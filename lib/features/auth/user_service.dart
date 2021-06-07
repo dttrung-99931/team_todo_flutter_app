@@ -18,10 +18,17 @@ class UserService extends FirestoreService {
     return collection(Collections.users).doc(userID);
   }
 
-  Future<void> addTeam(String userID, String teamID) async {
+  Future<void> joinTeam(String userID, String teamID) async {
     return getUserRef(userID).update({
       // Add teamID to existing array 'teamIDs'
       Fields.teamIDs: FieldValue.arrayUnion([teamID])
+    });
+  }
+
+  Future<void> unjoinTeam(String userID, String teamID) async {
+    return getUserRef(userID).update({
+      // Remove teamID from existing array 'teamIDs'
+      Fields.teamIDs: FieldValue.arrayRemove([teamID])
     });
   }
 

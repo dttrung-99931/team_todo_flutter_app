@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
+
 import 'package:team_todo_app/features/teams/team_model.dart';
 import 'package:team_todo_app/features/teams/teams_controller.dart';
 import 'package:team_todo_app/utils/constants.dart';
 
-class AddTeamDialog extends GetWidget<TeamsController> {
-  AddTeamDialog({Key key}) : super(key: key);
-
+class UpsertTeamDialog extends GetWidget<TeamsController> {
   final _nameTextCtl = TextEditingController();
   final _descTextCtl = TextEditingController();
+  final TeamModel teamModel;
+  String title;
+
+  UpsertTeamDialog({
+    this.teamModel,
+  }) {
+    if (teamModel != null) {
+      title = 'Update team';
+      _nameTextCtl.text = teamModel.name;
+      _descTextCtl.text = teamModel.description;
+    } else {
+      title = 'Add team';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +83,22 @@ class AddTeamDialog extends GetWidget<TeamsController> {
   }
 
   Future<void> _onBtnOKClicked() async {
-    await controller.addTeam(_buildTeamModel());
+    final team = _buildTeamModel();
+    if (teamModel != null) {
+      teamModel.name = team.name;
+      teamModel.description = team.description;
+      await controller.update_(teamModel);
+    } else {
+      await controller.add(team);
+    }
+    Get.back();
   }
 
   TeamModel _buildTeamModel() {
     return TeamModel(
-      _nameTextCtl.text,
-      _descTextCtl.text,
+      name: _nameTextCtl.text,
+      description: _descTextCtl.text,
+      userIDs: [],
     );
   }
 

@@ -1,12 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/state_manager.dart';
-import 'package:team_todo_app/features/teams/team_model.dart';
 import 'package:team_todo_app/features/teams/teams_controller.dart';
-import 'package:team_todo_app/utils/constants.dart';
-import 'package:team_todo_app/utils/utils.dart';
 
 import 'team_item.dart';
 

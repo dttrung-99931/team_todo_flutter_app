@@ -13,9 +13,9 @@ abstract class BaseGetWidget<TController extends GetLifeCycleBase>
           child: Text("NO"),
         ),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
+            await onYes();
             Get.back();
-            onYes();
           },
           child: Text("YES"),
         ),

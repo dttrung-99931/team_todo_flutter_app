@@ -33,7 +33,10 @@ class HomeScreen extends BaseGetWidget<HomeController> {
       title: Text("Team todo app", style: TextStyle(color: kPrimarySwatch)),
       actions: [
         IconButton(
-          icon: Icon(Icons.menu),
+          icon: Icon(
+            Icons.menu,
+            color: kPrimarySwatch,
+          ),
           onPressed: () {
             scaffoldKey.currentState.openEndDrawer();
           },
@@ -54,7 +57,7 @@ class HomeScreen extends BaseGetWidget<HomeController> {
                 children: [],
               ),
               decoration: BoxDecoration(
-                color: Colors.grey[400],
+                color: kPrimarySwatch,
               ),
             ),
             ListTile(

@@ -15,8 +15,6 @@ const kPrimarySwatch = Colors.teal;
 final kAppTheme = ThemeData(
     primarySwatch: kPrimarySwatch,
     scaffoldBackgroundColor: Colors.grey[300],
-    primaryIconTheme: IconThemeData(color: kPrimarySwatch),
     iconTheme: IconThemeData(color: kPrimarySwatch),
-    accentIconTheme: IconThemeData(color: kPrimarySwatch),
     appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)));
 const double kDefaultPadding = 8;

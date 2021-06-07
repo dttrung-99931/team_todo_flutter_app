@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/features/teams/components/add_team_dialog.dart';
+import 'package:team_todo_app/features/teams/components/upsert_team_dialog.dart';
 
 import 'team_list.dart';
 
@@ -16,7 +16,7 @@ class MyTeams extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () {
-              Get.dialog(AddTeamDialog());
+              Get.dialog(UpsertTeamDialog());
             }),
         body: TeamList());
   }
