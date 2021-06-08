@@ -27,7 +27,7 @@ class TeamsService extends FirestoreService {
       team.ownerUserID = ownerUserID;
       team.userIDs.add(ownerUserID);
       await newDocRef.set(team.toMap());
-      await _userService.joinTeam(ownerUserID, team.id);
+      await _userService.addTeamID(ownerUserID, team.id);
       return team;
     } catch (e) {
       logd('Add team error $e');
@@ -46,6 +46,15 @@ class TeamsService extends FirestoreService {
     return querySnapshot.docs.map((e) => TeamModel.fromMap(e.data())).toList();
   }
 
+  Future<List<TeamModel>> getSuggestTeams(int count) async {
+    final teamIDs = await _userService.getJoinedTeamIDs(_authService.user.uid);
+    final query = await _teams
+        .where(FieldPath.documentId, whereNotIn: teamIDs)
+        .limit(count)
+        .get();
+    return query.docs.map((e) => TeamModel.fromMap(e.data())).toList();
+  }
+
   /// Delete a team
   ///
   /// First, unjoin all users from the team
@@ -61,7 +70,7 @@ class TeamsService extends FirestoreService {
     }
     final team = TeamModel.fromMap(teamDoc.data());
     team.userIDs.forEach((userID) async {
-      await _userService.unjoinTeam(userID, teamID);
+      await _userService.removeTeamID(userID, teamID);
     });
     await teamRef.delete();
   }
@@ -86,5 +95,31 @@ class TeamsService extends FirestoreService {
   Future<void> update(TeamModel teamModel) {
     var teamRef = getTeamRef(teamModel.id);
     return teamRef.update(teamModel.toMap());
+  }
+
+  String get appUserID => _authService.user.uid;
+
+  Future<void> joinTeam(String teamID) async {
+    await addUserID(teamID, appUserID);
+    await _userService.addTeamID(appUserID, teamID);
+  }
+
+  Future<void> addUserID(String teamID, userID) async {
+    final team = getTeamRef(teamID);
+    return team.update({
+      Fields.userIDs: FieldValue.arrayUnion([userID])
+    });
+  }
+
+  Future<void> removeUserID(String teamID, userID) async {
+    final team = getTeamRef(teamID);
+    return team.update({
+      Fields.userIDs: FieldValue.arrayRemove([userID])
+    });
+  }
+
+  Future<void> unjoinTeam(String teamID) async {
+    await removeUserID(teamID, appUserID);
+    return _userService.removeTeamID(appUserID, teamID);
   }
 }

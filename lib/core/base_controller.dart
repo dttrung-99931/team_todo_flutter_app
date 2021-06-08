@@ -6,4 +6,10 @@ class BaseController extends GetxController {
   bool get isLoading => _isLoading.value;
   @protected
   set isLoading(bool value) => _isLoading.value = value;
+
+  void load(Function load) {
+    isLoading = true;
+    load();
+    isLoading = false;
+  }
 }

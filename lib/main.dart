@@ -9,6 +9,7 @@ import 'features/auth/auth_screen.dart';
 import 'features/home/home_binding.dart';
 import 'features/home/home_screen.dart';
 import 'features/teams/team/team_screen.dart';
+import 'features/teams/team_preview/team_preview_screen.dart';
 import 'features/teams/teams_screen.dart';
 import 'utils/constants.dart';
 
@@ -53,6 +54,10 @@ class App extends StatelessWidget {
         GetPage(
           name: "/team",
           page: () => TeamScreen(),
+        ),
+        GetPage(
+          name: "/team-preview",
+          page: () => TeamPreviewScreen(),
         ),
       ],
       defaultTransition: Transition.cupertino,

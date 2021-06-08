@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class Collections {
   static const users = "users";
   static const teams = "teams";
-  static const teamIDs = "teamIDs";
 }
 
 class Fields {
   static const email = "email";
   static const teamIDs = "teamIDs";
+  static const userIDs = "userIDs";
 }
 
 const kPrimarySwatch = Colors.teal;

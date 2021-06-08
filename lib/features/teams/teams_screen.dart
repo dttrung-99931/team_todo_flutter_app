@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team_todo_app/core/base_get_widget.dart';
 import 'components/my_teams.dart';
+import 'team_exploration/team_explore.dart';
 import 'teams_controller.dart';
 
 class TeamsScreen extends BaseGetWidget<TeamsController> {
@@ -27,7 +28,7 @@ class TeamsScreen extends BaseGetWidget<TeamsController> {
           ),
           body: TabBarView(children: [
             MyTeams(),
-            Center(child: Text("View 2")),
+            TeamExplore(),
           ]),
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:team_todo_app/core/firestore_service.dart';
 import 'package:team_todo_app/utils/constants.dart';
+import 'package:team_todo_app/utils/utils.dart';
 
 class UserService extends FirestoreService {
   Future<void> insert(User user) async {
@@ -18,14 +19,14 @@ class UserService extends FirestoreService {
     return collection(Collections.users).doc(userID);
   }
 
-  Future<void> joinTeam(String userID, String teamID) async {
+  Future<void> addTeamID(String userID, String teamID) {
     return getUserRef(userID).update({
       // Add teamID to existing array 'teamIDs'
       Fields.teamIDs: FieldValue.arrayUnion([teamID])
     });
   }
 
-  Future<void> unjoinTeam(String userID, String teamID) async {
+  Future<void> removeTeamID(String userID, String teamID) {
     return getUserRef(userID).update({
       // Remove teamID from existing array 'teamIDs'
       Fields.teamIDs: FieldValue.arrayRemove([teamID])

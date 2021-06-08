@@ -1,40 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/state_manager.dart';
-import 'package:team_todo_app/features/teams/teams_controller.dart';
 
+import '../team_model.dart';
 import 'team_item.dart';
 
-class TeamList extends GetWidget<TeamsController> {
-  const TeamList({
-    Key key,
-  }) : super(key: key);
+class TeamList extends StatelessWidget {
+  final List<TeamModel> teams;
+  final Function(TeamModel team) onTeamSelected;
+  const TeamList({@required this.teams, this.onTeamSelected});
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-        () => controller.isLoading ? _buildProgressBar() : _buildTeamList());
-  }
-
-  Widget _buildProgressBar() {
-    return Center(
-      child: Container(
-        width: 24,
-        height: 24,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-        ),
-      ),
-    );
+    print('build team list');
+    return _buildTeamList();
   }
 
   Widget _buildTeamList() {
-    return Obx(() => controller.myTeams.length != 0
+    return teams.length != 0
         ? ListView(
-            children: controller.myTeams.map((e) => TeamItem(e)).toList(),
+            children: teams
+                .map((e) => TeamItem(
+                      team: e,
+                      onTeamSelected: onTeamSelected,
+                    ))
+                .toList(),
           )
         : Center(
             child: Text('No teams'),
-          ));
+          );
   }
 }
