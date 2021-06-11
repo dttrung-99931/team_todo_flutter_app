@@ -11,7 +11,10 @@ class TeamsService extends FirestoreService {
   final _userService = Get.find<UserService>();
   final _authService = Get.find<AuthService>();
 
-  CollectionReference get _teams => collection(Collections.teams);
+  @override
+  String getCollectionPath() {
+    return Collections.teams;
+  }
 
   /// Add a team
   ///
@@ -21,7 +24,7 @@ class TeamsService extends FirestoreService {
   /// @return the added team if adding successfully, otherwise null
   Future<TeamModel> add(TeamModel team) async {
     try {
-      final newDocRef = _teams.doc();
+      final newDocRef = collection.doc();
       team.id = newDocRef.id;
       final ownerUserID = _authService.user.uid;
       team.ownerUserID = ownerUserID;
@@ -42,13 +45,13 @@ class TeamsService extends FirestoreService {
       return [];
     }
     final querySnapshot =
-        await _teams.where(FieldPath.documentId, whereIn: teamIDs).get();
+        await collection.where(FieldPath.documentId, whereIn: teamIDs).get();
     return querySnapshot.docs.map((e) => TeamModel.fromMap(e.data())).toList();
   }
 
   Future<List<TeamModel>> getSuggestTeams(int count) async {
     final teamIDs = await _userService.getJoinedTeamIDs(_authService.user.uid);
-    final query = await _teams
+    final query = await collection
         .where(FieldPath.documentId, whereNotIn: teamIDs)
         .limit(count)
         .get();
@@ -62,7 +65,7 @@ class TeamsService extends FirestoreService {
   ///
   /// @param teamID
   Future<void> delete(String teamID) async {
-    final teamRef = getTeamRef(teamID);
+    final teamRef = getDocRef(teamID);
     final teamDoc = await teamRef.get();
     if (!teamDoc.exists) {
       // @TODO handle
@@ -75,14 +78,6 @@ class TeamsService extends FirestoreService {
     await teamRef.delete();
   }
 
-  Future<DocumentSnapshot> getTeamDoc(String teamID) async {
-    final teamRef = getTeamRef(teamID);
-    final teamDoc = await teamRef.get();
-    return teamDoc;
-  }
-
-  DocumentReference getTeamRef(String teamID) => _teams.doc(teamID);
-
   Future<List<TeamModel>> getTeamsOf(String userID) async {
     final teamIDs = await _userService.getJoinedTeamIDs(userID);
     return getTeams(teamIDs);
@@ -93,7 +88,7 @@ class TeamsService extends FirestoreService {
   }
 
   Future<void> update(TeamModel teamModel) {
-    var teamRef = getTeamRef(teamModel.id);
+    var teamRef = getDocRef(teamModel.id);
     return teamRef.update(teamModel.toMap());
   }
 
@@ -105,14 +100,14 @@ class TeamsService extends FirestoreService {
   }
 
   Future<void> addUserID(String teamID, userID) async {
-    final team = getTeamRef(teamID);
+    final team = getDocRef(teamID);
     return team.update({
       Fields.userIDs: FieldValue.arrayUnion([userID])
     });
   }
 
   Future<void> removeUserID(String teamID, userID) async {
-    final team = getTeamRef(teamID);
+    final team = getDocRef(teamID);
     return team.update({
       Fields.userIDs: FieldValue.arrayRemove([userID])
     });
