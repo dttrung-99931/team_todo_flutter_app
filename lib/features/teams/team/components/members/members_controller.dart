@@ -51,4 +51,8 @@ class MembersController extends BaseController {
       }
     });
   }
+
+  bool isTeamOwner() {
+    return _teamsService.appUserID == _team.ownerUserID;
+  }
 }

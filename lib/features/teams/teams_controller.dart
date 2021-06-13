@@ -54,10 +54,6 @@ class TeamsController extends BaseController {
     isLoading = false;
   }
 
-  bool isAppUserID(String userID) {
-    return _teamsService.appUserID == userID;
-  }
-
   Future<void> unjoinAppUserFromTeam(String teamID) async {
     await _teamsService.unjoinAppUserFromTeam(teamID);
     _myTeams.removeWhere((element) => element.id == teamID);
@@ -77,5 +73,9 @@ class TeamsController extends BaseController {
         _myTeams.indexWhere((element) => element.id == selectedTeam.id);
     _myTeams[index] = selectedTeam;
     _myTeams.refresh();
+  }
+
+  bool isTeamOwner() {
+    return _teamsService.appUserID == selectedTeam.ownerUserID;
   }
 }

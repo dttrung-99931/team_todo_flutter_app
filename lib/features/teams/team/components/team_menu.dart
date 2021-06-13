@@ -15,23 +15,30 @@ class TeamMenu extends BaseGetWidget<TeamsController> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildMenuItem("Members", Icons.people_outlined, () {
-                Get.toNamed('/team/members');
-              }),
-              _buildMenuItem("Join requests", Icons.person_add_alt_1_outlined,
-                  () {
-                Get.toNamed('/team/join-requests',
-                    arguments: controller.selectedTeam);
-              }),
-              _buildMenuItem(
-                  "Notifications", Icons.notifications_outlined, () {}),
-            ],
+            mainAxisAlignment: controller.isTeamOwner()
+                ? MainAxisAlignment.spaceEvenly
+                : MainAxisAlignment.center,
+            children: buildTeamMenuItems(),
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> buildTeamMenuItems() {
+    List<Widget> items = [
+      _buildMenuItem("Members", Icons.people_outlined, () {
+        Get.toNamed('/team/members');
+      }),
+      _buildMenuItem("Notifications", Icons.notifications_outlined, () {}),
+    ];
+    if (controller.isTeamOwner()) {
+      items.add(
+          _buildMenuItem("Join requests", Icons.person_add_alt_1_outlined, () {
+        Get.toNamed('/team/join-requests', arguments: controller.selectedTeam);
+      }));
+    }
+    return items;
   }
 
   Widget _buildMenuItem(String title, IconData iconData, Function onTap) {

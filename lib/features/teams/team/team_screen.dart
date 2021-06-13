@@ -31,8 +31,7 @@ class TeamScreen extends BaseGetWidget<TeamsController> {
         color: Colors.white,
       ),
       itemBuilder: (BuildContext context) {
-        final isTeamOwner =
-            controller.isAppUserID(controller.selectedTeam.ownerUserID);
+        final isTeamOwner = controller.isTeamOwner();
         return isTeamOwner
             ? _buildPopupMenuItemsForOwner(context)
             : _buildPopupMenuItemsForMember(context);

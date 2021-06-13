@@ -17,14 +17,7 @@ class MembersScreen extends BaseGetWidget<MembersController> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Members'),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                Get.dialog(AddMemberDialog());
-              },
-            )
-          ],
+          actions: buildAppBarActions(),
         ),
         body: Obx(() => MemberList(
               members: controller.members,
@@ -38,5 +31,18 @@ class MembersScreen extends BaseGetWidget<MembersController> {
             )),
       ),
     );
+  }
+
+  List<Widget> buildAppBarActions() {
+    List<Widget> actions = [];
+    if (controller.isTeamOwner()) {
+      actions.add(IconButton(
+        icon: Icon(Icons.add),
+        onPressed: () {
+          Get.dialog(AddMemberDialog());
+        },
+      ));
+    }
+    return actions;
   }
 }

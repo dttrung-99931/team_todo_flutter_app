@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/state_manager.dart';
 import 'package:team_todo_app/core/on_item_clicked.dart';
 import 'package:team_todo_app/utils/constants.dart';
 import 'package:team_todo_app/utils/utils.dart';
 
 import 'member_model.dart';
+import 'members_controller.dart';
 
-class MemberItem extends StatelessWidget {
+class MemberItem extends GetWidget<MembersController> {
   final MemberModel member;
   final OnItemClicked<MemberModel> onMemberEdited;
 
@@ -51,17 +53,22 @@ class MemberItem extends StatelessWidget {
     return PopupMenuButton(
       icon: Icon(Icons.more_vert_outlined),
       itemBuilder: (context) {
-        return [buildPopupMenuItem('Remove', ClickAction.Remove)];
+        return buildMenuItems();
       },
       onSelected: (value) => onMemberEdited(member, value),
     );
   }
 
-  PopupMenuItem buildPopupMenuItem(String title, ClickAction action) {
-    return PopupMenuItem<ClickAction>(value: action, child: Text(title));
-  }
-
   Color _getRandomColor() {
     return kPrimarySwatch[(random(9) + 1) * 100];
+  }
+
+  List<PopupMenuItem<ClickAction>> buildMenuItems() {
+    final List<PopupMenuItem<ClickAction>> items = [];
+    if (controller.isTeamOwner()) {
+      items.add(PopupMenuItem<ClickAction>(
+          value: ClickAction.Remove, child: Text('Remove')));
+    }
+    return items;
   }
 }
