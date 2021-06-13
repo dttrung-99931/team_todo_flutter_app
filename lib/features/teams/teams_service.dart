@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:team_todo_app/core/firestore_service.dart';
 import 'package:team_todo_app/features/auth/auth_service.dart';
 import 'package:team_todo_app/features/auth/user_service.dart';
+import 'package:team_todo_app/features/teams/team/components/members/member_model.dart';
 import 'package:team_todo_app/features/teams/team_model.dart';
 import 'package:team_todo_app/utils/constants.dart';
 import 'package:team_todo_app/utils/utils.dart';
@@ -51,11 +52,17 @@ class TeamsService extends FirestoreService {
 
   Future<List<TeamModel>> getSuggestTeams(int count) async {
     final teamIDs = await _userService.getJoinedTeamIDs(_authService.user.uid);
-    final query = await collection
-        .where(FieldPath.documentId, whereNotIn: teamIDs)
-        .limit(count)
-        .get();
-    return query.docs.map((e) => TeamModel.fromMap(e.data())).toList();
+    QuerySnapshot querySnap;
+    if (teamIDs.isNotEmpty) {
+      querySnap = await collection
+          .where(FieldPath.documentId, whereNotIn: teamIDs)
+          .limit(count)
+          .get();
+    } else {
+      querySnap = await collection.limit(count).get();
+    }
+
+    return querySnap.docs.map((e) => TeamModel.fromMap(e.data())).toList();
   }
 
   /// Delete a team
@@ -94,9 +101,13 @@ class TeamsService extends FirestoreService {
 
   String get appUserID => _authService.user.uid;
 
-  Future<void> joinTeam(String teamID) async {
-    await addUserID(teamID, appUserID);
-    await _userService.addTeamID(appUserID, teamID);
+  Future<void> joinAppUserIntoTeam(String teamID) async {
+    return joinTeam(teamID, appUserID);
+  }
+
+  Future<void> joinTeam(String teamID, String userID) async {
+    await addUserID(teamID, userID);
+    await _userService.addTeamID(userID, teamID);
   }
 
   Future<void> addUserID(String teamID, userID) async {
@@ -113,8 +124,34 @@ class TeamsService extends FirestoreService {
     });
   }
 
-  Future<void> unjoinTeam(String teamID) async {
-    await removeUserID(teamID, appUserID);
-    return _userService.removeTeamID(appUserID, teamID);
+  Future<void> unjoinAppUserFromTeam(String teamID) async {
+    return await unjoinMember(teamID, appUserID);
+  }
+
+  Future<void> unjoinMember(String teamID, String memberUserID) async {
+    await removeUserID(teamID, memberUserID);
+    return _userService.removeTeamID(memberUserID, teamID);
+  }
+
+  Future<void> requestJoinTeam(String teamID) async {
+    return getDocRef(teamID).update({
+      Fields.pendingUserIDs: FieldValue.arrayUnion([appUserID])
+    });
+  }
+
+  Future<void> removeJoinTeamRequest(String teamID, String userID) async {
+    return getDocRef(teamID).update({
+      Fields.pendingUserIDs: FieldValue.arrayRemove([userID])
+    });
+  }
+
+  Future<TeamModel> getById(teamID) async {
+    final teamSnap = await getDocSnap(teamID);
+    return TeamModel.fromMap(teamSnap.data());
+  }
+
+  Future<List<MemberModel>> loadTeamMemebers(TeamModel team) async {
+    final users = await _userService.getUsers(team.userIDs);
+    return users.map((e) => MemberModel(e, e.id == team.ownerUserID)).toList();
   }
 }

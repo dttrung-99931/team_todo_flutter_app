@@ -3,20 +3,17 @@ import 'package:get/get.dart';
 import 'package:team_todo_app/core/base_get_widget.dart';
 import 'package:team_todo_app/features/teams/components/upsert_team_dialog.dart';
 import 'package:team_todo_app/features/teams/team_exploration/team_explore_controller.dart';
-import 'package:team_todo_app/features/teams/team_model.dart';
 
 import '../teams_controller.dart';
 import 'components/body.dart';
 
 class TeamScreen extends BaseGetWidget<TeamsController> {
-  final TeamModel team = Get.arguments as TeamModel;
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(team.name),
+          title: Text(controller.selectedTeam.name),
           actions: [_buildDropDownOptionBtn2()],
         ),
         body: Body(),
@@ -34,7 +31,8 @@ class TeamScreen extends BaseGetWidget<TeamsController> {
         color: Colors.white,
       ),
       itemBuilder: (BuildContext context) {
-        final isTeamOwner = controller.isAppUserID(team.ownerUserID);
+        final isTeamOwner =
+            controller.isAppUserID(controller.selectedTeam.ownerUserID);
         return isTeamOwner
             ? _buildPopupMenuItemsForOwner(context)
             : _buildPopupMenuItemsForMember(context);
@@ -73,7 +71,7 @@ class TeamScreen extends BaseGetWidget<TeamsController> {
       await _showDeleteTeamAlert();
     } else if (menuItenID == ID_ITEM_UPDATE_TEAM) {
       await Get.dialog(UpsertTeamDialog(
-        teamModel: team,
+        teamModel: controller.selectedTeam,
       ));
     } else if (menuItenID == ID_ITEM_UNJOIN_TEAM) {
       await _showUnjoinTeamAlert();
@@ -82,7 +80,7 @@ class TeamScreen extends BaseGetWidget<TeamsController> {
 
   Future<void> _showDeleteTeamAlert() async {
     await showAlertDialog('Delete team?', () async {
-      await controller.delete(team.id);
+      await controller.delete(controller.selectedTeam.id);
       Get.back();
     });
   }
@@ -91,7 +89,7 @@ class TeamScreen extends BaseGetWidget<TeamsController> {
 
   Future<void> _showUnjoinTeamAlert() async {
     await showAlertDialog('Unjoin team?', () async {
-      await controller.unjoin(team.id);
+      await controller.unjoinAppUserFromTeam(controller.selectedTeam.id);
       Get.back();
       _teamExploreController.loadSuggestTeams();
     });

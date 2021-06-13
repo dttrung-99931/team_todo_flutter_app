@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:team_todo_app/core/base_controller.dart';
 
 import 'auth_service.dart';
+import 'user_model.dart';
 import 'user_service.dart';
 
 class AuthController extends BaseController {
@@ -24,7 +25,8 @@ class AuthController extends BaseController {
     isLoading = true;
     var signupSuccessful = await _authService.signUp(email, password);
     if (signupSuccessful) {
-      await _userService.insert(_authService.user);
+      final user = _authService.user;
+      await _userService.insert(UserModel(id: user.uid, email: user.email));
     }
     isLoading = false;
     return signupSuccessful;

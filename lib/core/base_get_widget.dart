@@ -35,8 +35,8 @@ abstract class BaseGetWidget<TController extends BaseController>
           child: Text("NO"),
         ),
         TextButton(
-          onPressed: () async {
-            await onYes();
+          onPressed: () {
+            onYes();
             Get.back();
           },
           child: Text("YES"),

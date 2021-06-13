@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 
 class BaseController extends GetxController {
@@ -7,9 +8,16 @@ class BaseController extends GetxController {
   @protected
   set isLoading(bool value) => _isLoading.value = value;
 
-  void load(Function load) {
+  Future<void> load(Function load) async {
     isLoading = true;
-    load();
+    await load();
     isLoading = false;
+  }
+
+  Future<void> showSnackbar(String msg) {
+    return Get.showSnackbar(GetBar(
+      message: msg,
+      duration: Duration(seconds: 2),
+    ));
   }
 }

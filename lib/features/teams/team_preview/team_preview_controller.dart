@@ -11,7 +11,7 @@ class TeamPreviewController extends BaseController {
 
   Future<void> jointTeam(String teamID) async {
     isLoading = true;
-    await _teamsService.joinTeam(teamID);
+    await _teamsService.requestJoinTeam(teamID);
     isLoading = false;
     _teamsController.loadMyTeams();
   }

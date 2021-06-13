@@ -9,6 +9,8 @@ class Fields {
   static const email = "email";
   static const teamIDs = "teamIDs";
   static const userIDs = "userIDs";
+  static const pendingUserIDs = "pendingUserIDs";
+  static const id = "id";
 }
 
 const kPrimarySwatch = Colors.teal;

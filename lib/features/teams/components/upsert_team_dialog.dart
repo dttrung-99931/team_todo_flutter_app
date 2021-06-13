@@ -99,6 +99,7 @@ class UpsertTeamDialog extends GetWidget<TeamsController> {
       name: _nameTextCtl.text,
       description: _descTextCtl.text,
       userIDs: [],
+      pendingUserIDs: [],
     );
   }
 

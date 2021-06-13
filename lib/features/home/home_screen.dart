@@ -73,9 +73,9 @@ class HomeScreen extends BaseGetWidget<HomeController> {
   }
 
   Future<void> _showExitAlertDialog() async {
-    showAlertDialog("Do you want to sign out?", () {
+    showAlertDialog("Do you want to sign out?", () async {
       AuthController authController = Get.find();
-      authController.signOut();
+      await authController.signOut();
       Get.toNamed('/auth');
     });
   }

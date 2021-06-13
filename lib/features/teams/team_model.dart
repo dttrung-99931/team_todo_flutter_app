@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 class TeamModel {
   String id;
   String ownerUserID;
-  List<String> userIDs = List.empty();
+  List<String> userIDs;
+  List<String> pendingUserIDs;
   String name;
   String description;
 
@@ -15,6 +16,7 @@ class TeamModel {
 
     /// @TODO need to set default value = [], and remove @required
     @required this.userIDs,
+    @required this.pendingUserIDs,
     @required this.name,
     @required this.description,
   });
@@ -24,6 +26,7 @@ class TeamModel {
       'id': id,
       'ownerUserID': ownerUserID,
       'userIDs': userIDs,
+      'pendingUserIDs': pendingUserIDs,
       'name': name,
       'description': description,
     };
@@ -34,6 +37,7 @@ class TeamModel {
       id: map['id'],
       ownerUserID: map['ownerUserID'],
       userIDs: List<String>.from(map['userIDs']),
+      pendingUserIDs: List<String>.from(map['pendingUserIDs']),
       name: map['name'],
       description: map['description'],
     );
