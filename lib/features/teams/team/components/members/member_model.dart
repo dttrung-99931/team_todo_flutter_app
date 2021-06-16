@@ -5,4 +5,9 @@ class MemberModel {
   final bool isTeamOwner;
 
   MemberModel(this.user, this.isTeamOwner);
+
+  @override
+  String toString() {
+    return user.email;
+  }
 }

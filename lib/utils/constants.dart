@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Collections {
   static const users = "users";
   static const teams = "teams";
+  static const tasks = "tasks";
 }
 
 class Fields {
@@ -11,6 +12,18 @@ class Fields {
   static const userIDs = "userIDs";
   static const pendingUserIDs = "pendingUserIDs";
   static const id = "id";
+}
+
+enum TaskStatus {
+  Todo,
+  Doing,
+  Finish,
+}
+
+extension TaskStatusExtension on TaskStatus {
+  String stringValue() {
+    return this.toString().replaceFirst('TaskStatus.', '');
+  }
 }
 
 const kPrimarySwatch = Colors.teal;

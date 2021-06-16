@@ -4,6 +4,7 @@ import 'package:team_todo_app/core/firestore_service.dart';
 import 'package:team_todo_app/features/auth/auth_service.dart';
 import 'package:team_todo_app/features/auth/user_service.dart';
 import 'package:team_todo_app/features/teams/team/components/members/member_model.dart';
+import 'package:team_todo_app/features/teams/team/components/todo_board/task_model.dart';
 import 'package:team_todo_app/features/teams/team_model.dart';
 import 'package:team_todo_app/utils/constants.dart';
 import 'package:team_todo_app/utils/utils.dart';
@@ -153,5 +154,17 @@ class TeamsService extends FirestoreService {
   Future<List<MemberModel>> loadTeamMemebers(TeamModel team) async {
     final users = await _userService.getUsers(team.userIDs);
     return users.map((e) => MemberModel(e, e.id == team.ownerUserID)).toList();
+  }
+
+  Future<void> addTask(String teamID, TaskModel task) {
+    final taskRef = getDocRef(teamID).collection(Collections.tasks).doc();
+    task.id = taskRef.id;
+    return taskRef.set(task.toMap());
+  }
+
+  Future<List<TaskModel>> getasks(String teamID) async {
+    final querySnap =
+        await getDocRef(teamID).collection(Collections.tasks).get();
+    return querySnap.docs.map((e) => TaskModel.fromMap(e.data())).toList();
   }
 }

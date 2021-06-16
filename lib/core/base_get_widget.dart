@@ -19,6 +19,7 @@ abstract class BaseGetWidget<TController extends BaseController>
         width: 24,
         height: 24,
         child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
           strokeWidth: 2,
         ),
       ),
