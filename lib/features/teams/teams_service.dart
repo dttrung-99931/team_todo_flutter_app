@@ -157,14 +157,25 @@ class TeamsService extends FirestoreService {
   }
 
   Future<void> addTask(String teamID, TaskModel task) {
-    final taskRef = getDocRef(teamID).collection(Collections.tasks).doc();
+    final taskRef = getTaskCollectionOf(teamID).doc();
     task.id = taskRef.id;
     return taskRef.set(task.toMap());
   }
 
+  CollectionReference getTaskCollectionOf(String teamID) =>
+      getDocRef(teamID).collection(Collections.tasks);
+
   Future<List<TaskModel>> getasks(String teamID) async {
-    final querySnap =
-        await getDocRef(teamID).collection(Collections.tasks).get();
+    final querySnap = await getTaskCollectionOf(teamID).get();
     return querySnap.docs.map((e) => TaskModel.fromMap(e.data())).toList();
+  }
+
+  Future<void> updateTask(String teamID, TaskModel task) async {
+    task.statusChangedDate = DateTime.now();
+    await getTaskCollectionOf(teamID).doc(task.id).update(task.toMap());
+  }
+
+  Future<void> deleteTask(String teamID, String taskID) async {
+    await getTaskCollectionOf(teamID).doc(taskID).delete();
   }
 }

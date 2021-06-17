@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/core/base_get_widget.dart';
-import 'package:team_todo_app/features/teams/team/components/members/member_model.dart';
 import 'package:team_todo_app/features/teams/team/components/todo_board/todo_board_controller.dart';
 import 'package:team_todo_app/utils/constants.dart';
 import 'package:team_todo_app/utils/utils.dart';
@@ -10,16 +9,31 @@ import 'package:team_todo_app/utils/utils.dart';
 import 'choice_chips.dart';
 import 'task_model.dart';
 
-class AddTaskDialog extends BaseGetWidget<TodoBoardController> {
-  AddTaskDialog();
-
+class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
+  final TaskModel taskToUpdate;
+  final int boardIndex;
   final _titleTxtController = TextEditingController();
   final _descTxtController = TextEditingController();
   final _startDateTxtController = TextEditingController();
   final _dueDateTxtController = TextEditingController();
+  String _assigneeUserID;
   TaskStatus _status = TaskStatus.Todo;
   DateTime _startDate, _dueDate;
-  final assignee = Rx<MemberModel>();
+
+  UpsertTaskDialog({this.taskToUpdate, this.boardIndex}) {
+    if (taskToUpdate != null) {
+      _titleTxtController.text = taskToUpdate.title;
+      _descTxtController.text = taskToUpdate.description;
+      _startDateTxtController.text = formatDate(taskToUpdate.startDate);
+      _dueDateTxtController.text = formatDate(taskToUpdate.dueDate);
+      _startDate = taskToUpdate.startDate;
+      _dueDate = taskToUpdate.dueDate;
+      _assigneeUserID = taskToUpdate.assigneeUserID;
+    } else {
+      _startDate = DateTime.now();
+      _dueDate = DateTime.now();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +51,8 @@ class AddTaskDialog extends BaseGetWidget<TodoBoardController> {
               ),
             ),
           ),
+          bottomNavigationBar: _buildOKBtn(),
+          resizeToAvoidBottomInset: false,
         ));
   }
 
@@ -62,7 +78,6 @@ class AddTaskDialog extends BaseGetWidget<TodoBoardController> {
         SizedBox(
           height: 8,
         ),
-        _buildOKBtn()
       ],
     );
   }
@@ -112,18 +127,21 @@ class AddTaskDialog extends BaseGetWidget<TodoBoardController> {
               border: OutlineInputBorder(gapPadding: 0),
               labelText: 'Assign'),
           child: buildFutureWidget(
-            Obx(() => DropdownButton<MemberModel>(
-                value: assignee.value,
-                isExpanded: true,
-                onChanged: (value) {
-                  assignee.value = value;
-                },
-                underline: Container(),
-                hint: Text('Assignee'),
-                items: controller.members
-                    .map((e) => DropdownMenuItem<MemberModel>(
-                        value: e, child: Text(e.user.email)))
-                    .toList())),
+            StatefulBuilder(builder: (context, setState) {
+              return DropdownButton<String>(
+                  value: _assigneeUserID,
+                  isExpanded: true,
+                  onChanged: (value) {
+                    _assigneeUserID = value;
+                    setState(() {});
+                  },
+                  underline: Container(),
+                  hint: Text('Assignee'),
+                  items: controller.members
+                      .map((e) => DropdownMenuItem<String>(
+                          value: e.user.id, child: Text(e.user.email)))
+                      .toList());
+            }),
           ),
         ));
   }
@@ -136,13 +154,28 @@ class AddTaskDialog extends BaseGetWidget<TodoBoardController> {
           padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
           child: ElevatedButton(
               onPressed: () async {
-                await controller.addTask(_buildTaskModel());
+                if (taskToUpdate != null) {
+                  _setTaskInputValues();
+                  await controller.updateTask(taskToUpdate, boardIndex);
+                } else {
+                  await controller.addTask(_buildTaskModel());
+                }
                 Get.back();
               },
               child: buildFutureWidget(Text('OK'))),
         )),
       ],
     );
+  }
+
+  void _setTaskInputValues() {
+    taskToUpdate.title = _titleTxtController.text;
+    taskToUpdate.description = _descTxtController.text;
+    taskToUpdate.startDate = _startDate;
+    taskToUpdate.dueDate = _dueDate;
+    taskToUpdate.dueDate = _dueDate;
+    taskToUpdate.assigneeUserID = _assigneeUserID;
+    taskToUpdate.status = _status.stringValue();
   }
 
   TaskModel _buildTaskModel() {
@@ -152,7 +185,7 @@ class AddTaskDialog extends BaseGetWidget<TodoBoardController> {
       startDate: _startDate,
       dueDate: _dueDate,
       status: _status.stringValue(),
-      assigneeUserID: assignee.value.user.id,
+      assigneeUserID: _assigneeUserID,
       statusChangedDate: DateTime.now(),
     );
   }

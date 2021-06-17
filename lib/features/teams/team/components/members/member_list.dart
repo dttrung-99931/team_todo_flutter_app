@@ -13,7 +13,7 @@ class MemberList extends StatelessWidget {
   }) : super(key: key);
 
   final List<MemberModel> members;
-  final OnItemClicked<MemberModel> onMemberEdited;
+  final OnItemEdited<MemberModel> onMemberEdited;
 
   @override
   Widget build(BuildContext context) {

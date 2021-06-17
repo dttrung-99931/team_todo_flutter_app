@@ -22,7 +22,7 @@ class MembersScreen extends BaseGetWidget<MembersController> {
         body: Obx(() => MemberList(
               members: controller.members,
               onMemberEdited: (model, action) {
-                if (action == ClickAction.Remove) {
+                if (action == EditAction.Delete) {
                   showAlertDialog('Delete this member', () {
                     controller.removeMember(model.user.id);
                   });

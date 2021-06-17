@@ -11,7 +11,7 @@ import 'members_controller.dart';
 
 class MemberItem extends GetWidget<MembersController> {
   final MemberModel member;
-  final OnItemClicked<MemberModel> onMemberEdited;
+  final OnItemEdited<MemberModel> onMemberEdited;
 
   MemberItem({
     @required this.member,
@@ -23,7 +23,7 @@ class MemberItem extends GetWidget<MembersController> {
     return GestureDetector(
         onTap: () {
           if (onMemberEdited != null) {
-            onMemberEdited(member, ClickAction.Click);
+            onMemberEdited(member, EditAction.Click);
           }
         },
         child: Card(
@@ -63,11 +63,11 @@ class MemberItem extends GetWidget<MembersController> {
     return kPrimarySwatch[(random(9) + 1) * 100];
   }
 
-  List<PopupMenuItem<ClickAction>> buildMenuItems() {
-    final List<PopupMenuItem<ClickAction>> items = [];
+  List<PopupMenuItem<EditAction>> buildMenuItems() {
+    final List<PopupMenuItem<EditAction>> items = [];
     if (controller.isTeamOwner()) {
-      items.add(PopupMenuItem<ClickAction>(
-          value: ClickAction.Remove, child: Text('Remove')));
+      items.add(PopupMenuItem<EditAction>(
+          value: EditAction.Delete, child: Text('Remove')));
     }
     return items;
   }
