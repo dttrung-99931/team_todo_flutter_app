@@ -1,0 +1,16 @@
+## use 'flutter pub run flutter_native_splash:create' to re-generate splash screen 
+## if sth changed
+flutter_native_splash:
+  color: "#FF4DB6"
+  # image: ''
+  # background_image: "assets/background.png"
+
+  ## Use these below to config splash in dart theme mode
+  # color_dark: "#042a49"
+  # background_image_dark: "assets/dark-background.png"
+  # image_dark: assets/splash-invert.png
+
+  ## These below are used to disable splash screen in a platform
+  # android: false
+  # ios: false
+  # web: false

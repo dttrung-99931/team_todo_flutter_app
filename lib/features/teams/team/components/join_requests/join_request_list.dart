@@ -67,18 +67,20 @@ class JoinRequestItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-                onPressed: () {
-                  onRequestConfirmed(joinRequest, false);
-                },
-                child: Text(
-                  'Decline',
-                  style: TextStyle(color: Colors.red),
-                )),
+              onPressed: () {
+                onRequestConfirmed(joinRequest, false);
+              },
+              child: Text(
+                'Decline',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
             TextButton(
-                onPressed: () {
-                  onRequestConfirmed(joinRequest, true);
-                },
-                child: Text('Accept')),
+              onPressed: () {
+                onRequestConfirmed(joinRequest, true);
+              },
+              child: Text('Accept'),
+            ),
           ],
         ),
       ],
