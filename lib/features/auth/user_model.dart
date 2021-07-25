@@ -3,15 +3,13 @@ import 'dart:convert';
 class UserModel {
   final String id;
   final String email;
-  final List<String> teamIDs;
 
-  UserModel({this.id, this.email, this.teamIDs = const []});
+  UserModel({this.id, this.email});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'email': email,
-      'teamIDs': teamIDs,
     };
   }
 
@@ -19,7 +17,6 @@ class UserModel {
     return UserModel(
       id: map['id'],
       email: map['email'],
-      teamIDs: List<String>.from(map['teamIDs']),
     );
   }
 

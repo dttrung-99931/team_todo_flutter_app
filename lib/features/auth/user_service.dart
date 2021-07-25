@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_todo_app/core/firestore_service.dart';
 import 'package:team_todo_app/utils/constants.dart';
 
 import 'user_model.dart';
+import 'user_team_model.dart';
 
 class UserService extends FirestoreService {
   @override
@@ -14,24 +17,24 @@ class UserService extends FirestoreService {
     await collection.doc(user.id).set(user.toMap());
   }
 
-  Future<void> addTeamID(String userID, String teamID) {
-    return getDocRef(userID).update({
-      // Add teamID to existing array 'teamIDs'
-      Fields.teamIDs: FieldValue.arrayUnion([teamID])
-    });
+  Future<void> addTeam(String userID, String teamID) async {
+    var teams = getDocRef(userID).collection(Collections.teams);
+    var userTeamDoc = teams.doc(teamID);
+    var userTeam = UserTeamModel(newActionIDs: [], teamID: teamID);
+    await userTeamDoc.set(userTeam.toMap());
   }
 
-  Future<void> removeTeamID(String userID, String teamID) {
-    return getDocRef(userID).update({
-      // Remove teamID from existing array 'teamIDs'
-      Fields.teamIDs: FieldValue.arrayRemove([teamID])
-    });
+  Future<void> removeTeam(String userID, String teamID) async {
+    var teams = teamCollection(userID);
+    await teams.doc(teamID).delete();
   }
+
+  CollectionReference teamCollection(String userID) =>
+      getDocRef(userID).collection(Collections.teams);
 
   Future<List<String>> getJoinedTeamIDs(String userID) async {
-    final userSnapshot = await getDocSnap(userID);
-    final userIDs = userSnapshot.get(Fields.teamIDs);
-    return List.castFrom(userIDs).map<String>((e) => e).toList();
+    var teams = await teamCollection(userID).get();
+    return teams.docs.map((e) => e.id).toList();
   }
 
   Future<List<UserModel>> getUsers(List<String> userIDs) async {

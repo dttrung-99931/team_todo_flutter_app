@@ -32,7 +32,7 @@ class TeamsService extends FirestoreService {
       team.ownerUserID = ownerUserID;
       team.userIDs.add(ownerUserID);
       await newDocRef.set(team.toMap());
-      await _userService.addTeamID(ownerUserID, team.id);
+      await _userService.addTeam(ownerUserID, team.id);
       return team;
     } catch (e) {
       logd('Add team error $e');
@@ -81,7 +81,7 @@ class TeamsService extends FirestoreService {
     }
     final team = TeamModel.fromMap(teamDoc.data());
     team.userIDs.forEach((userID) async {
-      await _userService.removeTeamID(userID, teamID);
+      await _userService.removeTeam(userID, teamID);
     });
     await teamRef.delete();
   }
@@ -108,7 +108,7 @@ class TeamsService extends FirestoreService {
 
   Future<void> joinTeam(String teamID, String userID) async {
     await addUserID(teamID, userID);
-    await _userService.addTeamID(userID, teamID);
+    await _userService.addTeam(userID, teamID);
   }
 
   Future<void> addUserID(String teamID, userID) async {
@@ -131,7 +131,7 @@ class TeamsService extends FirestoreService {
 
   Future<void> unjoinMember(String teamID, String memberUserID) async {
     await removeUserID(teamID, memberUserID);
-    return _userService.removeTeamID(memberUserID, teamID);
+    return _userService.removeTeam(memberUserID, teamID);
   }
 
   Future<void> requestJoinTeam(String teamID) async {
