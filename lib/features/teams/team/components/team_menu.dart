@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/core/base_get_widget.dart';
+import 'package:team_todo_app/core/widgets/badge_widget.dart';
 
 import '../../teams_controller.dart';
 
@@ -27,21 +28,48 @@ class TeamMenu extends BaseGetWidget<TeamsController> {
 
   List<Widget> buildTeamMenuItems() {
     List<Widget> items = [
-      _buildMenuItem("Members", Icons.people_outlined, () {
-        Get.toNamed('/team/members');
-      }),
-      _buildMenuItem("Notifications", Icons.notifications_outlined, () {}),
+      buildMenuItem(
+        title: "Members",
+        child: Obx(
+          () => BadgeWidget(
+            badgeNumber: controller.selectedTeam.userIDs.length,
+            child: buildMenuIcon(Icons.people_outlined),
+          ),
+        ),
+        onTap: () {
+          Get.toNamed('/team/members');
+        },
+      ),
+      buildMenuItem(
+        title: "Notifications",
+        child: BadgeWidget(
+          badgeNumber: 0,
+          child: buildMenuIcon(Icons.notifications_outlined),
+        ),
+        onTap: () {},
+      ),
     ];
     if (controller.isTeamOwner()) {
       items.add(
-          _buildMenuItem("Join requests", Icons.person_add_alt_1_outlined, () {
-        Get.toNamed('/team/join-requests', arguments: controller.selectedTeam);
-      }));
+        buildMenuItem(
+          title: "Join requests",
+          child: Obx(
+            () => BadgeWidget(
+              badgeNumber: controller.selectedTeam.pendingUserIDs.length,
+              child: buildMenuIcon(Icons.person_add_alt_1_outlined),
+            ),
+          ),
+          onTap: () {
+            Get.toNamed('/team/join-requests',
+                arguments: controller.selectedTeam);
+          },
+        ),
+      );
     }
     return items;
   }
 
-  Widget _buildMenuItem(String title, IconData iconData, Function onTap) {
+  Widget buildMenuItem({String title, Widget child, Function onTap}) {
     return Card(
       elevation: 6,
       child: InkWell(
@@ -53,10 +81,7 @@ class TeamMenu extends BaseGetWidget<TeamsController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                iconData,
-                size: 36,
-              ),
+              child,
               SizedBox(
                 height: 4,
               ),
@@ -68,6 +93,13 @@ class TeamMenu extends BaseGetWidget<TeamsController> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildMenuIcon(IconData iconData) {
+    return Icon(
+      iconData,
+      size: 36,
     );
   }
 }

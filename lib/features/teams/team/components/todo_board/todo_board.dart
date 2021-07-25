@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/core/base_get_widget.dart';
+import 'package:team_todo_app/core/widgets/badge_widget.dart';
 import 'package:team_todo_app/features/teams/team/components/todo_board/todo_board_controller.dart';
 import 'package:team_todo_app/features/teams/team/components/todo_board/upsert_task_dialog.dart';
 import 'package:team_todo_app/features/teams/team/components/todo_board/finish.dart';
@@ -42,9 +43,15 @@ class TodoBoard extends BaseGetWidget<TodoBoardController> {
         Container(
           color: Colors.white,
           child: TabBar(tabs: [
-            Tab(child: Text('Todo')),
-            Tab(child: Text('Doing')),
-            Tab(child: Text('Finish')),
+            Obx(
+              () => buildTabWithBadge('Todo', controller.todoTasks.length),
+            ),
+            Obx(
+              () => buildTabWithBadge('Doing', controller.doingTasks.length),
+            ),
+            Obx(
+              () => buildTabWithBadge('Finish', controller.finishTasks.length),
+            ),
           ], labelColor: Colors.black),
         ),
         SizedBox(
@@ -58,6 +65,20 @@ class TodoBoard extends BaseGetWidget<TodoBoardController> {
           ]),
         )
       ],
+    );
+  }
+
+  Tab buildTabWithBadge(String title, int badgeNumber) {
+    return Tab(
+      child: BadgeWidget(
+        badgeNumber: badgeNumber,
+        child: Padding(
+          padding: const EdgeInsets.only(right: kDefaultPadding),
+          child: Text(title),
+        ),
+        hidebadgeIfZeroNumber: false,
+        elevation: 1,
+      ),
     );
   }
 }
