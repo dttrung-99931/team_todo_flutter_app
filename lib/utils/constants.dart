@@ -4,6 +4,7 @@ class Collections {
   static const users = "users";
   static const teams = "teams";
   static const tasks = "tasks";
+  static const actions = "actions";
 }
 
 class Fields {
@@ -12,6 +13,7 @@ class Fields {
   static const userIDs = "userIDs";
   static const pendingUserIDs = "pendingUserIDs";
   static const id = "id";
+  static const newActionIDs = "newActionIDs";
 }
 
 enum TaskStatus {

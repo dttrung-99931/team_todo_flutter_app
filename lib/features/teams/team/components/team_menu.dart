@@ -42,9 +42,11 @@ class TeamMenu extends BaseGetWidget<TeamsController> {
       ),
       buildMenuItem(
         title: "Notifications",
-        child: BadgeWidget(
-          badgeNumber: 0,
-          child: buildMenuIcon(Icons.notifications_outlined),
+        child: Obx(
+          () => BadgeWidget(
+            badgeNumber: controller.newTeamActionIDs.length,
+            child: buildMenuIcon(Icons.notifications_outlined),
+          ),
         ),
         onTap: () {},
       ),

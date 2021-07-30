@@ -9,6 +9,8 @@ import 'package:team_todo_app/features/teams/team_model.dart';
 import 'package:team_todo_app/utils/constants.dart';
 import 'package:team_todo_app/utils/utils.dart';
 
+import 'action_model.dart';
+
 class TeamsService extends FirestoreService {
   final _userService = Get.find<UserService>();
   final _authService = Get.find<AuthService>();
@@ -156,10 +158,35 @@ class TeamsService extends FirestoreService {
     return users.map((e) => MemberModel(e, e.id == team.ownerUserID)).toList();
   }
 
-  Future<void> addTask(String teamID, TaskModel task) {
+  Future<void> addTask(String teamID, TaskModel task) async {
     final taskRef = getTaskCollectionOf(teamID).doc();
     task.id = taskRef.id;
-    return taskRef.set(task.toMap());
+    await Future.wait([
+      taskRef.set(task.toMap()),
+      addAction(teamID, Action.TYPE_ADD_TASK, task.id)
+    ]);
+  }
+
+  Future<void> addAction(String teamID, String type, String taskID) async {
+    var action = Action(taskID: taskID, type: type, date: DateTime.now());
+    var actionRef = await getDocRef(teamID)
+        .collection(Collections.actions)
+        .add(action.toMap());
+
+    await addActionForMembers(actionRef.id, teamID);
+  }
+
+  Future<void> addActionForMembers(String actionId, String teamID) async {
+    var teamMemberIDs = await getTeamMemberIDs(teamID);
+    var futures = teamMemberIDs.map<Future>(
+      (userID) => _userService.addNewAction(userID, teamID, actionId),
+    );
+    await Future.wait(futures);
+  }
+
+  getTeamMemberIDs(String teamID) async {
+    var team = await getById(teamID);
+    return team.userIDs;
   }
 
   CollectionReference getTaskCollectionOf(String teamID) =>
@@ -172,10 +199,17 @@ class TeamsService extends FirestoreService {
 
   Future<void> updateTask(String teamID, TaskModel task) async {
     task.statusChangedDate = DateTime.now();
-    await getTaskCollectionOf(teamID).doc(task.id).update(task.toMap());
+    await Future.wait([
+      getTaskCollectionOf(teamID).doc(task.id).update(task.toMap()),
+      addAction(teamID, Action.TYPE_UPDATE_TASK, task.id)
+    ]);
   }
 
+  /// @TODO: Update ActionModel to show who and what task of TYPE_DEL_TASK action
   Future<void> deleteTask(String teamID, String taskID) async {
-    await getTaskCollectionOf(teamID).doc(taskID).delete();
+    await Future.wait([
+      getTaskCollectionOf(teamID).doc(taskID).delete(),
+      addAction(teamID, Action.TYPE_DEL_TASK, taskID)
+    ]);
   }
 }

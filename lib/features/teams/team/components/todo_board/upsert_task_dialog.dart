@@ -187,6 +187,7 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
       status: _status.stringValue(),
       assigneeUserID: _assigneeUserID,
       statusChangedDate: DateTime.now(),
+      creatorUserID: controller.appUserID,
     );
   }
 

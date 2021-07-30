@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:team_todo_app/core/base_controller.dart';
 import 'package:team_todo_app/core/on_item_clicked.dart';
+import 'package:team_todo_app/features/auth/auth_service.dart';
 import 'package:team_todo_app/features/teams/team/components/members/member_model.dart';
 import 'package:team_todo_app/features/teams/team/components/todo_board/task_model.dart';
 import 'package:team_todo_app/features/teams/team/components/todo_board/upsert_task_dialog.dart';
@@ -12,8 +13,11 @@ import '../../../teams_service.dart';
 class TodoBoardController extends BaseController {
   final _teamsController = Get.find<TeamsController>();
   final _teamsService = Get.find<TeamsService>();
+  final _authService = Get.find<AuthService>();
   final _members = RxList<MemberModel>();
   List<MemberModel> get members => _members.toList();
+
+  String get appUserID => _authService.user.uid;
 
   final _todoTasks = RxList<TaskModel>();
   List<TaskModel> get todoTasks => _todoTasks.toList();

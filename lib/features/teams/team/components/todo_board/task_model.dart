@@ -7,17 +7,19 @@ class TaskModel {
   String title;
   String description;
   String assigneeUserID;
+  String creatorUserID;
   DateTime startDate;
   DateTime dueDate;
   String status;
   DateTime statusChangedDate;
 
   TaskModel({
-    this.id,
     @required this.title,
-    @required this.assigneeUserID,
+    @required this.creatorUserID,
     @required this.status,
     @required this.statusChangedDate,
+    this.id,
+    this.assigneeUserID,
     this.description,
     this.startDate,
     this.dueDate,
@@ -28,6 +30,7 @@ class TaskModel {
       'id': id,
       'title': title,
       'description': description,
+      'creatorUserID': creatorUserID,
       'assigneeUserID': assigneeUserID,
       'startDate': startDate.millisecondsSinceEpoch,
       'dueDate': dueDate.millisecondsSinceEpoch,
@@ -41,6 +44,7 @@ class TaskModel {
       id: map['id'],
       title: map['title'],
       description: map['description'],
+      creatorUserID: map['creatorUserID'],
       assigneeUserID: map['assigneeUserID'],
       startDate: DateTime.fromMillisecondsSinceEpoch(map['startDate']),
       dueDate: DateTime.fromMillisecondsSinceEpoch(map['dueDate']),

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:team_todo_app/core/base_controller.dart';
+import 'package:team_todo_app/features/auth/user_service.dart';
 import 'package:team_todo_app/utils/utils.dart';
 
 import 'team_model.dart';
@@ -7,12 +8,16 @@ import 'teams_service.dart';
 
 class TeamsController extends BaseController {
   final _teamsService = Get.find<TeamsService>();
+  final _userService = Get.find<UserService>();
 
   final _myTeams = RxList<TeamModel>();
   List<TeamModel> get myTeams => _myTeams.toList();
 
   final _selectedTeam = Rx<TeamModel>();
   TeamModel get selectedTeam => _selectedTeam.value;
+
+  final _newTeamActionIDs = RxList<String>();
+  List<String> get newTeamActionIDs => _newTeamActionIDs.toList();
 
   final _refeshSuggestTeams = RxBool();
   bool get refeshSuggestTeams => _refeshSuggestTeams.value;
@@ -61,6 +66,9 @@ class TeamsController extends BaseController {
 
   void selectTeam(TeamModel team) {
     _selectedTeam.value = team;
+    _userService
+        .getNewActionIDs(_teamsService.appUserID, team.id)
+        .then((value) => _newTeamActionIDs.assignAll(value));
   }
 
   void updateSelectedTeam(TeamModel updated) {

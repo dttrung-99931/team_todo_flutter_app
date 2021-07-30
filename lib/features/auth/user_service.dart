@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_todo_app/core/firestore_service.dart';
 import 'package:team_todo_app/utils/constants.dart';
@@ -58,5 +56,21 @@ class UserService extends FirestoreService {
       return UserModel.fromMap(query.docs.first.data());
     }
     return null;
+  }
+
+  Future<void> addNewAction(
+      String userID, String teamID, String actionID) async {
+    await teamDoc(userID, teamID).update({
+      Fields.newActionIDs: FieldValue.arrayUnion([actionID])
+    });
+  }
+
+  DocumentReference teamDoc(String userID, String teamID) {
+    return getDocRef(userID).collection(Collections.teams).doc(teamID);
+  }
+
+  Future<List<String>> getNewActionIDs(String userID, String teamID) async {
+    var teamSnap = await teamDoc(userID, teamID).get();
+    return List.castFrom(teamSnap.data()[Fields.newActionIDs]);
   }
 }
