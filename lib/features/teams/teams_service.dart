@@ -163,12 +163,12 @@ class TeamsService extends FirestoreService {
     task.id = taskRef.id;
     await Future.wait([
       taskRef.set(task.toMap()),
-      addAction(teamID, Action.TYPE_ADD_TASK, task.id)
+      addAction(teamID, ActionModel.TYPE_ADD_TASK, task.id)
     ]);
   }
 
   Future<void> addAction(String teamID, String type, String taskID) async {
-    var action = Action(taskID: taskID, type: type, date: DateTime.now());
+    var action = ActionModel(taskID: taskID, type: type, date: DateTime.now());
     var actionRef = await getDocRef(teamID)
         .collection(Collections.actions)
         .add(action.toMap());
@@ -201,15 +201,42 @@ class TeamsService extends FirestoreService {
     task.statusChangedDate = DateTime.now();
     await Future.wait([
       getTaskCollectionOf(teamID).doc(task.id).update(task.toMap()),
-      addAction(teamID, Action.TYPE_UPDATE_TASK, task.id)
+      addAction(teamID, ActionModel.TYPE_UPDATE_TASK, task.id)
     ]);
   }
 
   /// @TODO: Update ActionModel to show who and what task of TYPE_DEL_TASK action
   Future<void> deleteTask(String teamID, String taskID) async {
     await Future.wait([
-      getTaskCollectionOf(teamID).doc(taskID).delete(),
-      addAction(teamID, Action.TYPE_DEL_TASK, taskID)
+      getTaskDoc(teamID, taskID).delete(),
+      addAction(teamID, ActionModel.TYPE_DEL_TASK, taskID)
     ]);
+  }
+
+  DocumentReference getTaskDoc(String teamID, String taskID) {
+    return getTaskCollectionOf(teamID).doc(taskID);
+  }
+
+  Future<List<ActionModel>> getActions(
+      String teamID, List<String> actionIDs) async {
+    final querySnap = await getDocRef(teamID)
+        .collection(Collections.actions)
+        .where(FieldPath.documentId, whereIn: actionIDs)
+        .get();
+    var actions = querySnap.docs
+        .map(
+          (e) => ActionModel.fromMap(e.data()),
+        )
+        .toList();
+    var futures = actions.map(
+      (e) => getTask(teamID, e.taskID).then((task) => e.task = task),
+    );
+    await Future.wait(futures);
+    return actions;
+  }
+
+  Future<TaskModel> getTask(String teamID, String taskID) async {
+    var taskSnap = await getTaskDoc(teamID, taskID).get();
+    return TaskModel.fromMap(taskSnap.data());
   }
 }

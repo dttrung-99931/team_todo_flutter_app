@@ -48,7 +48,9 @@ class TeamMenu extends BaseGetWidget<TeamsController> {
             child: buildMenuIcon(Icons.notifications_outlined),
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          Get.toNamed('/team/notifications');
+        },
       ),
     ];
     if (controller.isTeamOwner()) {

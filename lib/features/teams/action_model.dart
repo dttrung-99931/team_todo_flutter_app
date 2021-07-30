@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/icon_data.dart';
+import 'package:team_todo_app/features/teams/team/components/todo_board/task_model.dart';
 
-class Action {
+class ActionModel {
   static const TYPE_ADD_TASK = "ADD_TASK";
   static const TYPE_DEL_TASK = "DEL_TASK";
   static const TYPE_UPDATE_TASK = "UPDATE_TASK";
@@ -11,7 +14,9 @@ class Action {
   final String taskID;
   final DateTime date;
 
-  Action({
+  TaskModel task;
+
+  ActionModel({
     @required this.type,
     @required this.taskID,
     @required this.date,
@@ -25,8 +30,8 @@ class Action {
     };
   }
 
-  factory Action.fromMap(Map<String, dynamic> map) {
-    return Action(
+  factory ActionModel.fromMap(Map<String, dynamic> map) {
+    return ActionModel(
       type: map['type'],
       taskID: map['taskID'],
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),
@@ -35,5 +40,32 @@ class Action {
 
   String toJson() => json.encode(toMap());
 
-  factory Action.fromJson(String source) => Action.fromMap(json.decode(source));
+  factory ActionModel.fromJson(String source) =>
+      ActionModel.fromMap(json.decode(source));
+
+  String typeDisplay() {
+    switch (type) {
+      case TYPE_ADD_TASK:
+        return "Thêm";
+      case TYPE_DEL_TASK:
+        return "Xóa";
+      case TYPE_UPDATE_TASK:
+        return "Sửa";
+      default:
+        return "";
+    }
+  }
+
+  IconData getIconActionType() {
+    switch (type) {
+      case TYPE_ADD_TASK:
+        return Icons.add_outlined;
+      case TYPE_DEL_TASK:
+        return Icons.delete_outlined;
+      case TYPE_UPDATE_TASK:
+        return Icons.edit_outlined;
+      default:
+        return Icons.question_answer_outlined;
+    }
+  }
 }
