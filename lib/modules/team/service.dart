@@ -171,13 +171,13 @@ class TeamService extends FirestoreService {
         .collection(Collections.actions)
         .add(action.toMap());
 
-    await addActionForMembers(actionRef.id, teamID);
+    await addNotiForMembers(actionRef.id, teamID);
   }
 
-  Future<void> addActionForMembers(String actionId, String teamID) async {
+  Future<void> addNotiForMembers(String actionId, String teamID) async {
     var teamMemberIDs = await getTeamMemberIDs(teamID);
     var futures = teamMemberIDs.map<Future>(
-      (userID) => _userService.addNewAction(userID, teamID, actionId),
+      (userID) => _userService.addTaskNoti(userID, teamID, actionId),
     );
     await Future.wait(futures);
   }

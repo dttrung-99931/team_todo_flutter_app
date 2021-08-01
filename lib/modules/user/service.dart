@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/modules/notification/model.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
@@ -63,11 +64,17 @@ class UserService extends FirestoreService {
     return null;
   }
 
-  Future<void> addNewAction(
+  Future<void> addTaskNoti(
       String userID, String teamID, String actionID) async {
-    await teamDoc(userID, teamID).update({
-      Fields.newActionIDs: FieldValue.arrayUnion([actionID])
-    });
+    var notiDoc =
+        teamDoc(userID, teamID).collection(Collections.notifications).doc();
+    var noti = NotificationModel(
+      id: notiDoc.id,
+      referenceID: actionID,
+      type: NotificationModel.TYPE_TASK,
+      date: DateTime.now(),
+    );
+    await notiDoc.set(noti.toMap());
   }
 
   DocumentReference teamDoc(String userID, String teamID) {
@@ -76,7 +83,7 @@ class UserService extends FirestoreService {
 
   Future<List<String>> getNewActionIDs(String userID, String teamID) async {
     var teamSnap = await teamDoc(userID, teamID).get();
-    return List.castFrom(teamSnap.data()[Fields.newActionIDs]);
+    return List.castFrom(teamSnap.data()[Fields.notifications]);
   }
 
   Future<bool> login(String email, String password) async {

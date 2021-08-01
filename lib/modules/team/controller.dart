@@ -66,9 +66,9 @@ class TeamController extends BaseController {
 
   void selectTeam(TeamModel team) {
     _selectedTeam.value = team;
-    _userService
-        .getNewActionIDs(_teamsService.appUserID, team.id)
-        .then((value) => _newTeamActionIDs.assignAll(value));
+    // _userService
+    //     .getNewActionIDs(_teamsService.appUserID, team.id)
+    //     .then((value) => _newTeamActionIDs.assignAll(value));
   }
 
   void updateSelectedTeam(TeamModel updated) {

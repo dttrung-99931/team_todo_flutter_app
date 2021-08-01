@@ -12,7 +12,7 @@ class TeamExplore extends BaseGetWidget<TeamExploreController> {
       () => TeamList(
         teams: controller.teams,
         onTeamSelected: (team) async {
-          await Get.toNamed('/team-preview', arguments: team);
+          await Get.toNamed('/teams/team-preview', arguments: team);
         },
       ),
     ));
