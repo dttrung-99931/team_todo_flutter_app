@@ -7,8 +7,8 @@ import 'team/components/join_requests/binding.dart';
 import 'team/components/join_requests/list_screen.dart';
 import 'team/components/members/binding.dart';
 import 'team/components/members/list_screen.dart';
-import 'team/components/notifications/binding.dart';
-import 'team/components/notifications/list_screen.dart';
+import 'team/components/activities/binding.dart';
+import 'team/components/activities/list_screen.dart';
 import 'team/screen.dart';
 import 'team_preview/screen.dart';
 
@@ -34,8 +34,8 @@ final teamListPages = GetPage(
         ),
         GetPage(
           name: '/notifications',
-          page: () => TeamNotificationsScreen(),
-          binding: TeamNotificationsBinding(),
+          page: () => TeamActivityListScreen(),
+          binding: TeamActivityBinding(),
         )
       ],
     ),

@@ -15,6 +15,7 @@ class Fields {
   static const pendingUserIDs = "pendingUserIDs";
   static const id = "id";
   static const notifications = "notifications";
+  static const date = "date";
 }
 
 enum TaskStatus {

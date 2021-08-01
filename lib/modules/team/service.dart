@@ -215,7 +215,7 @@ class TeamService extends FirestoreService {
     return getTaskCollectionOf(teamID).doc(taskID);
   }
 
-  Future<List<ActionModel>> getActions(
+  Future<List<ActionModel>> getActionsIn(
       String teamID, List<String> actionIDs) async {
     final querySnap = await getDocRef(teamID)
         .collection(Collections.actions)
@@ -226,6 +226,25 @@ class TeamService extends FirestoreService {
           (e) => ActionModel.fromMap(e.data()),
         )
         .toList();
+    var futures = actions.map(
+      (e) => getTask(teamID, e.taskID).then((task) => e.task = task),
+    );
+    await Future.wait(futures);
+    return actions;
+  }
+
+  Future<List<ActionModel>> getActions(String teamID) async {
+    final querySnap = await getDocRef(teamID)
+        .collection(Collections.actions)
+        .orderBy(Fields.date, descending: true)
+        .get();
+
+    var actions = querySnap.docs
+        .map(
+          (e) => ActionModel.fromMap(e.data()),
+        )
+        .toList();
+
     var futures = actions.map(
       (e) => getTask(teamID, e.taskID).then((task) => e.task = task),
     );

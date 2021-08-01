@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../../../../constants/constants.dart';
-import '../../../../../../utils/utils.dart';
-import '../../../../action_model.dart';
+import '../../../../../constants/constants.dart';
+import '../../../../../utils/utils.dart';
+import '../../../action_model.dart';
 
-class TeamNotificationItem extends StatelessWidget {
+class TeamActivityItem extends StatelessWidget {
   final ActionModel item;
   final Function(ActionModel item) onPress;
 
-  TeamNotificationItem({
+  TeamActivityItem({
     @required this.item,
     @required this.onPress,
   });

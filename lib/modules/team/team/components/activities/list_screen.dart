@@ -4,10 +4,9 @@ import 'package:get/get.dart';
 
 import '../../../../../base/base_get_widget.dart';
 import 'controller.dart';
-import 'components/item.dart';
+import 'item.dart';
 
-class TeamNotificationsScreen
-    extends BaseGetWidget<TeamNotificationsController> {
+class TeamActivityListScreen extends BaseGetWidget<TeamActivityController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -17,9 +16,9 @@ class TeamNotificationsScreen
         ),
         body: Obx(() => buildFutureWidget(
               ListView(
-                  children: controller.newActions
+                  children: controller.activities
                       .map(
-                        (e) => TeamNotificationItem(
+                        (e) => TeamActivityItem(
                           onPress: (item) {},
                           item: e,
                         ),
