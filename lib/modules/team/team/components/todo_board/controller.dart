@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../../../../../base/base_controller.dart';
 import '../../../../../constants/constants.dart';
-import '../../../../auth/service.dart';
+import '../../../../user/service.dart';
 import '../../../controller.dart';
 import '../../../service.dart';
 import '../members/model.dart';
@@ -11,11 +11,11 @@ import 'task/model.dart';
 class TodoBoardController extends BaseController {
   final _teamsController = Get.find<TeamController>();
   final _teamsService = Get.find<TeamService>();
-  final _authService = Get.find<AuthService>();
+  final _userService = Get.find<UserService>();
   final _members = RxList<MemberModel>();
   List<MemberModel> get members => _members.toList();
 
-  String get appUserID => _authService.user.uid;
+  String get appUserID => _userService.user.uid;
 
   final _todoTasks = RxList<TaskModel>();
   List<TaskModel> get todoTasks => _todoTasks.toList();

@@ -1,39 +1,32 @@
 import 'package:get/get.dart';
-
+import 'package:team_todo_app/utils/utils.dart';
 import '../../base/base_controller.dart';
-import 'service.dart';
-import '../user/model.dart';
 import '../user/service.dart';
 
 class AuthController extends BaseController {
   final _isLoginScreen = true.obs;
   get isLoginScreen => _isLoginScreen.value;
 
-  final _authService = Get.find<AuthService>();
   final _userService = Get.find<UserService>();
 
-  bool hasLoggedIn() => _authService.hasLoggedIn();
+  bool hasLoggedIn() => _userService.hasLoggedIn();
 
   Future<bool> login(String email, String password) async {
     isLoading = true;
-    var loginSuccessful = await _authService.login(email, password);
+    var loginSuccessful = await _userService.login(email, password);
     isLoading = false;
     return loginSuccessful;
   }
 
   Future<bool> signUp(String email, String password) async {
     isLoading = true;
-    var signupSuccessful = await _authService.signUp(email, password);
-    if (signupSuccessful) {
-      final user = _authService.user;
-      await _userService.insert(UserModel(id: user.uid, email: user.email));
-    }
+    var signupSuccessful = await _userService.signUp(email, password);
     isLoading = false;
     return signupSuccessful;
   }
 
   Future<void> signOut() async {
-    _authService.signOut();
+    await _userService.signOut();
   }
 
   void swithScreen() {

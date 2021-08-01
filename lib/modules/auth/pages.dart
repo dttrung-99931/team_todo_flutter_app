@@ -2,6 +2,6 @@ import 'package:get/get.dart';
 import 'screen.dart';
 
 final authPages = GetPage(
-  name: "/",
+  name: "/auth",
   page: () => AuthScreen(),
 );

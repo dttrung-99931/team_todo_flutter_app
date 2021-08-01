@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/state_manager.dart';
 
-class AuthService extends GetxService {
+class FirebaseAuthService extends GetxService {
   final _auth = FirebaseAuth.instance;
 
   final _user = Rx<User>();

@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
+import 'firebase_auth_service.dart';
 import 'model.dart';
 import '../team/user_team_model.dart';
 
 class UserService extends FirestoreService {
+  final _authService = Get.find<FirebaseAuthService>();
+
   @override
   String getCollectionPath() {
     return Collections.users;
@@ -73,4 +78,28 @@ class UserService extends FirestoreService {
     var teamSnap = await teamDoc(userID, teamID).get();
     return List.castFrom(teamSnap.data()[Fields.newActionIDs]);
   }
+
+  Future<bool> login(String email, String password) async {
+    return _authService.login(email, password);
+  }
+
+  Future<bool> signUp(String email, String password) async {
+    var signupSuccessful = await _authService.signUp(email, password);
+    if (signupSuccessful) {
+      final user = _authService.user;
+      await insert(UserModel(id: user.uid, email: user.email));
+    }
+    // @TODO: return error code
+    return signupSuccessful;
+  }
+
+  Future<void> signOut() async {
+    await _authService.signOut();
+  }
+
+  bool hasLoggedIn() {
+    return _authService.user != null;
+  }
+
+  User get user => _authService.user;
 }

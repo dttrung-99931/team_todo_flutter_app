@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
 import '../../utils/utils.dart';
-import '../auth/service.dart';
 import '../user/service.dart';
 import 'action_model.dart';
 import 'team/components/members/model.dart';
@@ -13,7 +12,6 @@ import 'model.dart';
 
 class TeamService extends FirestoreService {
   final _userService = Get.find<UserService>();
-  final _authService = Get.find<AuthService>();
 
   @override
   String getCollectionPath() {
@@ -30,7 +28,7 @@ class TeamService extends FirestoreService {
     try {
       final newDocRef = collection.doc();
       team.id = newDocRef.id;
-      final ownerUserID = _authService.user.uid;
+      final ownerUserID = _userService.user.uid;
       team.ownerUserID = ownerUserID;
       team.userIDs.add(ownerUserID);
       await newDocRef.set(team.toMap());
@@ -54,7 +52,7 @@ class TeamService extends FirestoreService {
   }
 
   Future<List<TeamModel>> getSuggestTeams(int count) async {
-    final teamIDs = await _userService.getJoinedTeamIDs(_authService.user.uid);
+    final teamIDs = await _userService.getJoinedTeamIDs(_userService.user.uid);
     QuerySnapshot querySnap;
     if (teamIDs.isNotEmpty) {
       querySnap = await collection
@@ -94,7 +92,7 @@ class TeamService extends FirestoreService {
   }
 
   Future<List<TeamModel>> getMyTeams() async {
-    return getTeamsOf(_authService.user.uid);
+    return getTeamsOf(_userService.user.uid);
   }
 
   Future<void> update(TeamModel teamModel) {
@@ -102,7 +100,7 @@ class TeamService extends FirestoreService {
     return teamRef.update(teamModel.toMap());
   }
 
-  String get appUserID => _authService.user.uid;
+  String get appUserID => _userService.user.uid;
 
   Future<void> joinAppUserIntoTeam(String teamID) async {
     return joinTeam(teamID, appUserID);

@@ -1,13 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'binding.dart';
 import 'constants/constants.dart';
-import 'modules/auth/binding.dart';
 import 'modules/auth/controller.dart';
 import 'modules/auth/pages.dart';
 import 'modules/home/pages.dart';
-import 'modules/team/team_preview/screen.dart';
 import 'modules/team/pages.dart';
 
 void main() async {
@@ -27,7 +25,7 @@ Future<void> init() async {
 }
 
 void injectDependencies() {
-  AuthBinding().dependencies();
+  MainBinding().dependencies();
 }
 
 class App extends StatelessWidget {
