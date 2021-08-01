@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'binding.dart';
 import 'list_screen.dart';
+import 'team/binding.dart';
 import 'team/components/join_requests/binding.dart';
 import 'team/components/join_requests/list_screen.dart';
 import 'team/components/members/binding.dart';
@@ -12,11 +13,15 @@ import 'team/screen.dart';
 import 'team_preview/screen.dart';
 
 final teamListPages = GetPage(
-    name: "/teams",
-    page: () => TeamListScreen(),
-    binding: TeamListBinding(),
-    children: [
-      GetPage(name: "team", page: () => TeamScreen(), children: [
+  name: "/teams",
+  page: () => TeamListScreen(),
+  binding: TeamListBinding(),
+  children: [
+    GetPage(
+      name: "/team",
+      page: () => TeamScreen(),
+      binding: TeamBinding(),
+      children: [
         GetPage(
           name: '/join-requests',
           page: () => JoinRequestScreen(),
@@ -32,9 +37,11 @@ final teamListPages = GetPage(
           page: () => TeamNotificationsScreen(),
           binding: TeamNotificationsBinding(),
         )
-      ]),
-      GetPage(
-        name: "/team-preview",
-        page: () => TeamPreviewScreen(),
-      ),
-    ]);
+      ],
+    ),
+    GetPage(
+      name: "/team-preview",
+      page: () => TeamPreviewScreen(),
+    ),
+  ],
+);

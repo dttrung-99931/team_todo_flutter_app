@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
 import '../../../base/base_get_widget.dart';
 import '../controller.dart';
 import 'list.dart';
@@ -17,7 +16,7 @@ class MyTeamList extends BaseGetWidget<TeamController> {
             teams: controller.myTeams,
             onTeamSelected: (team) {
               controller.selectTeam(team);
-              Get.toNamed('/team', arguments: team);
+              Get.toNamed("/teams/team", arguments: team);
             },
           ),
         )));

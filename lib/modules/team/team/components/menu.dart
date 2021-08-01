@@ -37,7 +37,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
           ),
         ),
         onTap: () {
-          Get.toNamed('/team/members');
+          Get.toNamed('/teams/team/members');
         },
       ),
       buildMenuItem(
@@ -49,7 +49,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
           ),
         ),
         onTap: () {
-          Get.toNamed('/team/notifications');
+          Get.toNamed('/teams/team/notifications');
         },
       ),
     ];
@@ -64,7 +64,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
             ),
           ),
           onTap: () {
-            Get.toNamed('/team/join-requests',
+            Get.toNamed('/teams/team/join-requests',
                 arguments: controller.selectedTeam);
           },
         ),
