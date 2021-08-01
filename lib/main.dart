@@ -1,17 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/features/teams/teams_binding.dart';
 
-import 'features/auth/auth_controller.dart';
-import 'features/auth/auth_binding.dart';
-import 'features/auth/auth_screen.dart';
-import 'features/home/home_binding.dart';
-import 'features/home/home_screen.dart';
-import 'features/teams/team_preview/team_preview_screen.dart';
-import 'features/teams/teams_pages.dart';
-import 'features/teams/teams_screen.dart';
-import 'utils/constants.dart';
+import 'constants/constants.dart';
+import 'modules/auth/binding.dart';
+import 'modules/auth/controller.dart';
+import 'modules/auth/pages.dart';
+import 'modules/home/pages.dart';
+import 'modules/team/team_preview/screen.dart';
+import 'modules/team/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,19 +40,9 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       initialRoute: initialRoute,
       getPages: [
-        GetPage(name: "/auth", page: () => AuthScreen()),
-        GetPage(
-          name: "/",
-          page: () => HomeScreen(),
-          binding: HomeBinding(),
-        ),
-        GetPage(
-            name: "/teams", page: () => TeamsScreen(), binding: TeamsBinding()),
-        teamsPage,
-        GetPage(
-          name: "/team-preview",
-          page: () => TeamPreviewScreen(),
-        ),
+        authPages,
+        homePages,
+        teamListPages,
       ],
       defaultTransition: Transition.cupertino,
       transitionDuration: Duration(milliseconds: 800),
