@@ -66,8 +66,7 @@ class UserService extends FirestoreService {
 
   Future<void> addTaskNoti(
       String userID, String teamID, String actionID) async {
-    var notiDoc =
-        teamDoc(userID, teamID).collection(Collections.notifications).doc();
+    var notiDoc = getDocRef(userID).collection(Collections.notifications).doc();
     var noti = NotificationModel(
       id: notiDoc.id,
       referenceID: actionID,
@@ -109,4 +108,17 @@ class UserService extends FirestoreService {
   }
 
   User get user => _authService.user;
+  String get userID => user.uid;
+
+  Future<int> getNewNotiNum() async {
+    var querySnap = await getNewNotis();
+    return querySnap.docs.length;
+  }
+
+  Future<QuerySnapshot> getNewNotis() {
+    return getDocRef(userID)
+        .collection(Collections.notifications)
+        .where(Fields.isSeen, isEqualTo: false)
+        .get();
+  }
 }

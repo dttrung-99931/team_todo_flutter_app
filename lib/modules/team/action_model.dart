@@ -9,40 +9,23 @@ import 'team/components/todo_board/task/model.dart';
 class ActionModel {
   static const TYPE_ADD_TASK = "ADD_TASK";
   static const TYPE_DEL_TASK = "DEL_TASK";
-  static const TYPE_UPDATE_TASK = "UPDATE_TASK";
+  static const TYPE_UPDATE_TASK = "TYPE_UPDATE_TASK";
 
+  final String userID;
   final String type;
   final String taskID;
   final DateTime date;
+  final Map<String, String> updatedFields;
 
   TaskModel task;
 
   ActionModel({
-    @required this.type,
     @required this.taskID,
+    @required this.type,
     @required this.date,
+    @required this.userID,
+    this.updatedFields,
   });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'type': type,
-      'taskID': taskID,
-      'date': date.millisecondsSinceEpoch,
-    };
-  }
-
-  factory ActionModel.fromMap(Map<String, dynamic> map) {
-    return ActionModel(
-      type: map['type'],
-      taskID: map['taskID'],
-      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ActionModel.fromJson(String source) =>
-      ActionModel.fromMap(json.decode(source));
 
   String typeDisplay() {
     switch (type) {
@@ -69,4 +52,29 @@ class ActionModel {
         return Icons.question_answer_outlined;
     }
   }
+
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userID': userID,
+      'type': type,
+      'taskID': taskID,
+      'date': date.millisecondsSinceEpoch,
+      'updatedFields': updatedFields,
+    };
+  }
+
+  factory ActionModel.fromMap(Map<String, dynamic> map) {
+    return ActionModel(
+      userID: map['userID'],
+      type: map['type'],
+      taskID: map['taskID'],
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
+      updatedFields: Map<String, String>.from(map['updatedFields']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ActionModel.fromJson(String source) => ActionModel.fromMap(json.decode(source));
 }

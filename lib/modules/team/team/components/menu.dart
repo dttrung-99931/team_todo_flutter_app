@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/sizes.dart';
+import 'package:team_todo_app/widgets/menu_item.dart';
 
 import '../../../../base/base_get_widget.dart';
 import '../../../../widgets/badge_widget.dart';
@@ -28,7 +30,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
 
   List<Widget> buildTeamMenuItems() {
     List<Widget> items = [
-      buildMenuItem(
+      MenuItem(
         title: "Members",
         child: Obx(
           () => BadgeWidget(
@@ -39,8 +41,9 @@ class TeamMenu extends BaseGetWidget<TeamController> {
         onTap: () {
           Get.toNamed('/teams/team/members');
         },
+        titleFontSize: Sizes.s14,
       ),
-      buildMenuItem(
+      MenuItem(
         title: "Activities",
         child: Obx(
           () => BadgeWidget(
@@ -51,11 +54,12 @@ class TeamMenu extends BaseGetWidget<TeamController> {
         onTap: () {
           Get.toNamed('/teams/team/notifications');
         },
+        titleFontSize: Sizes.s14,
       ),
     ];
     if (controller.isTeamOwner()) {
       items.add(
-        buildMenuItem(
+        MenuItem(
           title: "Join requests",
           child: Obx(
             () => BadgeWidget(
@@ -67,37 +71,11 @@ class TeamMenu extends BaseGetWidget<TeamController> {
             Get.toNamed('/teams/team/join-requests',
                 arguments: controller.selectedTeam);
           },
+          titleFontSize: Sizes.s14,
         ),
       );
     }
     return items;
-  }
-
-  Widget buildMenuItem({String title, Widget child, Function onTap}) {
-    return Card(
-      elevation: 6,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          width: 96,
-          height: 96,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              child,
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                title,
-                style: TextStyle(fontSize: 14),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   Widget buildMenuIcon(IconData iconData) {

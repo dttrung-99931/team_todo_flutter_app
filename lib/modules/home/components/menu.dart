@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/base/base_get_widget.dart';
+import 'package:team_todo_app/constants/sizes.dart';
+import 'package:team_todo_app/widgets/badge_widget.dart';
+import 'package:team_todo_app/widgets/menu_item.dart';
 
-class Menu extends StatelessWidget {
+import '../controller.dart';
+
+class Menu extends BaseGetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,8 +22,14 @@ class Menu extends StatelessWidget {
                 Get.toNamed('/teams');
               }),
               _buildMenuItem("Tasks", Icons.event_note_outlined, () {}),
-              _buildMenuItem(
-                  "Notifications", Icons.notifications_outlined, () {}),
+              Obx(() {
+                return _buildMenuItem(
+                  "Notifications",
+                  Icons.notifications_outlined,
+                  () {},
+                  controller.newNotiNum.value,
+                );
+              }),
             ],
           ),
         ],
@@ -25,33 +37,17 @@ class Menu extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(String title, IconData iconData, Function onTap) {
-    return Card(
-      elevation: 6,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          width: 96,
-          height: 96,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                iconData,
-                size: 44,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                title,
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
-        ),
+  Widget _buildMenuItem(String title, IconData iconData, Function onTap,
+      [int badgeNum = 0]) {
+    return MenuItem(
+      title: title,
+      child: BadgeWidget(
+        badgeNumber: badgeNum,
+        child: Icon(iconData, size: Sizes.s44),
+        hidebadgeIfZeroNumber: true,
       ),
+      onTap: onTap,
+      size: Sizes.s96,
     );
   }
 }

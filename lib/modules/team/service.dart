@@ -165,8 +165,14 @@ class TeamService extends FirestoreService {
     ]);
   }
 
-  Future<void> addAction(String teamID, String type, String taskID) async {
-    var action = ActionModel(taskID: taskID, type: type, date: DateTime.now());
+  Future<void> addAction(String teamID, String type, String taskID,
+      [Map<String, String> updatedFields]) async {
+    var action = ActionModel(
+        taskID: taskID,
+        type: type,
+        date: DateTime.now(),
+        userID: _userService.userID,
+        updatedFields: updatedFields);
     var actionRef = await getDocRef(teamID)
         .collection(Collections.actions)
         .add(action.toMap());
