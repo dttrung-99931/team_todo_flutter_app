@@ -26,7 +26,9 @@ class Menu extends BaseGetWidget<HomeController> {
                 return _buildMenuItem(
                   "Notifications",
                   Icons.notifications_outlined,
-                  () {},
+                  () {
+                    Get.toNamed('/notifications');
+                  },
                   controller.newNotiNum.value,
                 );
               }),

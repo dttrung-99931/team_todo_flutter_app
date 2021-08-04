@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:team_todo_app/modules/team/action_model.dart';
 
 class NotificationModel {
   static const TYPE_TASK = "TASK_NOTI";
@@ -11,6 +12,8 @@ class NotificationModel {
   final String referenceID;
   final DateTime date;
   final bool isSeen;
+
+  ActionModel action;
 
   NotificationModel({
     @required this.id,
@@ -44,4 +47,6 @@ class NotificationModel {
 
   factory NotificationModel.fromJson(String source) =>
       NotificationModel.fromMap(json.decode(source));
+
+  String typeDisplay() {}
 }

@@ -115,10 +115,11 @@ class UserService extends FirestoreService {
     return querySnap.docs.length;
   }
 
-  Future<QuerySnapshot> getNewNotis() {
-    return getDocRef(userID)
-        .collection(Collections.notifications)
-        .where(Fields.isSeen, isEqualTo: false)
-        .get();
+  Future<QuerySnapshot> getNewNotis() async {
+    return getNotiCollection().where(Fields.isSeen, isEqualTo: false).get();
+  }
+
+  CollectionReference getNotiCollection() {
+    return getDocRef(userID).collection(Collections.notifications);
   }
 }
