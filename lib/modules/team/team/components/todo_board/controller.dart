@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:team_todo_app/utils/utils.dart';
 
 import '../../../../../base/base_controller.dart';
 import '../../../../../constants/constants.dart';
@@ -76,31 +77,45 @@ class TodoBoardController extends BaseController {
 
   Future<void> moveTask(
       TaskModel task, int fromBoardIndex, int toBoardIndex) async {
-    task.status = TaskStatus.values[toBoardIndex].stringValue();
-    getRxTasksInBoard(fromBoardIndex)
-        .removeWhere((element) => element.id == task.id);
-    getRxTasksInBoard(toBoardIndex).insert(0, task);
+    var updatedFields = {Fields.status: task.status};
 
-    await _teamsService.updateTask(_teamsController.selectedTeam.id, task);
+    task.status = TaskStatus.values[toBoardIndex].stringValue();
+    getTasksInBoard(fromBoardIndex)
+        .removeWhere((element) => element.id == task.id);
+    getTasksInBoard(toBoardIndex).insert(0, task);
+
+    await _teamsService.updateTask(
+        _teamsController.selectedTeam.id, task, updatedFields);
   }
 
-  RxList<TaskModel> getRxTasksInBoard(int boardIndex) {
+  RxList<TaskModel> getTasksInBoard(int boardIndex) {
     return [_todoTasks, _doingTasks, _finishTasks][boardIndex];
   }
 
+  /// Update task
+  ///
+  /// Update task in firebase, pass the [updatedFields] containing the updated fields to service
+  /// to create the update action.
+  /// Then sync with the task of task rxLists in controller
   Future<void> updateTask(TaskModel task, int boardIndex) async {
-    await _teamsService.updateTask(_teamsController.selectedTeam.id, task);
-    final rxTasks = getRxTasksInBoard(boardIndex);
-    final index = rxTasks.indexWhere((element) => element.id == task.id);
-    rxTasks[index] = task;
-    rxTasks.refresh();
+    final tasks = getTasksInBoard(boardIndex);
+    final index = tasks.indexWhere((element) => element.id == task.id);
+    tasks[index] = task;
+
+    var newTaskMap = task.toMap();
+    var oldTaskMap = tasks[index].toMap();
+    var updatedFields = diff(newTaskMap, oldTaskMap);
+
+    await _teamsService.updateTask(
+        _teamsController.selectedTeam.id, task, updatedFields);
+
+    tasks.refresh();
   }
 
   void deleteTask(String taskID, int fromBoard) {
     load(() async {
       await _teamsService.deleteTask(_teamsController.selectedTeam.id, taskID);
-      getRxTasksInBoard(fromBoard)
-          .removeWhere((element) => element.id == taskID);
+      getTasksInBoard(fromBoard).removeWhere((element) => element.id == taskID);
     });
   }
 }

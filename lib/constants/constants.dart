@@ -17,6 +17,7 @@ class Fields {
   static const notifications = "notifications";
   static const date = "date";
   static const isSeen = "isSeen";
+  static const status = "status";
 }
 
 enum TaskStatus {

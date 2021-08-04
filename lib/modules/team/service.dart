@@ -201,11 +201,12 @@ class TeamService extends FirestoreService {
     return querySnap.docs.map((e) => TaskModel.fromMap(e.data())).toList();
   }
 
-  Future<void> updateTask(String teamID, TaskModel task) async {
+  Future<void> updateTask(String teamID, TaskModel task,
+      [Map<String, String> updatedFields]) async {
     task.statusChangedDate = DateTime.now();
     await Future.wait([
       getTaskCollectionOf(teamID).doc(task.id).update(task.toMap()),
-      addAction(teamID, ActionModel.TYPE_UPDATE_TASK, task.id)
+      addAction(teamID, ActionModel.TYPE_UPDATE_TASK, task.id, updatedFields)
     ]);
   }
 
