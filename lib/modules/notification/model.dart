@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:team_todo_app/modules/team/action_model.dart';
+import 'package:team_todo_app/modules/team/action/action_model.dart';
 
 class NotificationModel {
   static const TYPE_TASK = "TASK_NOTI";
@@ -48,5 +48,12 @@ class NotificationModel {
   factory NotificationModel.fromJson(String source) =>
       NotificationModel.fromMap(json.decode(source));
 
-  String typeDisplay() {}
+  String typeDisplay() {
+    switch (type) {
+      case TYPE_TASK:
+        return 'Task';
+      default:
+        return '';
+    }
+  }
 }

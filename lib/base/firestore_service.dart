@@ -9,6 +9,10 @@ abstract class FirestoreService extends GetxService {
     return fs.collection(name);
   }
 
+  Query getCollectionGroup(String name) {
+    return fs.collectionGroup(name);
+  }
+
   Future<QuerySnapshot> getQuerySnap() async {
     return await fs.collection(getCollectionPath()).get();
   }

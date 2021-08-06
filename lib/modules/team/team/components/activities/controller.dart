@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../../../base/base_controller.dart';
-import '../../../action_model.dart';
+import '../../../action/action_model.dart';
 import '../../../controller.dart';
 import '../../../service.dart';
 

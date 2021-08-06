@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../../../../constants/constants.dart';
 import '../../../../../utils/utils.dart';
-import '../../../action_model.dart';
+import '../../../action/action_model.dart';
 
 class TeamActivityItem extends StatelessWidget {
   final ActionModel item;

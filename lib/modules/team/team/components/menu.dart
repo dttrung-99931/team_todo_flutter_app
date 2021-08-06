@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/font_sizes.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/widgets/menu_item.dart';
 
@@ -41,7 +42,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
         onTap: () {
           Get.toNamed('/teams/team/members');
         },
-        titleFontSize: Sizes.s14,
+        titleFontSize: FontSizes.s14,
       ),
       MenuItem(
         title: "Activities",
@@ -54,7 +55,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
         onTap: () {
           Get.toNamed('/teams/team/notifications');
         },
-        titleFontSize: Sizes.s14,
+        titleFontSize: FontSizes.s14,
       ),
     ];
     if (controller.isTeamOwner()) {
@@ -71,7 +72,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
             Get.toNamed('/teams/team/join-requests',
                 arguments: controller.selectedTeam);
           },
-          titleFontSize: Sizes.s14,
+          titleFontSize: FontSizes.s14,
         ),
       );
     }

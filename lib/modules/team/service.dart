@@ -5,7 +5,7 @@ import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
 import '../../utils/utils.dart';
 import '../user/service.dart';
-import 'action_model.dart';
+import 'action/action_model.dart';
 import 'team/components/members/model.dart';
 import 'team/components/todo_board/task/model.dart';
 import 'model.dart';
@@ -166,18 +166,18 @@ class TeamService extends FirestoreService {
   }
 
   Future<void> addAction(String teamID, String type, String taskID,
-      [Map<String, String> updatedFields]) async {
+      [Map<String, String> updatedFields = const {}]) async {
+    var docRef = getDocRef(teamID).collection(Collections.actions).doc();
     var action = ActionModel(
-        taskID: taskID,
-        type: type,
-        date: DateTime.now(),
-        userID: _userService.userID,
-        updatedFields: updatedFields);
-    var actionRef = await getDocRef(teamID)
-        .collection(Collections.actions)
-        .add(action.toMap());
-
-    await addNotiForMembers(actionRef.id, teamID);
+      taskID: taskID,
+      type: type,
+      date: DateTime.now(),
+      userID: _userService.userID,
+      updatedFields: updatedFields,
+      id: docRef.id,
+    );
+    await docRef.set(action.toMap());
+    await addNotiForMembers(action.id, teamID);
   }
 
   Future<void> addNotiForMembers(String actionId, String teamID) async {

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../base/base_get_widget.dart';
 import 'controller.dart';
+import 'item.dart';
 
 class NotificationListScreen extends BaseGetWidget<NotificationController> {
   @override
@@ -10,15 +11,16 @@ class NotificationListScreen extends BaseGetWidget<NotificationController> {
     return SafeArea(
         child: Scaffold(
       body: Obx(() {
-        return ListView(
+        return buildFutureWidget((ListView(
           children: controller.notifications
               .map(
-                (noti) => Card(
-                  child: ListTile(title: Text(noti.id)),
+                (noti) => NotificationItem(
+                  item: noti,
+                  onPress: (item) {},
                 ),
               )
               .toList(),
-        );
+        )));
       }),
       appBar: _buildAppBar(),
     ));

@@ -15,8 +15,10 @@ class NotificationController extends BaseController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    var notis = await _notiService.getAllNotis();
-    print(notis);
-    _notifications.assignAll(notis);
+    load(() async {
+      var notis = await _notiService.getAllNotis();
+      print(notis);
+      _notifications.assignAll(notis);
+    });
   }
 }

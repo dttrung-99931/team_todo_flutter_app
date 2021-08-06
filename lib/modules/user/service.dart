@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/modules/notification/model.dart';
+import 'package:team_todo_app/modules/team/action/action_model.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
@@ -49,6 +50,11 @@ class UserService extends FirestoreService {
     return docs.map((doc) {
       return UserModel.fromMap(doc.data());
     }).toList();
+  }
+
+  Future<UserModel> getUser(userID) async {
+    var userSnap = await getDocSnap(userID);
+    return UserModel.fromMap(userSnap.data());
   }
 
   Future<bool> existsByEmail(String email) async {
@@ -121,5 +127,13 @@ class UserService extends FirestoreService {
 
   CollectionReference getNotiCollection() {
     return getDocRef(userID).collection(Collections.notifications);
+  }
+
+  /// Load [ActionModel.user] for actions
+  Future<void> loadUsersForActions(List<ActionModel> actions) async {
+    var futures = actions.map((action) {
+      return getUser(action.userID).then((value) => action.user = value);
+    });
+    await Future.wait(futures);
   }
 }
