@@ -11,10 +11,10 @@ class HomeController extends BaseController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getNewNotiNum();
+    await loadNewNotiNum();
   }
 
-  Future<void> getNewNotiNum() async {
+  Future<void> loadNewNotiNum() async {
     newNotiNum.value = await _userService.getNewNotiNum();
   }
 }

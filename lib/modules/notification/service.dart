@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/firestore_service.dart';
+import 'package:team_todo_app/constants/constants.dart';
 import 'package:team_todo_app/modules/team/action/action_model.dart';
 import 'package:team_todo_app/modules/team/action/service.dart';
 import 'package:team_todo_app/modules/team/team/components/todo_board/task/service.dart';
@@ -25,5 +27,12 @@ class NotificationService extends FirestoreService {
         .toList();
     await _actionService.loadActionsForTaskNotis(taskNotis);
     return notis;
+  }
+
+  Future<void> updateNotisSeen(List<String> notiIDs) async {
+    final futures = notiIDs.map(
+      (notiID) => collection.doc(notiID).update({Fields.isSeen: true}),
+    );
+    await Future.wait(futures);
   }
 }
