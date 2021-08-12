@@ -18,6 +18,7 @@ class Fields {
   static const date = "date";
   static const isSeen = "isSeen";
   static const status = "status";
+  static const fcmToken = "fcmToken";
 }
 
 enum TaskStatus {

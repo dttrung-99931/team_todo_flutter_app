@@ -24,3 +24,7 @@ Map<String, String> diff(Map<String, String> map1, Map<String, String> map2) {
   });
   return diff;
 }
+
+bool isNotNullAndEmpty(String str) {
+  return str?.isNotEmpty ?? false;
+}

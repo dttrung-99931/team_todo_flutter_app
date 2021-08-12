@@ -6,7 +6,7 @@ import 'package:team_todo_app/modules/team/action/action_model.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
-import 'firebase_auth_service.dart';
+import '../common/services/firebase_auth_service.dart';
 import 'model.dart';
 import '../team/user_team_model.dart';
 
@@ -70,7 +70,7 @@ class UserService extends FirestoreService {
     return null;
   }
 
-  Future<void> addTaskNoti(
+  Future<String> addTaskNoti(
       String userID, String teamID, String actionID) async {
     var notiDoc = getDocRef(userID).collection(Collections.notifications).doc();
     var noti = NotificationModel(
@@ -80,6 +80,7 @@ class UserService extends FirestoreService {
       date: DateTime.now(),
     );
     await notiDoc.set(noti.toMap());
+    return noti.id;
   }
 
   DocumentReference teamDoc(String userID, String teamID) {
@@ -95,11 +96,15 @@ class UserService extends FirestoreService {
     return _authService.login(email, password);
   }
 
-  Future<bool> signUp(String email, String password) async {
+  Future<bool> signUp(String email, String password, String fcmToken) async {
     var signupSuccessful = await _authService.signUp(email, password);
     if (signupSuccessful) {
       final user = _authService.user;
-      await insert(UserModel(id: user.uid, email: user.email));
+      await insert(UserModel(
+        id: user.uid,
+        email: user.email,
+        fcmToken: fcmToken,
+      ));
     }
     // @TODO: return error code
     return signupSuccessful;
@@ -135,5 +140,14 @@ class UserService extends FirestoreService {
       return getUser(action.userID).then((value) => action.user = value);
     });
     await Future.wait(futures);
+  }
+
+  Future<void> updateFCMToken(String fcmToken) async {
+    await getDocRef(userID).update({Fields.fcmToken: fcmToken});
+  }
+
+  Future<String> getFcmToken(userID) async {
+    var user = await getUser(userID);
+    return user.fcmToken;
   }
 }

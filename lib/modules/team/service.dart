@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/modules/common/services/notification_sender_service.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
@@ -12,6 +13,7 @@ import 'model.dart';
 
 class TeamService extends FirestoreService {
   final _userService = Get.find<UserService>();
+  final _notiSenderService = Get.find<NotificationSenderService>();
 
   @override
   String getCollectionPath() {
@@ -161,12 +163,21 @@ class TeamService extends FirestoreService {
     task.id = taskRef.id;
     await Future.wait([
       taskRef.set(task.toMap()),
-      addAction(teamID, ActionModel.TYPE_ADD_TASK, task.id)
+      addAction(
+        teamID,
+        ActionModel.TYPE_ADD_TASK,
+        task.id,
+      ),
     ]);
   }
 
-  Future<void> addAction(String teamID, String type, String taskID,
-      [Map<String, String> updatedFields = const {}]) async {
+  Future<void> addAction(
+    String teamID,
+    String type,
+    String taskID, {
+    Map<String, String> updatedFields = const {},
+    String notiTitle = 'Task notification',
+  }) async {
     var docRef = getDocRef(teamID).collection(Collections.actions).doc();
     var action = ActionModel(
       taskID: taskID,
@@ -177,15 +188,32 @@ class TeamService extends FirestoreService {
       id: docRef.id,
     );
     await docRef.set(action.toMap());
-    await addNotiForMembers(action.id, teamID);
+    await addNotiForMembers(action.id, teamID, notiTitle);
   }
 
-  Future<void> addNotiForMembers(String actionId, String teamID) async {
+  Future<void> addNotiForMembers(
+      String actionId, String teamID, String notiTitle) async {
     var teamMemberIDs = await getTeamMemberIDs(teamID);
     var futures = teamMemberIDs.map<Future>(
-      (userID) => _userService.addTaskNoti(userID, teamID, actionId),
-    );
+        (userID) => addNotiForMember(userID, teamID, actionId, notiTitle));
     await Future.wait(futures);
+  }
+
+  Future<void> addNotiForMember(
+    String userID,
+    String teamID,
+    String actionId,
+    String notiTitle,
+  ) async {
+    _userService.addTaskNoti(userID, teamID, actionId).then((notiId) async {
+      // Not send noti to the sender user
+      // if (userID == _userService.userID) return;
+
+      var fcmToken = await _userService.getFcmToken(userID);
+      if (isNotNullAndEmpty(fcmToken)) {
+        await _notiSenderService.send(fcmToken, notiId, notiTitle);
+      }
+    });
   }
 
   getTeamMemberIDs(String teamID) async {
@@ -201,12 +229,21 @@ class TeamService extends FirestoreService {
     return querySnap.docs.map((e) => TaskModel.fromMap(e.data())).toList();
   }
 
-  Future<void> updateTask(String teamID, TaskModel task,
-      [Map<String, String> updatedFields]) async {
+  Future<void> updateTask(
+    String teamID,
+    TaskModel task, {
+    Map<String, String> updatedFields,
+    String notiTitle,
+  }) async {
     task.statusChangedDate = DateTime.now();
     await Future.wait([
       getTaskCollectionOf(teamID).doc(task.id).update(task.toMap()),
-      addAction(teamID, ActionModel.TYPE_UPDATE_TASK, task.id, updatedFields)
+      addAction(
+        teamID,
+        ActionModel.TYPE_UPDATE_TASK,
+        task.id,
+        updatedFields: updatedFields,
+      )
     ]);
   }
 

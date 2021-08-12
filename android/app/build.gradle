@@ -58,6 +58,8 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    // @warning: using firebase-bom:28.0.1 get crash error when getToken()
+    implementation platform('com.google.firebase:firebase-bom:27.0.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 }

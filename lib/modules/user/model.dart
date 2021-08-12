@@ -1,15 +1,23 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class UserModel {
   final String id;
   final String email;
+  final String fcmToken;
 
-  UserModel({this.id, this.email});
+  UserModel({
+    @required this.id,
+    @required this.email,
+    @required this.fcmToken,
+  });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'email': email,
+      'fcmToken': fcmToken,
     };
   }
 
@@ -17,6 +25,7 @@ class UserModel {
     return UserModel(
       id: map['id'],
       email: map['email'],
+      fcmToken: map['fcmToken'],
     );
   }
 

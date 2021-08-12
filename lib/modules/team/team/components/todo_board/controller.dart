@@ -85,7 +85,10 @@ class TodoBoardController extends BaseController {
     getTasksInBoard(toBoardIndex).insert(0, task);
 
     await _teamsService.updateTask(
-        _teamsController.selectedTeam.id, task, updatedFields);
+      _teamsController.selectedTeam.id,
+      task,
+      updatedFields: updatedFields,
+    );
   }
 
   RxList<TaskModel> getTasksInBoard(int boardIndex) {
@@ -107,7 +110,10 @@ class TodoBoardController extends BaseController {
     var updatedFields = diff(newTaskMap, oldTaskMap);
 
     await _teamsService.updateTask(
-        _teamsController.selectedTeam.id, task, updatedFields);
+      _teamsController.selectedTeam.id,
+      task,
+      updatedFields: updatedFields,
+    );
 
     tasks.refresh();
   }

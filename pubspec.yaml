@@ -33,7 +33,8 @@ dependencies:
   firebase_auth: "^0.20.1"
   cloud_firestore: "^0.16.0+1"
   badges: ^2.0.1
-
+  firebase_messaging: "^8.0.0-dev.15"
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
