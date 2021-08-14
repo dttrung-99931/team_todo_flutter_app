@@ -1,15 +1,16 @@
 import 'package:get/get.dart';
 
-import 'team/components/join_requests/controller.dart';
-import 'team/components/todo_board/controller.dart';
-import 'team_explore/controller.dart';
-import 'team_preview/controller.dart';
+import 'components/team/components/action/service.dart';
+import 'components/team/components/join_requests/controller.dart';
+import 'components/team_explore/controller.dart';
+import 'components/team_preview/controller.dart';
 import 'controller.dart';
 import 'service.dart';
 
 class TeamListBinding extends Bindings {
   @override
   void dependencies() {
+    Get.put(ActionService());
     Get.put(TeamService());
     Get.put(TeamController());
 

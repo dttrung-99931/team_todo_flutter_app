@@ -6,9 +6,9 @@ import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
 import '../../utils/utils.dart';
 import '../user/service.dart';
-import 'action/action_model.dart';
-import 'team/components/members/model.dart';
-import 'team/components/todo_board/task/model.dart';
+import 'components/team/components/action/action_model.dart';
+import 'components/team/components/members/model.dart';
+import 'components/team/components/todo_board/components/task/model.dart';
 import 'model.dart';
 
 class TeamService extends FirestoreService {

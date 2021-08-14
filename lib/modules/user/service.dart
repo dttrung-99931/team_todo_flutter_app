@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/modules/notification/model.dart';
-import 'package:team_todo_app/modules/team/action/action_model.dart';
+import 'package:team_todo_app/modules/team/components/team/components/action/action_model.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
