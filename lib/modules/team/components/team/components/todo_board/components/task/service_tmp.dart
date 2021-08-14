@@ -4,7 +4,7 @@ import 'package:team_todo_app/modules/team/components/team/components/action/act
 
 import 'model.dart';
 
-class TaskService extends FirestoreService {
+class TaskServicess extends FirestoreService {
   /// Used to build collection path
   /// It must be not null before using this service
   String teamID;

@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:team_todo_app/modules/common/services/notification_sender_service.dart';
+import 'package:team_todo_app/modules/team/components/team/components/action/action_model.dart';
+import 'package:team_todo_app/modules/team/components/team/components/action/service.dart';
 import 'package:team_todo_app/utils/utils.dart';
 
 import '../../../../../../base/base_controller.dart';
@@ -8,11 +11,16 @@ import '../../../../controller.dart';
 import '../../../../service.dart';
 import '../members/model.dart';
 import 'components/task/model.dart';
+import 'components/task/service.dart';
 
 class TodoBoardController extends BaseController {
   final _teamsController = Get.find<TeamController>();
   final _teamsService = Get.find<TeamService>();
   final _userService = Get.find<UserService>();
+  final _taskService = Get.find<TaskService>();
+  final _actionService = Get.find<ActionService>();
+  final _notiSenderService = Get.find<NotificationSenderService>();
+
   final _members = RxList<MemberModel>();
   List<MemberModel> get members => _members.toList();
 
@@ -27,8 +35,13 @@ class TodoBoardController extends BaseController {
   final _finishTasks = RxList<TaskModel>();
   List<TaskModel> get finishTasks => _finishTasks.toList();
 
+  String get selectedTeamID => _teamsController.selectedTeam.id;
+
   @override
   void onInit() {
+    _taskService.selectedTeamID = selectedTeamID;
+    _actionService.selectedTeamID = selectedTeamID;
+
     load(() async {
       loadTasks();
       final members =
@@ -40,14 +53,50 @@ class TodoBoardController extends BaseController {
 
   Future<void> addTask(TaskModel task) async {
     await load(() async {
-      await _teamsService.addTask(_teamsController.selectedTeam.id, task);
+      final taskID = await _taskService.addTask(task);
+      final actionID = await _actionService.addAction(
+        ActionModel.TYPE_ADD_TASK,
+        taskID,
+      );
+      await addNotiForMembers(
+          actionID, selectedTeamID, "Add task " + task.title);
+
       _todoTasks.insert(0, task);
+    });
+  }
+
+  Future<void> addNotiForMembers(
+    String actionId,
+    String teamID,
+    String notiTitle,
+  ) async {
+    var teamMemberIDs = _teamsController.selectedTeam.userIDs;
+    var futures = teamMemberIDs.map<Future>(
+      (userID) => addNotiForMember(userID, teamID, actionId, notiTitle),
+    );
+    await Future.wait(futures);
+  }
+
+  Future<void> addNotiForMember(
+    String userID,
+    String teamID,
+    String actionId,
+    String notiTitle,
+  ) async {
+    _userService.addTaskNoti(userID, teamID, actionId).then((notiId) async {
+      // Not send noti to the sender user
+      // if (userID == _userService.userID) return;
+
+      var fcmToken = await _userService.getFcmToken(userID);
+      if (isNotNullAndEmpty(fcmToken)) {
+        await _notiSenderService.send(fcmToken, notiId, notiTitle);
+      }
     });
   }
 
   /// @TODO simplify
   Future<void> loadTasks() async {
-    final tasks = await _teamsService.getasks(_teamsController.selectedTeam.id);
+    final tasks = await _taskService.getasks();
     final todoTasks = List<TaskModel>.empty(growable: true);
     final doingTasks = List<TaskModel>.empty(growable: true);
     final finishTasks = List<TaskModel>.empty(growable: true);
@@ -84,11 +133,17 @@ class TodoBoardController extends BaseController {
         .removeWhere((element) => element.id == task.id);
     getTasksInBoard(toBoardIndex).insert(0, task);
 
-    await _teamsService.updateTask(
-      _teamsController.selectedTeam.id,
+
+    await _taskService.updateTask(
       task,
       updatedFields: updatedFields,
     );
+    final actionID = await _actionService.addAction(
+      ActionModel.TYPE_UPDATE_TASK,
+      task.id,
+    );
+    await addNotiForMembers(
+        actionID, selectedTeamID, "Updated task " + task.title);
   }
 
   RxList<TaskModel> getTasksInBoard(int boardIndex) {
@@ -109,18 +164,30 @@ class TodoBoardController extends BaseController {
     var oldTaskMap = tasks[index].toMap();
     var updatedFields = diff(newTaskMap, oldTaskMap);
 
-    await _teamsService.updateTask(
-      _teamsController.selectedTeam.id,
+    await _taskService.updateTask(
       task,
       updatedFields: updatedFields,
     );
+    final actionID = await _actionService.addAction(
+      ActionModel.TYPE_UPDATE_TASK,
+      task.id,
+    );
+    await addNotiForMembers(
+        actionID, selectedTeamID, "Updated task " + task.title);
 
     tasks.refresh();
   }
 
   void deleteTask(String taskID, int fromBoard) {
     load(() async {
-      await _teamsService.deleteTask(_teamsController.selectedTeam.id, taskID);
+      await _taskService.deleteTask(taskID);
+      final actionID = await _actionService.addAction(
+        ActionModel.TYPE_DEL_TASK,
+        taskID,
+      );
+      await addNotiForMembers(
+          actionID, selectedTeamID, "Deleted task " + taskID);
+
       getTasksInBoard(fromBoard).removeWhere((element) => element.id == taskID);
     });
   }

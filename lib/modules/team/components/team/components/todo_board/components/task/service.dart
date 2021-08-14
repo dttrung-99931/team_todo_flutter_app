@@ -5,7 +5,6 @@ import 'package:team_todo_app/modules/team/components/team/components/action/act
 import 'model.dart';
 
 class TaskService extends FirestoreService {
-  
   String _selectedTeamID;
   set selectedTeamID(teamID) => _selectedTeamID = teamID;
   String get selectedTeamID {
@@ -33,15 +32,17 @@ class TaskService extends FirestoreService {
   /// Load [ActionModel.task] for actions
   Future<void> loadTasksForActions(List<ActionModel> actions) async {
     var futures = actions.map((action) {
-      return getTaskOfAction(action.taskID).then((value) => action.task = value);
+      return getTaskOfAction(action.taskID)
+          .then((value) => action.task = value);
     });
     await Future.wait(futures);
   }
 
-  Future<void> addTask(TaskModel task) async {
+  Future<String> addTask(TaskModel task) async {
     final taskRef = collection.doc();
     task.id = taskRef.id;
     await taskRef.set(task.toMap());
+    return task.id;
   }
 
   Future<List<TaskModel>> getasks() async {
@@ -58,7 +59,7 @@ class TaskService extends FirestoreService {
     getDocRef(task.id).update(task.toMap());
   }
 
-  Future<void> deleteTask(String teamID, String taskID) async {
+  Future<void> deleteTask(String taskID) async {
     await getDocRef(taskID).delete();
   }
 
