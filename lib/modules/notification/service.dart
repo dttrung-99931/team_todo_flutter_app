@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/firestore_service.dart';
 import 'package:team_todo_app/constants/constants.dart';
-import 'package:team_todo_app/modules/team/components/team/components/action/service.dart';
+import 'package:team_todo_app/modules/team/components/team/components/actions/service.dart';
 import 'package:team_todo_app/modules/user/service.dart';
 
 import 'model.dart';
@@ -22,6 +22,7 @@ class NotificationService extends FirestoreService {
     var taskNotis = notis
         .where((noti) => noti.type == NotificationModel.TYPE_TASK)
         .toList();
+    // @TODO: load relative data for other noti type
     await _actionService.loadActionsForTaskNotis(taskNotis);
     return notis;
   }

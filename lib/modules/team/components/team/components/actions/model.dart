@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/icon_data.dart';
 import 'package:team_todo_app/modules/user/model.dart';
 
 import '../todo_board/components/task/model.dart';
@@ -21,7 +20,7 @@ class ActionModel {
 
   TaskModel task;
   UserModel user;
-
+  
   ActionModel({
     @required this.id,
     @required this.taskID,

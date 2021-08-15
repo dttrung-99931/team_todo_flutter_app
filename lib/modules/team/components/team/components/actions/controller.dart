@@ -1,14 +1,16 @@
 import 'package:get/get.dart';
-import 'package:team_todo_app/modules/team/components/team/components/action/service.dart';
 import 'package:team_todo_app/modules/team/components/team/components/todo_board/components/task/service.dart';
+import 'package:team_todo_app/modules/user/service.dart';
 
 import '../../../../../../base/base_controller.dart';
-import '../action/action_model.dart';
 import '../../../../controller.dart';
+import 'model.dart';
+import 'service.dart';
 
-class TeamActivityController extends BaseController {
+class TeamActionController extends BaseController {
   final _teamController = Get.find<TeamController>();
   final _taskService = Get.find<TaskService>();
+  final _userService = Get.find<UserService>();
   final _actionService = Get.find<ActionService>();
   final _activities = RxList<ActionModel>();
   List<ActionModel> get activities => _activities.toList();
@@ -31,11 +33,10 @@ class TeamActivityController extends BaseController {
 
   Future<List<ActionModel>> getActions(String teamID) async {
     final actions = await _actionService.getActions();
-
-    var futures = actions.map(
-      (e) => _taskService.getTask(e.taskID).then((task) => e.task = task),
-    );
-    await Future.wait(futures);
+    await Future.wait([
+      _taskService.loadTasksForActions(actions),
+      _userService.loadUsersForActions(actions),
+    ]);
     return actions;
   }
 }

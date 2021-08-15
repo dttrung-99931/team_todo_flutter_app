@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/firestore_service.dart';
 import 'package:team_todo_app/constants/constants.dart';
@@ -6,7 +5,7 @@ import 'package:team_todo_app/modules/notification/model.dart';
 import 'package:team_todo_app/modules/team/components/team/components/todo_board/components/task/service.dart';
 import 'package:team_todo_app/modules/user/service.dart';
 
-import 'action_model.dart';
+import 'model.dart';
 
 class ActionService extends FirestoreService {
   final _userService = Get.find<UserService>();
@@ -23,9 +22,6 @@ class ActionService extends FirestoreService {
 
   @override
   String getCollectionPath() {
-    if (selectedTeamID == null) {
-      throw Exception("teamID must have value before using ActionService");
-    }
     return "teams/$selectedTeamID/actions";
   }
 

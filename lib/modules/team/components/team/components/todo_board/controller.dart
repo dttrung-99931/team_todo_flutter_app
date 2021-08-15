@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:team_todo_app/modules/common/services/notification_sender_service.dart';
-import 'package:team_todo_app/modules/team/components/team/components/action/action_model.dart';
-import 'package:team_todo_app/modules/team/components/team/components/action/service.dart';
+import 'package:team_todo_app/modules/team/components/team/components/actions/model.dart';
+import 'package:team_todo_app/modules/team/components/team/components/actions/service.dart';
 import 'package:team_todo_app/utils/utils.dart';
 
 import '../../../../../../base/base_controller.dart';

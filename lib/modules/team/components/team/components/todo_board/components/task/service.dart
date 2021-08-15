@@ -1,6 +1,6 @@
 import 'package:team_todo_app/base/firestore_service.dart';
 import 'package:team_todo_app/constants/constants.dart';
-import 'package:team_todo_app/modules/team/components/team/components/action/action_model.dart';
+import 'package:team_todo_app/modules/team/components/team/components/actions/model.dart';
 
 import 'model.dart';
 
@@ -31,7 +31,9 @@ class TaskService extends FirestoreService {
 
   /// Load [ActionModel.task] for actions
   Future<void> loadTasksForActions(List<ActionModel> actions) async {
-    var futures = actions.map((action) {
+    var futures = actions
+    .where((action) => action.type != ActionModel.TYPE_DEL_TASK)
+    .map((action) {
       return getTaskOfAction(action.taskID)
           .then((value) => action.task = value);
     });

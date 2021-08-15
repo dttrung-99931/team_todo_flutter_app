@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'components/team/components/action/service.dart';
+import 'components/team/components/actions/service.dart';
 import 'components/team/components/join_requests/controller.dart';
 import 'components/team_explore/controller.dart';
 import 'components/team_preview/controller.dart';

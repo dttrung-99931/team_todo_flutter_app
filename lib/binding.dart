@@ -4,7 +4,7 @@ import 'modules/auth/controller.dart';
 import 'modules/common/services/notification_sender_service.dart';
 import 'modules/notification/controller.dart';
 import 'modules/common/services/firebase_messaging_service.dart';
-import 'modules/team/components/team/components/action/service.dart';
+import 'modules/team/components/team/components/actions/service.dart';
 import 'modules/team/components/team/components/todo_board/components/task/service.dart';
 import 'modules/common/services/firebase_auth_service.dart';
 import 'modules/user/service.dart';

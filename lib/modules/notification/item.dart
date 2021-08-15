@@ -48,14 +48,14 @@ class NotificationItem extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: Sizes.s8),
                 child: Text(
                   item?.action?.actionDisplay() ?? "",
-                  style: Styles.textBody,
+                  style: Styles.normal,
                 ),
               ),
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
                   formatDate(item.date, true),
-                  style: Styles.textBody,
+                  style: Styles.normal,
                 ),
               ),
             ],

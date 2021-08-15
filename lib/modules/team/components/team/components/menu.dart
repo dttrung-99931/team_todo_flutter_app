@@ -45,7 +45,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
         titleFontSize: FontSizes.s14,
       ),
       MenuItem(
-        title: "Activities",
+        title: "Actions",
         child: Obx(
           () => BadgeWidget(
             badgeNumber: controller.newTeamActionIDs.length,
@@ -53,7 +53,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
           ),
         ),
         onTap: () {
-          Get.toNamed('/teams/team/notifications');
+          Get.toNamed('/teams/team/actions');
         },
         titleFontSize: FontSizes.s14,
       ),

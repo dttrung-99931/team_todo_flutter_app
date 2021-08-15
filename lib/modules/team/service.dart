@@ -155,4 +155,5 @@ class TeamService extends FirestoreService {
     final users = await _userService.getUsers(team.userIDs);
     return users.map((e) => MemberModel(e, e.id == team.ownerUserID)).toList();
   }
+  
 }

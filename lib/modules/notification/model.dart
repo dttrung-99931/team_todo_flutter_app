@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:team_todo_app/modules/team/components/team/components/action/action_model.dart';
+import 'package:team_todo_app/modules/team/components/team/components/actions/model.dart';
 
 class NotificationModel {
   static const TYPE_TASK = "TASK_NOTI";
