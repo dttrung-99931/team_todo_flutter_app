@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/modules/common/services/notification_sender_service.dart';
+import 'package:team_todo_app/modules/team/components/team/components/actions/model.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
@@ -46,8 +47,16 @@ class TeamService extends FirestoreService {
     if (teamIDs.isEmpty) {
       return [];
     }
-    final querySnapshot =
-        await collection.where(FieldPath.documentId, whereIn: teamIDs).get();
+
+    // Test handling error
+    // Check if firestoerr throw no internet error
+    // => Firestore won't throw any exceptioon if there's no internet
+    final querySnapshot = await collection
+        .where(
+          FieldPath.documentId,
+          whereIn: teamIDs,
+        )
+        .get(GetOptions(source: Source.server));
     return querySnapshot.docs.map((e) => TeamModel.fromMap(e.data())).toList();
   }
 
@@ -155,5 +164,12 @@ class TeamService extends FirestoreService {
     final users = await _userService.getUsers(team.userIDs);
     return users.map((e) => MemberModel(e, e.id == team.ownerUserID)).toList();
   }
-  
+
+  Future<bool> containsAction(String teamID, String actionID) async {
+    final docSnap = await getDocRef(teamID)
+        .collection(Collections.actions)
+        .doc(actionID)
+        .get();
+    return docSnap.exists;
+  }
 }

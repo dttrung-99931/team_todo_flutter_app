@@ -19,6 +19,9 @@ class Menu extends BaseGetWidget<HomeController> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildMenuItem("Teams", Icons.group_outlined, () {
+                // Test handling error
+                // throw Exception('Error from home menu');
+
                 Get.toNamed('/teams');
               }),
               _buildMenuItem("Tasks", Icons.event_note_outlined, () {}),

@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
+import 'package:team_todo_app/modules/notification/model.dart';
+import 'package:team_todo_app/modules/notification/service.dart';
 import '../../base/base_controller.dart';
-import '../user/service.dart';
 import '../../utils/utils.dart';
 
 import 'model.dart';
 import 'service.dart';
 
 class TeamController extends BaseController {
-  final _teamsService = Get.find<TeamService>();
-  final _userService = Get.find<UserService>();
+  final _teamService = Get.find<TeamService>();
+  final _notiService = Get.find<NotificationService>();
 
   final _myTeams = RxList<TeamModel>();
   List<TeamModel> get myTeams => _myTeams.toList();
@@ -16,51 +19,78 @@ class TeamController extends BaseController {
   final _selectedTeam = Rx<TeamModel>();
   TeamModel get selectedTeam => _selectedTeam.value;
 
-  final _newTeamActionIDs = RxList<String>();
-  List<String> get newTeamActionIDs => _newTeamActionIDs.toList();
+  // new action IDs of the selected team
+  final _newActionIDs = RxList<String>();
+  List<String> get newActionIDs => _newActionIDs.toList();
+  StreamSubscription newActionLisnerCanceler;
 
   final _refeshSuggestTeams = RxBool();
   bool get refeshSuggestTeams => _refeshSuggestTeams.value;
 
   @override
   Future<void> onInit() async {
-    isLoading = true;
-    try {
-      await loadMyTeams();
-    } catch (e) {
-      logd('Load my teams error $e');
-    }
-    isLoading = false;
+    // Test handling error
+    // Errror will not be catched by FlutterError.onError
+    // bacause this function is async.
+    // throw Exception('Error from home menu');
+    // throw NoInternetException();
     super.onInit();
+    await loadMyTeams();
+    newActionLisnerCanceler = listenNewAction();
+  }
+
+  @override
+  void onClose() {
+    newActionLisnerCanceler.cancel();
   }
 
   Future<void> loadMyTeams() async {
-    final teams = await _teamsService.getMyTeams();
-    _myTeams.assignAll(teams);
+    load(() async {
+      try {
+        final teams = await _teamService.getMyTeams();
+        _myTeams.assignAll(teams);
+      } catch (e) {
+        logd('Load my teams error $e');
+      }
+    });
+  }
+
+  StreamSubscription<NotificationModel> listenNewAction() {
+    return _notiService.newNotiStream.listen((newNoti) async {
+      if (newNoti.type == NotificationModel.TYPE_TASK) {
+        var containsAction = await _teamService.containsAction(
+          selectedTeam.id,
+          newNoti.referenceID,
+        );
+        if (containsAction) {
+          _newActionIDs.add(newNoti.referenceID);
+        }
+      }
+    });
   }
 
   Future<void> add(TeamModel team) async {
     isLoading = true;
-    var createdTeam = await _teamsService.add(team);
+    var createdTeam = await _teamService.add(team);
     _myTeams.add(createdTeam);
     isLoading = false;
   }
 
   Future<void> delete(String teamID) async {
-    await _teamsService.delete(teamID);
+    await _teamService.delete(teamID);
     _myTeams.removeWhere((team) => team.id == teamID);
   }
 
   Future<void> update_(TeamModel teamModel) async {
     isLoading = true;
-    await _teamsService.update(teamModel);
+    await _teamService.update(teamModel);
     final index = _myTeams.indexWhere((element) => element.id == element.id);
     _myTeams.setAll(index, [teamModel]);
     isLoading = false;
   }
 
   Future<void> unjoinAppUserFromTeam(String teamID) async {
-    await _teamsService.unjoinAppUserFromTeam(teamID);
+    await _teamService.unjoinAppUserFromTeam(teamID);
     _myTeams.removeWhere((element) => element.id == teamID);
   }
 
@@ -84,6 +114,10 @@ class TeamController extends BaseController {
   }
 
   bool isTeamOwner() {
-    return _teamsService.appUserID == selectedTeam.ownerUserID;
+    return _teamService.appUserID == selectedTeam.ownerUserID;
+  }
+
+  void clearNewActionIDs() {
+    _newActionIDs.clear();
   }
 }

@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 import 'package:team_todo_app/modules/common/services/firebase_messaging_service.dart';
-import 'package:team_todo_app/modules/notification/service.dart';
-import 'package:team_todo_app/utils/utils.dart';
 import '../../base/base_controller.dart';
 import '../user/service.dart';
 

@@ -20,6 +20,7 @@ class ActionModel {
 
   TaskModel task;
   UserModel user;
+  bool isSeen;
   
   ActionModel({
     @required this.id,

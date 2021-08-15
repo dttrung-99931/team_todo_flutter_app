@@ -19,6 +19,8 @@ class Fields {
   static const isSeen = "isSeen";
   static const status = "status";
   static const fcmToken = "fcmToken";
+  static const type = "type";
+  static const referenceID = "referenceID";
 }
 
 enum TaskStatus {

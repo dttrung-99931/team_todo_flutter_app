@@ -32,8 +32,8 @@ class TaskService extends FirestoreService {
   /// Load [ActionModel.task] for actions
   Future<void> loadTasksForActions(List<ActionModel> actions) async {
     var futures = actions
-    .where((action) => action.type != ActionModel.TYPE_DEL_TASK)
-    .map((action) {
+        .where((action) => action.type != ActionModel.TYPE_DEL_TASK)
+        .map((action) {
       return getTaskOfAction(action.taskID)
           .then((value) => action.task = value);
     });
@@ -67,6 +67,13 @@ class TaskService extends FirestoreService {
 
   Future<TaskModel> getTask(String taskID) async {
     var taskSnap = await getDocSnap(taskID);
-    return TaskModel.fromMap(taskSnap.data());
+    if (taskSnap.exists) {
+      return TaskModel.fromMap(taskSnap.data());
+    }
+    return null;
+  }
+
+  containTask(String taskID) async {
+    return (await getDocSnap(taskID)).exists;
   }
 }

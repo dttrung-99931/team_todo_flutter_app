@@ -10,24 +10,21 @@ import 'modules/common/services/firebase_auth_service.dart';
 import 'modules/user/service.dart';
 import 'package:team_todo_app/modules/notification/service.dart';
 
-class MainBinding extends Bindings {
+class GlobalBinding extends Bindings {
   @override
   void dependencies() {
-
-    // Common
-    Get.put(FirebaseMessagingService());
+    // Provide dependencies used before GetMaterialApp created
     Get.put(FirebaseAuthService());
-    Get.put(NotificationSenderService());
-
-    // Auth
+    // @TODO: remove UserService depending on FirebaseAuthService
     Get.put(UserService());
+    Get.put(FirebaseMessagingService());
     Get.put(AuthController());
     
-    // notification
-    Get.put(TaskService());
-    Get.put(ActionService());
-    Get.put(NotificationService());
-    Get.put(NotificationController());
-
+    // Provide dependencies for screens after [LoginScreen]
+    Get.lazyPut(() => NotificationSenderService(), fenix: true);
+    Get.lazyPut(() => TaskService(), fenix: true);
+    Get.lazyPut(() => ActionService(), fenix: true);
+    Get.lazyPut(() => NotificationService(), fenix: true);
+    Get.lazyPut(() => NotificationController(), fenix: true);
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/constants/font_sizes.dart';
-import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/widgets/menu_item.dart';
 
 import '../../../../../base/base_get_widget.dart';
@@ -48,7 +47,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
         title: "Actions",
         child: Obx(
           () => BadgeWidget(
-            badgeNumber: controller.newTeamActionIDs.length,
+            badgeNumber: controller.newActionIDs.length,
             child: buildMenuIcon(Icons.history_outlined),
           ),
         ),

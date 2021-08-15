@@ -16,9 +16,9 @@ class TeamActionListScreen extends BaseGetWidget<TeamActionController> {
         ),
         body: Obx(() => buildFutureWidget(
               ListViewWidget(
-                children: controller.activities
+                children: controller.actions
                     .map(
-                      (e) => TeamActivityItem(
+                      (e) => TeamActionItem(
                         onPress: (item) {},
                         item: e,
                       ),

@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'binding.dart';
+import 'package:team_todo_app/exceptions/no_internet.dart';
+import 'package:team_todo_app/utils/utils.dart';
+import 'global_binding.dart';
 import 'constants/constants.dart';
 import 'modules/auth/controller.dart';
 import 'modules/auth/pages.dart';
@@ -9,15 +13,34 @@ import 'modules/home/pages.dart';
 import 'modules/team/pages.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await init();
-  injectDependencies();
-  AuthController loginContrller = Get.find();
-  if (loginContrller.hasLoggedIn()) {
-    runApp(App("/"));
-  } else {
-    runApp(App("/auth"));
+  // handling global error
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    FlutterError.onError = handleError;
+    await init();
+    injectDependencies();
+    AuthController loginContrller = Get.find();
+    if (loginContrller.hasLoggedIn()) {
+      runApp(App("/"));
+    } else {
+      runApp(App("/auth"));
+    }
+  }, (error, stacktrace) {
+    handleAsyncError(error);
+  });
+}
+
+void handleAsyncError(Object error) {
+  if (error is NoInternetException){
+    logd('No internet exception');
+  } 
+  else {
+    logd('Unknown exception $error');
   }
+}
+
+void handleError(FlutterErrorDetails details) {
+  logd('Error $details');
 }
 
 Future<void> init() async {
@@ -25,7 +48,7 @@ Future<void> init() async {
 }
 
 void injectDependencies() {
-  MainBinding().dependencies();
+  GlobalBinding().dependencies();
 }
 
 class App extends StatelessWidget {

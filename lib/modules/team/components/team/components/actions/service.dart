@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/firestore_service.dart';
 import 'package:team_todo_app/constants/constants.dart';
@@ -11,8 +14,28 @@ class ActionService extends FirestoreService {
   final _userService = Get.find<UserService>();
   final _taskService = Get.find<TaskService>();
 
+  final _newAction = Rx<ActionModel>();
+  Stream<ActionModel> get newActionStream => _newAction.stream;
+  StreamSubscription<QuerySnapshot> actionsChangedSubscription;
+
   String _selectedTeamID;
-  set selectedTeamID(teamID) => _selectedTeamID = teamID;
+  set selectedTeamID(teamID) {
+    if (teamID == _selectedTeamID) return;
+    _selectedTeamID = teamID;
+    listenActionsChanged();
+  }
+
+  void listenActionsChanged() {
+    actionsChangedSubscription?.cancel();
+    actionsChangedSubscription = collection.snapshots().listen((event) {
+      event.docChanges.forEach((element) {
+        if (element.type == DocumentChangeType.added) {
+          _newAction.value = ActionModel.fromMap(element.doc.data());
+        }
+      });
+    });
+  }
+
   String get selectedTeamID {
     if (_selectedTeamID == null) {
       throw Exception('selectedTeamID must be set before using TaskService');

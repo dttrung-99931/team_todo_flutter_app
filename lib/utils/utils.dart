@@ -17,7 +17,7 @@ void logd(Object msg) {
 }
 
 /// Return map containing diff (key,value)s between map1 and map2
-Map<String, String> diff(Map<String, String> map1, Map<String, String> map2) {
+Map<String, dynamic> diff(Map<String, dynamic> map1, Map<String, dynamic> map2) {
   var diff = Map<String, String>();
   map1.forEach((key, value) {
     if (map2.containsKey(key) && value != map2[key]) {}

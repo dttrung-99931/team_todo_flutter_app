@@ -8,11 +8,11 @@ import '../../../../../../constants/constants.dart';
 import '../../../../../../utils/utils.dart';
 import 'model.dart';
 
-class TeamActivityItem extends StatelessWidget {
+class TeamActionItem extends StatelessWidget {
   final ActionModel item;
   final Function(ActionModel item) onPress;
 
-  TeamActivityItem({
+  TeamActionItem({
     @required this.item,
     @required this.onPress,
   });
@@ -26,12 +26,14 @@ class TeamActivityItem extends StatelessWidget {
         right: Sizes.s8,
         bottom: 0,
       ),
+      color: item.isSeen ? Colors.grey[50] : Colors.white,
       child: Container(
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          contentPadding:
+              EdgeInsets.symmetric(vertical: Sizes.s8, horizontal: Sizes.s12),
           leading: Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 4.0,
+              horizontal: Sizes.s4,
             ),
             child: Column(
               children: [

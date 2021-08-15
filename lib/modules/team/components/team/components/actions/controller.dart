@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:team_todo_app/modules/notification/service.dart';
 import 'package:team_todo_app/modules/team/components/team/components/todo_board/components/task/service.dart';
 import 'package:team_todo_app/modules/user/service.dart';
 
@@ -12,8 +13,9 @@ class TeamActionController extends BaseController {
   final _taskService = Get.find<TaskService>();
   final _userService = Get.find<UserService>();
   final _actionService = Get.find<ActionService>();
-  final _activities = RxList<ActionModel>();
-  List<ActionModel> get activities => _activities.toList();
+  final _notiService = Get.find<NotificationService>();
+  final _actions = RxList<ActionModel>();
+  List<ActionModel> get actions => _actions.toList();
 
   String get selectedTeamID => _teamController.selectedTeam.id;
 
@@ -24,10 +26,12 @@ class TeamActionController extends BaseController {
     _actionService.selectedTeamID = selectedTeamID;
 
     this.load(() async {
-      final activities = await getActions(
+      final actions = await getActions(
         _teamController.selectedTeam.id,
       );
-      _activities.assignAll(activities);
+      await setActionsSeenAndUpdateNotisSeen(actions);
+      _teamController.clearNewActionIDs();
+      _actions.assignAll(actions);
     });
   }
 
@@ -38,5 +42,20 @@ class TeamActionController extends BaseController {
       _userService.loadUsersForActions(actions),
     ]);
     return actions;
+  }
+
+  Future<void> setActionsSeenAndUpdateNotisSeen(
+      List<ActionModel> actions) async {
+    if (actions.isEmpty) return;
+    
+    final taskNotis =
+        // @FIXME: Firestore limit maximum 10 filter array items
+        await _notiService.loadTaskNotis(actions.map((e) => e.id).toList());
+    final newTaskNotis = taskNotis.where((element) => !element.isSeen);
+    final newActionIDs = newTaskNotis.map((e) => e.referenceID).toList();
+    actions.forEach((element) {
+      element.isSeen = !newActionIDs.contains(element.id);
+    });
+    await _notiService.updateNotisSeen(newTaskNotis.map((e) => e.id).toList());
   }
 }

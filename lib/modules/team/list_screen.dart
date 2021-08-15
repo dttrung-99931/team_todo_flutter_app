@@ -10,6 +10,8 @@ class TeamListScreen extends BaseGetWidget<TeamController> {
 
   @override
   Widget build(BuildContext context) {
+    // Test handling error
+    // throw Exception('Exception from Team controller');
     return DefaultTabController(
       length: 2,
       child: SafeArea(

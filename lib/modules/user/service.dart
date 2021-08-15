@@ -119,7 +119,7 @@ class UserService extends FirestoreService {
   }
 
   User get user => _authService.user;
-  String get userID => user.uid;
+  String get userID => user?.uid;
 
   Future<int> getNewNotiNum() async {
     var querySnap = await getNewNotis();
