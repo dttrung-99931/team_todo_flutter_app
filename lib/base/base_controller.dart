@@ -14,6 +14,7 @@ class BaseController extends GetxController {
     isLoading = false;
   }
 
+
   Future<void> showSnackbar(String msg) {
     return Get.showSnackbar(GetBar(
       message: msg,

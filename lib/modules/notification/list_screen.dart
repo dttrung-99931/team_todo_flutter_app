@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/widgets/listview_widget.dart';
 
 import '../../base/base_get_widget.dart';
 import 'controller.dart';
@@ -11,7 +12,8 @@ class NotificationListScreen extends BaseGetWidget<NotificationController> {
     return SafeArea(
         child: Scaffold(
       body: Obx(() {
-        return buildFutureWidget((ListView(
+        return buildFutureWidget(ListViewWidget(
+          noDataTitle: 'No notifications',
           children: controller.notifications
               .map(
                 (noti) => NotificationItem(
@@ -20,7 +22,7 @@ class NotificationListScreen extends BaseGetWidget<NotificationController> {
                 ),
               )
               .toList(),
-        )));
+        ));
       }),
       appBar: _buildAppBar(),
     ));

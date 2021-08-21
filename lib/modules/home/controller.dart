@@ -14,6 +14,7 @@ class HomeController extends BaseController {
     await loadNewNotiNum();
   }
 
+  
   Future<void> loadNewNotiNum() async {
     newNotiNum.value = await _userService.getNewNotiNum();
   }
