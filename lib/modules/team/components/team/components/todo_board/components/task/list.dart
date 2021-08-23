@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:team_todo_app/widgets/character_avatar.dart';
 
 import '../../../../../../../../base/on_item_clicked.dart';
 import '../../../../../../../../constants/constants.dart';
@@ -48,6 +49,7 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final email = task.assigneeUser?.email ?? '';
     return Dismissible(
       direction: getDismissDirection(),
       onDismissed: onDismissed,
@@ -78,9 +80,7 @@ class TodoItem extends StatelessWidget {
       child: ListTile(
         title: Text(task.title),
         subtitle: Text('Start at ${formatDate(task.startDate)}'),
-        leading: CircleAvatar(
-          backgroundColor: kPrimarySwatch,
-        ),
+        leading: CharacterAvatar(name: email),
         minVerticalPadding: 0,
         contentPadding: EdgeInsets.fromLTRB(
           kDefaultPadding * 1.5,
@@ -137,3 +137,4 @@ class TodoItem extends StatelessWidget {
     }
   }
 }
+

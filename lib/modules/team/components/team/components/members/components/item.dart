@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/state_manager.dart';
+import 'package:team_todo_app/widgets/character_avatar.dart';
 
 import '../../../../../../../base/on_item_clicked.dart';
 import '../../../../../../../constants/constants.dart';
@@ -37,9 +38,7 @@ class MemberItem extends GetWidget<MembersController> {
                             : Colors.transparent,
                         width: 1)),
               ),
-              child: CircleAvatar(
-                backgroundColor: _getRandomColor(),
-              ),
+              child: CharacterAvatar(name: member.user.email),
             ),
             title: Text(member.user.email),
             trailing: buildPopupMenuButton(),
@@ -57,10 +56,6 @@ class MemberItem extends GetWidget<MembersController> {
       },
       onSelected: (value) => onMemberEdited(member, value),
     );
-  }
-
-  Color _getRandomColor() {
-    return kPrimarySwatch[(random(9) + 1) * 100];
   }
 
   List<PopupMenuItem<EditAction>> buildMenuItems() {

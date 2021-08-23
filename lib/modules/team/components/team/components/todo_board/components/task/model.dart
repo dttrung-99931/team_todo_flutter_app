@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:team_todo_app/modules/user/model.dart';
 
 class TaskModel {
   String id;
@@ -13,6 +14,8 @@ class TaskModel {
   String status;
   DateTime statusChangedDate;
 
+  UserModel assigneeUser;
+  
   TaskModel({
     @required this.title,
     @required this.creatorUserID,

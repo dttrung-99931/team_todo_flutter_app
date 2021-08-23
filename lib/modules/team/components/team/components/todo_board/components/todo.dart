@@ -13,22 +13,27 @@ class Todo extends BaseGetWidget<TodoBoardController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.white,
-        child: Obx(() => TaskList(
-              tasks: controller.todoTasks,
-              onTaskEdited: onTaskEdited,
-              onItemMovedRight: (task) {
-                controller.moveTask(task, 0, 1);
-              },
-            )));
+      color: Colors.white,
+      child: Obx(
+        () => TaskList(
+          tasks: controller.todoTasks,
+          onTaskEdited: onTaskEdited,
+          onItemMovedRight: (task) {
+            controller.moveTask(task, 0, 1);
+          },
+        ),
+      ),
+    );
   }
 
   onTaskEdited(TaskModel task, EditAction action) {
     if (action == EditAction.Update) {
-      Get.dialog(UpsertTaskDialog(
-        taskToUpdate: task,
-        boardIndex: 0,
-      ));
+      Get.dialog(
+        UpsertTaskDialog(
+          taskToUpdate: task,
+          boardIndex: 0,
+        ),
+      );
     } else if (action == EditAction.Delete) {
       showAlertDialog('Delete task ${task.title}', () {
         controller.deleteTask(task.id, 0);

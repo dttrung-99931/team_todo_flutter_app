@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:team_todo_app/modules/common/services/notification_sender_service.dart';
 import 'package:team_todo_app/modules/team/components/team/components/actions/model.dart';
 import 'package:team_todo_app/modules/team/components/team/components/actions/service.dart';
+import 'package:team_todo_app/modules/user/model.dart';
 import 'package:team_todo_app/utils/utils.dart';
 
 import '../../../../../../base/base_controller.dart';
@@ -43,12 +44,17 @@ class TodoBoardController extends BaseController {
     _actionService.selectedTeamID = selectedTeamID;
 
     load(() async {
-      loadTasks();
-      final members =
-          await _teamsService.loadTeamMemebers(_teamsController.selectedTeam);
-      _members.assignAll(members);
+      await loadMembers();
+      await loadTasks();
     });
     super.onInit();
+  }
+
+  Future loadMembers() async {
+    final members = await _teamsService.loadTeamMemebers(
+      _teamsController.selectedTeam,
+    );
+    _members.assignAll(members);
   }
 
   Future<void> addTask(TaskModel task) async {
@@ -59,7 +65,10 @@ class TodoBoardController extends BaseController {
         taskID,
       );
       await addNotiForMembers(
-          actionID, selectedTeamID, "Add task " + task.title);
+        actionID,
+        selectedTeamID,
+        "Add task " + task.title,
+      );
 
       _todoTasks.insert(0, task);
     });
@@ -97,6 +106,7 @@ class TodoBoardController extends BaseController {
   /// @TODO simplify
   Future<void> loadTasks() async {
     final tasks = await _taskService.getasks();
+    setAssigneesForTasks(tasks);
     final todoTasks = List<TaskModel>.empty(growable: true);
     final doingTasks = List<TaskModel>.empty(growable: true);
     final finishTasks = List<TaskModel>.empty(growable: true);
@@ -132,7 +142,6 @@ class TodoBoardController extends BaseController {
     getTasksInBoard(fromBoardIndex)
         .removeWhere((element) => element.id == task.id);
     getTasksInBoard(toBoardIndex).insert(0, task);
-
 
     await _taskService.updateTask(
       task,
@@ -190,5 +199,18 @@ class TodoBoardController extends BaseController {
 
       getTasksInBoard(fromBoard).removeWhere((element) => element.id == taskID);
     });
+  }
+
+  void setAssigneesForTasks(List<TaskModel> tasks) {
+    tasks.forEach((element) {
+      element.assigneeUser = getUser(element.assigneeUserID);
+    });
+  }
+
+  UserModel getUser(String userID) {
+    final query = members.where(
+      (element) => element.user.id == userID,
+    );
+    return query.isNotEmpty ? query.first.user : null;
   }
 }
