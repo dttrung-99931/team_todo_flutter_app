@@ -9,7 +9,7 @@ import 'controller.dart';
 
 class HomeScreen extends BaseGetWidget<HomeController> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,10 +25,12 @@ class HomeScreen extends BaseGetWidget<HomeController> {
     return AppBar(
       backgroundColor: Colors.white,
       leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration:
-              BoxDecoration(shape: BoxShape.circle, color: kPrimarySwatch),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+        child: Padding(
+          padding: const EdgeInsets.all(1),
+          child: CircleAvatar(
+            backgroundColor: kPrimarySwatch,
+          ),
         ),
       ),
       title: Text("Team todo app", style: TextStyle(color: kPrimarySwatch)),

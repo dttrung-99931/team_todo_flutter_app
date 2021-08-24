@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/exceptions/no_internet.dart';
 import 'package:team_todo_app/utils/utils.dart';
@@ -31,10 +32,9 @@ void main() async {
 }
 
 void handleAsyncError(Object error) {
-  if (error is NoInternetException){
+  if (error is NoInternetException) {
     logd('No internet exception');
-  } 
-  else {
+  } else {
     logd('Unknown exception $error');
   }
 }
@@ -58,6 +58,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: kPrimarySwatch),
+    );
     return GetMaterialApp(
       initialRoute: initialRoute,
       getPages: [

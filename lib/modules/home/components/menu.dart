@@ -37,6 +37,7 @@ class Menu extends BaseGetWidget<HomeController> {
   Widget buildMenuItem(String title, IconData iconData, Function onTap,
       [int badgeNum = 0]) {
     return MenuItem(
+      // isBold: true,
       title: title,
       child: BadgeWidget(
         badgeNumber: badgeNum,

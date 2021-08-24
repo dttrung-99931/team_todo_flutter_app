@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:team_todo_app/constants/constants.dart';
+import 'package:team_todo_app/constants/font_sizes.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
 import 'package:team_todo_app/utils/utils.dart';
@@ -21,48 +21,53 @@ class NotificationItem extends StatelessWidget {
     return Card(
       margin: EdgeInsets.only(
         left: Sizes.s8,
-        top: Sizes.s8,
+        top: 0,
         right: Sizes.s8,
-        bottom: 0,
+        bottom: Sizes.s8,
       ),
-      child: Container(
-        child: ListTile(
-          dense: true,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: Sizes.s16,
-            vertical: Sizes.s8,
-          ),
-          title: Text(
-            item?.action?.user?.email ?? "",
-            // "Title",
-            style: Styles.textTitle,
-          ),
-          leading: Text(
-            item.typeDisplay(),
-            style: Styles.textTitle.copyWith(
-              color: kPrimarySwatch,
-              fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: Sizes.s8,
+          horizontal: Sizes.s16,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: Sizes.s4),
+              child: Icon(Icons.event_note_outlined),
             ),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: Sizes.s8),
-                child: Text(
-                  item?.action?.actionDisplay() ?? "",
-                  style: Styles.normal.copyWith(fontSize: 16),
-                ),
+            SizedBox(width: Sizes.s16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item?.action?.user?.email ?? "",
+                    // "Title",
+                    style: Styles.textTitle.copyWith(fontSize: FontSizes.s16),
+                  ),
+                  SizedBox(
+                    height: Sizes.s4,
+                  ),
+                  Text(
+                    item?.action?.actionDisplay() ?? "",
+                    style: Styles.subtitle,
+                  ),
+                  SizedBox(
+                    height: Sizes.s4,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      formatDate(item.date, true),
+                      style: Styles.subtitle.copyWith(fontSize: FontSizes.s12),
+                    ),
+                  ),
+                ],
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  formatDate(item.date, true),
-                  style: Styles.normal,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

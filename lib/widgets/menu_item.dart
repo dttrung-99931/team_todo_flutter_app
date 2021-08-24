@@ -8,6 +8,7 @@ class MenuItem extends StatelessWidget {
   final Widget child;
   final double size;
   final double titleFontSize;
+  final bool isBold;
 
   const MenuItem({
     Key key,
@@ -16,6 +17,7 @@ class MenuItem extends StatelessWidget {
     this.child,
     this.size = Sizes.s96,
     this.titleFontSize = Sizes.s16,
+    this.isBold = false,
   }) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class MenuItem extends StatelessWidget {
                 title,
                 style: Styles.textTitle.copyWith(
                   fontSize: titleFontSize,
+                  fontWeight: isBold ? FontWeight.w500 : FontWeight.normal,
                 ),
                 textAlign: TextAlign.center,
               ),
