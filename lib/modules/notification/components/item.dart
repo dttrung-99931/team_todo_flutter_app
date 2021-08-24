@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:team_todo_app/constants/font_sizes.dart';
+import 'package:team_todo_app/constants/constants.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
 import 'package:team_todo_app/utils/utils.dart';
 
-import 'model.dart';
+import '../model.dart';
 
 class NotificationItem extends StatelessWidget {
   final NotificationModel item;
@@ -39,7 +39,10 @@ class NotificationItem extends StatelessWidget {
           ),
           leading: Text(
             item.typeDisplay(),
-            style: Styles.textTitle,
+            style: Styles.textTitle.copyWith(
+              color: kPrimarySwatch,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +51,7 @@ class NotificationItem extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: Sizes.s8),
                 child: Text(
                   item?.action?.actionDisplay() ?? "",
-                  style: Styles.normal,
+                  style: Styles.normal.copyWith(fontSize: 16),
                 ),
               ),
               Align(

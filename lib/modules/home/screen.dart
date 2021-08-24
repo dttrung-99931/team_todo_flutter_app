@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/utils/utils.dart';
 
 import '../../base/base_get_widget.dart';
 import '../../constants/constants.dart';
@@ -17,12 +16,12 @@ class HomeScreen extends BaseGetWidget<HomeController> {
         child: Scaffold(
       key: scaffoldKey,
       body: Body(),
-      appBar: _buildAppBar(),
-      endDrawer: _buildDrawer(),
+      appBar: buildAppBar(),
+      endDrawer: buildDrawer(),
     ));
   }
 
-  Widget _buildAppBar() {
+  Widget buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
       leading: Padding(
@@ -47,7 +46,7 @@ class HomeScreen extends BaseGetWidget<HomeController> {
     );
   }
 
-  Widget _buildDrawer() {
+  Widget buildDrawer() {
     return Container(
       width: 220,
       child: Drawer(
@@ -63,7 +62,7 @@ class HomeScreen extends BaseGetWidget<HomeController> {
               ),
             ),
             ListTile(
-                onTap: _showExitAlertDialog,
+                onTap: showExitAlertDialog,
                 title: Text(
                   "Sign out",
                   style: TextStyle(fontSize: 16),
@@ -74,7 +73,7 @@ class HomeScreen extends BaseGetWidget<HomeController> {
     );
   }
 
-  Future<void> _showExitAlertDialog() async {
+  Future<void> showExitAlertDialog() async {
     showAlertDialog("Do you want to sign out?", () async {
       AuthController authController = Get.find();
       await authController.signOut();

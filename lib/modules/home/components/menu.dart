@@ -18,26 +18,15 @@ class Menu extends BaseGetWidget<HomeController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildMenuItem("Teams", Icons.group_outlined, () async {
+              buildMenuItem("Teams", Icons.group_outlined, () async {
                 // Test handling error
                 // throw Exception('Error from home menu');
                 await Get.toNamed('/teams');
                 // Reload new noti num each time home page is navigated to
                 controller.loadNewNotiNum();
               }),
-              _buildMenuItem("Tasks", Icons.event_note_outlined, () {}),
-              Obx(() {
-                return _buildMenuItem(
-                  "Notifications",
-                  Icons.notifications_outlined,
-                  () async {
-                    await Get.toNamed('/notifications');
-                    // Reload new noti num each time home page is navigated to
-                    controller.loadNewNotiNum();
-                  },
-                  controller.newNotiNum.value,
-                );
-              }),
+              buildMenuItem("Tasks", Icons.event_note_outlined, () {}),
+              buildMenuItem("My notes", Icons.note_outlined, () {}),
             ],
           ),
         ],
@@ -45,7 +34,7 @@ class Menu extends BaseGetWidget<HomeController> {
     );
   }
 
-  Widget _buildMenuItem(String title, IconData iconData, Function onTap,
+  Widget buildMenuItem(String title, IconData iconData, Function onTap,
       [int badgeNum = 0]) {
     return MenuItem(
       title: title,

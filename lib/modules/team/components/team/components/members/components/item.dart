@@ -6,7 +6,6 @@ import 'package:team_todo_app/widgets/character_avatar.dart';
 
 import '../../../../../../../base/on_item_clicked.dart';
 import '../../../../../../../constants/constants.dart';
-import '../../../../../../../utils/utils.dart';
 import '../model.dart';
 import '../controller.dart';
 

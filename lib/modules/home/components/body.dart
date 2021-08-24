@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../controller.dart';
 import 'menu.dart';
-import 'recent_activities.dart';
+import 'notifications.dart';
 
 class Body extends GetWidget<HomeController> {
   @override
@@ -18,8 +18,8 @@ class Body extends GetWidget<HomeController> {
         SizedBox(
           height: 10,
         ),
-        RecentActivities(),
+        RecentActions(),
       ],
-    ));
+    ),);
   }
 }
