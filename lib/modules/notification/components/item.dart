@@ -25,6 +25,7 @@ class NotificationItem extends StatelessWidget {
         right: Sizes.s8,
         bottom: Sizes.s8,
       ),
+      color: item.isSeen ? Colors.grey[50] : Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: Sizes.s8,

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/constants/constants.dart';
-import 'package:team_todo_app/constants/font_sizes.dart';
+import 'package:team_todo_app/base/base_get_widget.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
 import 'package:team_todo_app/modules/notification/components/list.dart';
 import 'package:team_todo_app/modules/notification/controller.dart';
 
-class RecentActions extends GetWidget<NotificationController> {
+class RecentActions extends BaseGetWidget<NotificationController> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,11 +22,11 @@ class RecentActions extends GetWidget<NotificationController> {
             ),
           ),
         ),
-        Obx(
-          () => NotificationList(
-            notifications: controller.notifications,
-          ),
-        ),
+        Obx(() => buildFutureWidget(
+            NotificationList(
+              notifications: controller.notifications,
+            ),
+          )),
       ],
     );
   }

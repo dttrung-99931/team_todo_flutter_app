@@ -49,9 +49,15 @@ class NotificationService extends FirestoreService {
   }
 
   Future<List<NotificationModel>> getAllNotis() async {
-    var notiDocs = await getAllDocSnaps();
-    var notis =
-        notiDocs.map((doc) => NotificationModel.fromMap(doc.data())).toList();
+    var notiQuery = await collection
+        .orderBy(
+          Fields.date,
+          descending: true
+        )
+        .get();
+    var notis = notiQuery.docs
+        .map((doc) => NotificationModel.fromMap(doc.data()))
+        .toList();
     var taskNotis = notis
         .where((noti) => noti.type == NotificationModel.TYPE_TASK)
         .toList();

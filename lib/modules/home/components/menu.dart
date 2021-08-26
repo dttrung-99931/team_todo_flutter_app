@@ -3,12 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/base_get_widget.dart';
 import 'package:team_todo_app/constants/sizes.dart';
+import 'package:team_todo_app/modules/notification/controller.dart';
 import 'package:team_todo_app/widgets/badge_widget.dart';
 import 'package:team_todo_app/widgets/menu_item.dart';
 
-import '../controller.dart';
-
-class Menu extends BaseGetWidget<HomeController> {
+class Menu extends BaseGetWidget<NotificationController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,8 +21,8 @@ class Menu extends BaseGetWidget<HomeController> {
                 // Test handling error
                 // throw Exception('Error from home menu');
                 await Get.toNamed('/teams');
-                // Reload new noti num each time home page is navigated to
-                controller.loadNewNotiNum();
+                // Reload notis each time home navigating back to home screen
+                controller.loadNotis();
               }),
               buildMenuItem("Tasks", Icons.event_note_outlined, () {}),
               buildMenuItem("My notes", Icons.note_outlined, () {}),
