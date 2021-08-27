@@ -83,7 +83,7 @@ class UserService extends FirestoreService {
     return noti.id;
   }
 
-  DocumentReference teamDoc(String userID, String teamID) {
+  DocumentReference<Map<String, dynamic>> teamDoc(String userID, String teamID) {
     return getDocRef(userID).collection(Collections.teams).doc(teamID);
   }
 

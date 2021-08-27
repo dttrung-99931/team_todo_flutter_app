@@ -7,8 +7,9 @@ class FirebaseMessagingService extends GetxService {
 
   Future<void> setup() async {
     await requestPermissions();
+    configPushNoti();
     FirebaseMessaging.onMessage.listen((event) {
-      logd(event.data);
+      pushNoti(event);
     });
   }
 
@@ -23,5 +24,13 @@ class FirebaseMessagingService extends GetxService {
 
   Future<String> getFcmToken() async {
     return await messaging.getToken();
+  }
+
+  void pushNoti(RemoteMessage event) {
+    logd(event.data);
+  }
+
+  void configPushNoti() {
+    // final androidNotiSetting = 
   }
 }
