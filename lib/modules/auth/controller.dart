@@ -8,7 +8,7 @@ class AuthController extends BaseController {
   get isLoginScreen => _isLoginScreen.value;
 
   final _userService = Get.find<UserService>();
-  final _messagingService = Get.find<FirebaseMessagingService>();
+  final _messagingService = Get.find<PushNotificationService>();
 
   bool hasLoggedIn() => _userService.hasLoggedIn();
 

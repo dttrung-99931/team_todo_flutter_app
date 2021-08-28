@@ -19,7 +19,8 @@ class NotificationSenderService extends GetConnect {
       date: DateTime.now(),
     );
     var noti = NotificationSenderModel(data: notiData, to: fcmToken);
-    var response = await post(FCM_NOTI_URL, noti.toMap(), headers: HEADERS);
+    final body = noti.toMap();
+    var response = await post(FCM_NOTI_URL, body, headers: HEADERS);
     if (!response.isOk) {
       logd(response.body);
     }

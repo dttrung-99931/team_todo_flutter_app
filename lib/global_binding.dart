@@ -17,7 +17,7 @@ class GlobalBinding extends Bindings {
     Get.put(FirebaseAuthService());
     // @TODO: remove UserService depending on FirebaseAuthService
     Get.put(UserService());
-    Get.put(FirebaseMessagingService());
+    Get.put(PushNotificationService());
     Get.put(AuthController());
     
     // Provide dependencies for screens after [LoginScreen]

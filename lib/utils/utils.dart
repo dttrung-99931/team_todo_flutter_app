@@ -16,8 +16,14 @@ String formatDate(DateTime dateTime, [bool showTime = false]) {
   return date;
 }
 
-void logd(Object msg) {
-  print('@@ $msg');
+void logd(Object msg, [String tag = ""]) {
+  var logMsg = "";
+  if (tag != "") {
+    logMsg = "@@ $tag $msg";
+  } else {
+    logMsg = "@@ $msg";
+  }
+  print(logMsg);
 }
 
 /// Return map containing diff (key,value)s between map1 and map2

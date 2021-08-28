@@ -11,7 +11,7 @@ class NotificationController extends BaseController {
   List<NotificationModel> get notifications => _notifications.toList();
 
   final _notiService = Get.find<NotificationService>();
-  final _messagingService = Get.find<FirebaseMessagingService>();
+  final _messagingService = Get.find<PushNotificationService>();
 
   @override
   Future<void> onInit() async {
