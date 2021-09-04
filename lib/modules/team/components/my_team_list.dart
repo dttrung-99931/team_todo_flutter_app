@@ -16,7 +16,6 @@ class MyTeamList extends BaseGetWidget<TeamController> {
             teams: controller.myTeams,
             onTeamSelected: (team) {
               controller.selectTeam(team);
-              Get.toNamed("/teams/team", arguments: team);
             },
           ),
         )));

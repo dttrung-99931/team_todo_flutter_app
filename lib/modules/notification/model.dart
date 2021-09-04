@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:team_todo_app/modules/team/components/team/components/actions/model.dart';
 
 class NotificationModel {
-  static const TYPE_TASK = "TASK_NOTI";
+  static const TYPE_ACTION = "TASK_NOTI";
 
   final String id;
   final String type;
@@ -50,7 +50,7 @@ class NotificationModel {
 
   String typeDisplay() {
     switch (type) {
-      case TYPE_TASK:
+      case TYPE_ACTION:
         return 'Task';
       default:
         return '';

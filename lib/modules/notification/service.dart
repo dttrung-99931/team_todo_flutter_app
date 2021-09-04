@@ -17,7 +17,7 @@ class NotificationService extends FirestoreService {
   Stream<NotificationModel> get newNotiStream => _newNoti.stream;
   StreamSubscription<QuerySnapshot> notisChangedSubscription;
   // Indicates whether ignored first noti change event
-  // that always fired right after subscribing document change even there's no changes
+  // that always fired right after subscribing document changes even there's no changes
   var ignoredFirstNotisEvent = false;
 
   @override
@@ -49,17 +49,13 @@ class NotificationService extends FirestoreService {
   }
 
   Future<List<NotificationModel>> getAllNotis() async {
-    var notiQuery = await collection
-        .orderBy(
-          Fields.date,
-          descending: true
-        )
-        .get();
+    var notiQuery =
+        await collection.orderBy(Fields.date, descending: true).get();
     var notis = notiQuery.docs
         .map((doc) => NotificationModel.fromMap(doc.data()))
         .toList();
     var taskNotis = notis
-        .where((noti) => noti.type == NotificationModel.TYPE_TASK)
+        .where((noti) => noti.type == NotificationModel.TYPE_ACTION)
         .toList();
     // @TODO: load relative data for other noti type
     await _actionService.loadActionsForTaskNotis(taskNotis);
@@ -75,7 +71,7 @@ class NotificationService extends FirestoreService {
 
   Future<List<NotificationModel>> loadTaskNotis(List<String> taskIDs) async {
     final querySnap = await collection
-        .where(Fields.type, isEqualTo: NotificationModel.TYPE_TASK)
+        .where(Fields.type, isEqualTo: NotificationModel.TYPE_ACTION)
         .where(Fields.referenceID, whereIn: taskIDs)
         .get();
     return querySnap.docs
@@ -89,6 +85,24 @@ class NotificationService extends FirestoreService {
         .where(Fields.isSeen, isEqualTo: false)
         .get();
     return querySnap.docs.isNotEmpty;
+  }
+
+  Future<NotificationModel> getByID(String notiID) async {
+    final notiSnap = await getDocSnap(notiID);
+    return NotificationModel.fromMap(notiSnap.data());
+  }
+
+  buildPushNotiBody(String notiID) async {
+    final noti = await getByID(notiID);
+    if (noti.type == NotificationModel.TYPE_ACTION) {
+      final action = await _actionService.getAction(noti.referenceID);
+      final user = await _userService.getByID(action.userID);
+      return user.email;
+    }
+
+    // @TODO: Handle buiding noti for other type
+
+    return '[Unhandled body for noti type ${noti.type}]';
   }
 
   //   Future<void> addNotiForMembers(

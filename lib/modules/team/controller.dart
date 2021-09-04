@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:team_todo_app/controller.dart';
 import 'package:team_todo_app/modules/notification/model.dart';
 import 'package:team_todo_app/modules/notification/service.dart';
 import '../../base/base_controller.dart';
@@ -12,12 +13,12 @@ import 'service.dart';
 class TeamController extends BaseController {
   final _teamService = Get.find<TeamService>();
   final _notiService = Get.find<NotificationService>();
+  final _mainController = Get.find<MainController>();
 
   final _myTeams = RxList<TeamModel>();
   List<TeamModel> get myTeams => _myTeams.toList();
 
-  final _selectedTeam = Rx<TeamModel>();
-  TeamModel get selectedTeam => _selectedTeam.value;
+  TeamModel get selectedTeam => _mainController.selectedTeam.value;
 
   // new action IDs of the selected team
   final _newActionIDs = RxList<String>();
@@ -37,6 +38,10 @@ class TeamController extends BaseController {
     super.onInit();
     await loadMyTeams();
     newActionLisnerCanceler = listenNewAction();
+
+    _mainController.selectedTeam.listen((team) {
+      Get.toNamed('/teams/team');
+    });
   }
 
   @override
@@ -57,7 +62,7 @@ class TeamController extends BaseController {
 
   StreamSubscription<NotificationModel> listenNewAction() {
     return _notiService.newNotiStream.listen((newNoti) async {
-      if (newNoti.type == NotificationModel.TYPE_TASK) {
+      if (newNoti.type == NotificationModel.TYPE_ACTION) {
         var containsAction = await _teamService.containsAction(
           selectedTeam.id,
           newNoti.referenceID,
@@ -94,15 +99,19 @@ class TeamController extends BaseController {
     _myTeams.removeWhere((element) => element.id == teamID);
   }
 
+  Future<void> selectTeamByID(String teamID) async {
+    selectTeam(await _teamService.getByID(teamID));
+  }
+
   void selectTeam(TeamModel team) {
-    _selectedTeam.value = team;
+    _mainController.selectedTeam.value = team;
     // _userService
     //     .getNewActionIDs(_teamsService.appUserID, team.id)
     //     .then((value) => _newTeamActionIDs.assignAll(value));
   }
 
   void updateSelectedTeam(TeamModel updated) {
-    _selectedTeam.value = updated;
+    _mainController.selectedTeam.value = updated;
     syncSelectedTeamWithMyTeams();
   }
 

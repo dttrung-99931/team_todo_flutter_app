@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/firestore_service.dart';
 import 'package:team_todo_app/constants/constants.dart';
+import 'package:team_todo_app/exceptions/not_found.dart';
 import 'package:team_todo_app/modules/notification/model.dart';
 import 'package:team_todo_app/modules/team/components/team/components/todo_board/components/task/service.dart';
 import 'package:team_todo_app/modules/user/service.dart';
@@ -49,14 +50,31 @@ class ActionService extends FirestoreService {
   }
 
   Future<ActionModel> getAction(String actionID) async {
-    var querySnap = await getCollectionGroup(Collections.actions)
-        .where(Fields.id, isEqualTo: actionID)
-        .get();
+    var querySnap = await queryByID(actionID);
     if (querySnap.docs.length != 0) {
       return ActionModel.fromMap(querySnap.docs[0].data());
     }
     return null;
   }
+
+  // Group query action by action ID
+  Future<QuerySnapshot<Map<String, dynamic>>> queryByID(String actionID) async {
+    return await getCollectionGroup(Collections.actions)
+      .where(Fields.id, isEqualTo: actionID)
+      .get();
+  }
+
+  Future<String> getTeamIDOfAction(String actionID) async {
+    var querySnap = await queryByID(actionID);
+    if (querySnap.docs.isNotEmpty) {
+      var actionRef = querySnap.docs.first.reference;
+      var actionCollectionRef = actionRef.parent;
+      var teamRef = actionCollectionRef.parent;
+      return teamRef.id;
+    }
+    throw NotFoundException(); // why exception throwing is not catched
+  }
+
 
   /// Load [NotificationModel.action] for notis
   Future<void> loadActionsForTaskNotis(

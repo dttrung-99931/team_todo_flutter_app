@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_todo_app/base/firestore_service.dart';
 import 'package:team_todo_app/constants/constants.dart';
+import 'package:team_todo_app/exceptions/not_found.dart';
 import 'package:team_todo_app/modules/team/components/team/components/actions/model.dart';
 
 import 'model.dart';
@@ -19,14 +21,18 @@ class TaskService extends FirestoreService {
     return "teams/$selectedTeamID/tasks";
   }
 
-  Future<TaskModel> getTaskOfAction(String actionID) async {
-    var querySnap = await getCollectionGroup(Collections.tasks)
-        .where(Fields.id, isEqualTo: actionID)
-        .get();
+  Future<TaskModel> getByID(String taskID) async {
+    var querySnap = await queryByID(taskID);
     if (querySnap.docs.length != 0) {
       return TaskModel.fromMap(querySnap.docs[0].data());
     }
     return null;
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> queryByID(String taskID) async {
+    return await getCollectionGroup(Collections.tasks)
+        .where(Fields.id, isEqualTo: taskID)
+        .get();
   }
 
   /// Load [ActionModel.task] for actions
@@ -34,8 +40,7 @@ class TaskService extends FirestoreService {
     var futures = actions
         .where((action) => action.type != ActionModel.TYPE_DEL_TASK)
         .map((action) {
-      return getTaskOfAction(action.taskID)
-          .then((value) => action.task = value);
+      return getByID(action.taskID).then((value) => action.task = value);
     });
     await Future.wait(futures);
   }
@@ -47,7 +52,7 @@ class TaskService extends FirestoreService {
     return task.id;
   }
 
-  Future<List<TaskModel>> getasks() async {
+  Future<List<TaskModel>> getTasks() async {
     final querySnap = await getQuerySnap();
     return querySnap.docs.map((e) => TaskModel.fromMap(e.data())).toList();
   }
@@ -65,7 +70,7 @@ class TaskService extends FirestoreService {
     await getDocRef(taskID).delete();
   }
 
-  Future<TaskModel> getTask(String taskID) async {
+  Future<TaskModel> getTaskOfSelectedTeam(String taskID) async {
     var taskSnap = await getDocSnap(taskID);
     if (taskSnap.exists) {
       return TaskModel.fromMap(taskSnap.data());
@@ -73,7 +78,7 @@ class TaskService extends FirestoreService {
     return null;
   }
 
-  containTask(String taskID) async {
+  Future<bool> containTask(String taskID) async {
     return (await getDocSnap(taskID)).exists;
   }
 }

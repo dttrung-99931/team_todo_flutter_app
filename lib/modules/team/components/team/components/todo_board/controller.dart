@@ -105,7 +105,7 @@ class TodoBoardController extends BaseController {
 
   /// @TODO simplify
   Future<void> loadTasks() async {
-    final tasks = await _taskService.getasks();
+    final tasks = await _taskService.getTasks();
     setAssigneesForTasks(tasks);
     final todoTasks = List<TaskModel>.empty(growable: true);
     final doingTasks = List<TaskModel>.empty(growable: true);

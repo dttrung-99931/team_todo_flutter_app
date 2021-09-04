@@ -155,7 +155,7 @@ class TeamService extends FirestoreService {
     });
   }
 
-  Future<TeamModel> getById(teamID) async {
+  Future<TeamModel> getByID(teamID) async {
     final teamSnap = await getDocSnap(teamID);
     return TeamModel.fromMap(teamSnap.data());
   }
@@ -172,4 +172,5 @@ class TeamService extends FirestoreService {
         .get();
     return docSnap.exists;
   }
+
 }

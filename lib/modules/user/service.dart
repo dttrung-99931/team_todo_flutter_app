@@ -52,7 +52,7 @@ class UserService extends FirestoreService {
     }).toList();
   }
 
-  Future<UserModel> getUser(userID) async {
+  Future<UserModel> getByID(userID) async {
     var userSnap = await getDocSnap(userID);
     return UserModel.fromMap(userSnap.data());
   }
@@ -76,7 +76,7 @@ class UserService extends FirestoreService {
     var noti = NotificationModel(
       id: notiDoc.id,
       referenceID: actionID,
-      type: NotificationModel.TYPE_TASK,
+      type: NotificationModel.TYPE_ACTION,
       date: DateTime.now(),
     );
     await notiDoc.set(noti.toMap());
@@ -137,7 +137,7 @@ class UserService extends FirestoreService {
   /// Load [ActionModel.user] for actions
   Future<void> loadUsersForActions(List<ActionModel> actions) async {
     var futures = actions.map((action) {
-      return getUser(action.userID).then((value) => action.user = value);
+      return getByID(action.userID).then((value) => action.user = value);
     });
     await Future.wait(futures);
   }
@@ -147,7 +147,7 @@ class UserService extends FirestoreService {
   }
 
   Future<String> getFcmToken(userID) async {
-    var user = await getUser(userID);
+    var user = await getByID(userID);
     return user.fcmToken;
   }
 }
