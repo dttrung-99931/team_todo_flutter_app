@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:team_todo_app/modules/teams/model.dart';
 import '../../../common/services/notification_sender_service.dart';
 import '../actions/model.dart';
 import '../actions/service.dart';
@@ -7,17 +8,15 @@ import '../../../../utils/utils.dart';
 
 import '../../../../base/base_controller.dart';
 import '../../../../constants/constants.dart';
-import '../../../../controller.dart';
 import '../../../user/service.dart';
 import '../../controller.dart';
-import '../../../teams/model.dart';
 import '../../../teams/service.dart';
 import '../members/model.dart';
 import 'components/task/model.dart';
 import 'components/task/service.dart';
 
 class TodoBoardController extends BaseController {
-  final _teamsController = Get.find<MainController>();
+  final _teamController = Get.find<TeamController>();
   final _teamsService = Get.find<TeamService>();
   final _userService = Get.find<UserService>();
   final _taskService = Get.find<TaskService>();
@@ -38,22 +37,31 @@ class TodoBoardController extends BaseController {
   final _finishTasks = RxList<TaskModel>();
   List<TaskModel> get finishTasks => _finishTasks.toList();
 
-  String get selectedTeamID => _teamsController.selectedTeam.id;
+  String get selectedTeamID => _teamController.selectedTeam.id;
 
   @override
   void onInit() {
+    if (_teamController.selectedTeamObs.value != null) {
+      loadData();
+    }
+    listen<TeamModel>(_teamController.selectedTeamObs, (team) {
+      loadData();
+    });
+    super.onInit();
+  }
+
+  void loadData() {
     _taskService.selectedTeamID = selectedTeamID;
     _actionService.selectedTeamID = selectedTeamID;
     load(() async {
       await loadMembers();
       await loadTasks();
     });
-    super.onInit();
   }
 
   Future loadMembers() async {
     final members = await _teamsService.loadTeamMemebers(
-      _teamsController.selectedTeam,
+      _teamController.selectedTeam,
     );
     _members.assignAll(members);
   }
@@ -80,7 +88,7 @@ class TodoBoardController extends BaseController {
     String teamID,
     String notiTitle,
   ) async {
-    var teamMemberIDs = _teamsController.selectedTeam.userIDs;
+    var teamMemberIDs = _teamController.selectedTeam.userIDs;
     var futures = teamMemberIDs.map<Future>(
       (userID) => addNotiForMember(userID, teamID, actionId, notiTitle),
     );

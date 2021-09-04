@@ -13,12 +13,12 @@ import '../teams/service.dart';
 class TeamController extends BaseController {
   final _teamService = Get.find<TeamService>();
   final _notiService = Get.find<NotificationService>();
-  final _mainController = Get.find<MainController>();
-
+  
   final _myTeams = RxList<TeamModel>();
   List<TeamModel> get myTeams => _myTeams.toList();
 
-  TeamModel get selectedTeam => _mainController.selectedTeam;
+  final selectedTeamObs = Rx<TeamModel>();
+  TeamModel get selectedTeam => selectedTeamObs.value;
 
   // new action IDs of the selected team
   final _newActionIDs = RxList<String>();
@@ -77,6 +77,7 @@ class TeamController extends BaseController {
     });
   }
 
+  /// Add a team  
   Future<void> add(TeamModel team) async {
     isLoading = true;
     var createdTeam = await _teamService.add(team);
@@ -107,14 +108,14 @@ class TeamController extends BaseController {
   }
 
   void selectTeam(TeamModel team) {
-    _mainController.selectedTeamObs.value = team;
+    selectedTeamObs.value = team;
     // _userService
     //     .getNewActionIDs(_teamsService.appUserID, team.id)
     //     .then((value) => _newTeamActionIDs.assignAll(value));
   }
 
   void updateSelectedTeam(TeamModel updated) {
-    _mainController.selectedTeamObs.value = updated;
+    selectedTeamObs.value = updated;
     syncSelectedTeamWithMyTeams();
   }
 

@@ -3,9 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../constants/constants.dart';
-import '../model.dart';
-import '../../team/controller.dart';
+import '../../teams/model.dart';
+import '../controller.dart';
 
+// ignore: must_be_immutable
 class UpsertTeamDialog extends GetWidget<TeamController> {
   final _nameTextCtl = TextEditingController();
   final _descTextCtl = TextEditingController();
@@ -47,10 +48,10 @@ class UpsertTeamDialog extends GetWidget<TeamController> {
                         color: kPrimarySwatch, fontWeight: FontWeight.bold),
                   ),
                 ),
-                _buildTextFormField(controller: _nameTextCtl, hint: 'Name'),
-                _buildTextFormField(
+                buildTextFormField(controller: _nameTextCtl, hint: 'Name'),
+                buildTextFormField(
                     controller: _descTextCtl, hint: 'Description'),
-                _buildOKBtn()
+                buildOKBtn()
               ],
             ),
           ),
@@ -59,14 +60,14 @@ class UpsertTeamDialog extends GetWidget<TeamController> {
     );
   }
 
-  Widget _buildOKBtn() {
+  Widget buildOKBtn() {
     return Row(
       children: [
         Expanded(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
           child: ElevatedButton(
-              onPressed: _onBtnOKClicked,
+              onPressed: onBtnOKClicked,
               child: Obx(() => controller.isLoading
                   ? Container(
                       width: 24,
@@ -82,19 +83,20 @@ class UpsertTeamDialog extends GetWidget<TeamController> {
     );
   }
 
-  Future<void> _onBtnOKClicked() async {
-    final team = _buildTeamModel();
+  Future<void> onBtnOKClicked() async {
+    final team = buildTeamModel();
     if (teamModel != null) {
       teamModel.name = team.name;
       teamModel.description = team.description;
       await controller.update_(teamModel);
     } else {
       await controller.add(team);
+      controller.selectTeam(team);
     }
     Get.back();
   }
 
-  TeamModel _buildTeamModel() {
+  TeamModel buildTeamModel() {
     return TeamModel(
       name: _nameTextCtl.text,
       description: _descTextCtl.text,
@@ -103,7 +105,7 @@ class UpsertTeamDialog extends GetWidget<TeamController> {
     );
   }
 
-  Card _buildTextFormField(
+  Card buildTextFormField(
       {@required TextEditingController controller, @required String hint}) {
     return Card(
       margin: EdgeInsets.symmetric(

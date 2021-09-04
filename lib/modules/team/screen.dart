@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../base/base_get_widget.dart';
-import '../teams/components/upsert_team_dialog.dart';
+import 'components/upsert_team_dialog.dart';
 import '../teams/components/team_explore/controller.dart';
 import 'controller.dart';
 import 'components/body.dart';

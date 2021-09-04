@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/modules/team/components/my_teams/my_teams.dart';
 import '../../constants/sizes.dart';
 import '../team/screen.dart';
 import '../team/controller.dart';
@@ -7,6 +8,7 @@ import '../team/controller.dart';
 import '../../base/base_get_widget.dart';
 import '../../constants/constants.dart';
 import '../auth/controller.dart';
+import 'components/drawer_menu.dart';
 import 'controller.dart';
 
 class HomeScreen extends BaseGetWidget<HomeController> {
@@ -27,7 +29,7 @@ class HomeScreen extends BaseGetWidget<HomeController> {
             : buildCenterProgressBar(),
       ),
       appBar: buildAppBar(),
-      endDrawer: buildDrawer(),
+      endDrawer: HomeDrawerMenu(),
     ));
   }
 
@@ -65,39 +67,5 @@ class HomeScreen extends BaseGetWidget<HomeController> {
       ],
     );
   }
-
-  Widget buildDrawer() {
-    return Container(
-      width: 220,
-      child: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [],
-              ),
-              decoration: BoxDecoration(
-                color: kPrimarySwatch,
-              ),
-            ),
-            ListTile(
-                onTap: showExitAlertDialog,
-                title: Text(
-                  "Sign out",
-                  style: TextStyle(fontSize: 16),
-                )),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> showExitAlertDialog() async {
-    showAlertDialog("Do you want to sign out?", () async {
-      AuthController authController = Get.find();
-      await authController.signOut();
-      Get.toNamed('/auth');
-    });
-  }
 }
+
