@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/sizes.dart';
+import 'package:team_todo_app/modules/team/components/team/screen.dart';
+import 'package:team_todo_app/modules/team/controller.dart';
 
 import '../../base/base_get_widget.dart';
 import '../../constants/constants.dart';
 import '../auth/controller.dart';
-import 'components/body.dart';
 import 'controller.dart';
 
 class HomeScreen extends BaseGetWidget<HomeController> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _teamController = Get.find<TeamController>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
       key: scaffoldKey,
-      body: Body(),
+      body: Obx(
+        () => _teamController.selectedTeam != null
+            ? Padding(
+                padding: const EdgeInsets.only(top: Sizes.s4),
+                child: TeamScreen(),
+              )
+            : buildCenterProgressBar(),
+      ),
       appBar: buildAppBar(),
       endDrawer: buildDrawer(),
     ));
@@ -30,10 +40,18 @@ class HomeScreen extends BaseGetWidget<HomeController> {
           padding: const EdgeInsets.all(1),
           child: CircleAvatar(
             backgroundColor: kPrimarySwatch,
+            child: Text('T'),
           ),
         ),
       ),
-      title: Text("Team todo app", style: TextStyle(color: kPrimarySwatch)),
+      title: Obx(
+        () => _teamController.selectedTeam != null
+            ? Text(
+                _teamController.selectedTeam.name,
+                style: TextStyle(color: kPrimarySwatch),
+              )
+            : buildProgressBar(),
+      ),
       actions: [
         IconButton(
           icon: Icon(

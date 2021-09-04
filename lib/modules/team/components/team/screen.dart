@@ -12,10 +12,10 @@ class TeamScreen extends BaseGetWidget<TeamController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(controller.selectedTeam.name),
-          actions: [_buildDropDownOptionBtn2()],
-        ),
+        // appBar: AppBar(
+        //   title: Text(controller.selectedTeam.name),
+        //   actions: [_buildDropDownOptionBtn2()],
+        // ),
         body: Body(),
       ),
     );
@@ -84,13 +84,13 @@ class TeamScreen extends BaseGetWidget<TeamController> {
     });
   }
 
-  final _teamExploreController = Get.find<TeamExploreController>();
 
   Future<void> _showUnjoinTeamAlert() async {
     await showAlertDialog('Unjoin team?', () async {
       await controller.unjoinAppUserFromTeam(controller.selectedTeam.id);
       Get.back();
-      _teamExploreController.loadSuggestTeams();
+      final teamExploreController = Get.find<TeamExploreController>();
+      teamExploreController.loadSuggestTeams();
     });
   }
 }

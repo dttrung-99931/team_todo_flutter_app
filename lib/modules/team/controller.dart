@@ -18,7 +18,7 @@ class TeamController extends BaseController {
   final _myTeams = RxList<TeamModel>();
   List<TeamModel> get myTeams => _myTeams.toList();
 
-  TeamModel get selectedTeam => _mainController.selectedTeam.value;
+  TeamModel get selectedTeam => _mainController.selectedTeam;
 
   // new action IDs of the selected team
   final _newActionIDs = RxList<String>();
@@ -38,10 +38,6 @@ class TeamController extends BaseController {
     super.onInit();
     await loadMyTeams();
     newActionLisnerCanceler = listenNewAction();
-
-    _mainController.selectedTeam.listen((team) {
-      Get.toNamed('/teams/team');
-    });
   }
 
   @override
@@ -54,10 +50,17 @@ class TeamController extends BaseController {
       try {
         final teams = await _teamService.getMyTeams();
         _myTeams.assignAll(teams);
+        onMyTeamLoad();
       } catch (e) {
         logd('Load my teams error $e');
       }
     });
+  }
+
+  void onMyTeamLoad() {
+    if (myTeams.isNotEmpty) {
+      selectTeam(myTeams.first);
+    }
   }
 
   StreamSubscription<NotificationModel> listenNewAction() {
@@ -104,14 +107,14 @@ class TeamController extends BaseController {
   }
 
   void selectTeam(TeamModel team) {
-    _mainController.selectedTeam.value = team;
+    _mainController.selectedTeamObs.value = team;
     // _userService
     //     .getNewActionIDs(_teamsService.appUserID, team.id)
     //     .then((value) => _newTeamActionIDs.assignAll(value));
   }
 
   void updateSelectedTeam(TeamModel updated) {
-    _mainController.selectedTeam.value = updated;
+    _mainController.selectedTeamObs.value = updated;
     syncSelectedTeamWithMyTeams();
   }
 

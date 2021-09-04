@@ -7,15 +7,17 @@ import 'package:team_todo_app/utils/utils.dart';
 
 import '../../../../../../base/base_controller.dart';
 import '../../../../../../constants/constants.dart';
+import '../../../../../../controller.dart';
 import '../../../../../user/service.dart';
 import '../../../../controller.dart';
+import '../../../../model.dart';
 import '../../../../service.dart';
 import '../members/model.dart';
 import 'components/task/model.dart';
 import 'components/task/service.dart';
 
 class TodoBoardController extends BaseController {
-  final _teamsController = Get.find<TeamController>();
+  final _teamsController = Get.find<MainController>();
   final _teamsService = Get.find<TeamService>();
   final _userService = Get.find<UserService>();
   final _taskService = Get.find<TaskService>();
@@ -42,7 +44,6 @@ class TodoBoardController extends BaseController {
   void onInit() {
     _taskService.selectedTeamID = selectedTeamID;
     _actionService.selectedTeamID = selectedTeamID;
-
     load(() async {
       await loadMembers();
       await loadTasks();

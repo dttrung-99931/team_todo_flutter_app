@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/constants/font_sizes.dart';
+import 'package:team_todo_app/constants/routes.dart';
 import 'package:team_todo_app/widgets/menu_item.dart';
 
 import '../../../../../base/base_get_widget.dart';
@@ -39,7 +40,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
           ),
         ),
         onTap: () {
-          Get.toNamed('/teams/team/members');
+          toNamedRelative(RouteNames.MEMBERS);
         },
         titleFontSize: FontSizes.s14,
       ),
@@ -52,7 +53,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
           ),
         ),
         onTap: () {
-          Get.toNamed('/teams/team/actions');
+          toNamedRelative(RouteNames.ACTIONS);
         },
         titleFontSize: FontSizes.s14,
       ),
@@ -68,8 +69,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
             ),
           ),
           onTap: () {
-            Get.toNamed('/teams/team/join-requests',
-                arguments: controller.selectedTeam);
+            toNamedRelative(RouteNames.JOIN_REQUEST, arguments: controller.selectedTeam);
           },
           titleFontSize: FontSizes.s14,
         ),

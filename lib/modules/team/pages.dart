@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/routes.dart';
 
 import 'binding.dart';
 import 'components/team/components/actions/binding.dart';
@@ -18,29 +19,12 @@ final teamListPages = GetPage(
   binding: TeamListBinding(),
   children: [
     GetPage(
-      name: "/team",
+      name: RouteNames.TEAM,
       page: () => TeamScreen(),
       binding: TeamBinding(),
-      children: [
-        GetPage(
-          name: '/join-requests',
-          page: () => JoinRequestScreen(),
-          binding: JoinRequestBinding(),
-        ),
-        GetPage(
-          name: '/members',
-          page: () => MemberListScreen(),
-          binding: MembersBinding(),
-        ),
-        GetPage(
-          name: '/actions',
-          page: () => TeamActionListScreen(),
-          binding: TeamActionBinding(),
-        )
-      ],
     ),
     GetPage(
-      name: "/team-preview",
+      name: RouteNames.TEAM_PREVIEW,
       page: () => TeamPreviewScreen(),
     ),
   ],
