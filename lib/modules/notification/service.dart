@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/firestore_service.dart';
 import 'package:team_todo_app/constants/constants.dart';
-import 'package:team_todo_app/modules/team/components/team/components/actions/service.dart';
+import 'package:team_todo_app/modules/nteam/components/actions/service.dart';
 import 'package:team_todo_app/modules/user/service.dart';
 
 import 'model.dart';

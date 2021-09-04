@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/modules/common/services/notification_sender_service.dart';
-import 'package:team_todo_app/modules/team/components/team/components/actions/model.dart';
+import 'package:team_todo_app/modules/nteam/components/actions/model.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
 import '../../utils/utils.dart';
 import '../user/service.dart';
-import 'components/team/components/members/model.dart';
+import '../nteam/components/members/model.dart';
 import 'model.dart';
 
 class TeamService extends FirestoreService {

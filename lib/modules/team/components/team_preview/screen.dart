@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../base/base_get_widget.dart';
 import '../../model.dart';
-import '../../controller.dart';
+import '../../../nteam/controller.dart';
 import 'components/body.dart';
 
 class TeamPreviewScreen extends BaseGetWidget<TeamController> {

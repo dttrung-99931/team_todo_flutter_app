@@ -5,8 +5,8 @@ import 'package:team_todo_app/constants/constants.dart';
 import 'package:team_todo_app/modules/common/models/notification_data_model.dart';
 import 'package:team_todo_app/modules/notification/model.dart';
 import 'package:team_todo_app/modules/notification/service.dart';
-import 'package:team_todo_app/modules/team/components/team/components/actions/service.dart';
-import 'package:team_todo_app/modules/team/components/team/components/todo_board/components/task/service.dart';
+import 'package:team_todo_app/modules/nteam/components/actions/service.dart';
+import 'package:team_todo_app/modules/nteam/components/todo_board/components/task/service.dart';
 import 'package:team_todo_app/modules/team/service.dart';
 import 'package:team_todo_app/utils/utils.dart';
 

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../constants/constants.dart';
 import '../model.dart';
-import '../controller.dart';
+import '../../nteam/controller.dart';
 
 class UpsertTeamDialog extends GetWidget<TeamController> {
   final _nameTextCtl = TextEditingController();

@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
-import 'components/team/components/actions/service.dart';
-import 'components/team/components/join_requests/controller.dart';
+import '../nteam/components/actions/service.dart';
+import '../nteam/components/join_requests/controller.dart';
 import 'components/team_explore/controller.dart';
 import 'components/team_preview/controller.dart';
-import 'controller.dart';
+import '../nteam/controller.dart';
 
 class TeamListBinding extends Bindings {
   @override

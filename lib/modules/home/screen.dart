@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/constants/sizes.dart';
-import 'package:team_todo_app/modules/team/components/team/screen.dart';
-import 'package:team_todo_app/modules/team/controller.dart';
+import 'package:team_todo_app/modules/nteam/screen.dart';
+import 'package:team_todo_app/modules/nteam/controller.dart';
 
 import '../../base/base_get_widget.dart';
 import '../../constants/constants.dart';

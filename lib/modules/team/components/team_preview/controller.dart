@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../../base/base_controller.dart';
-import '../../controller.dart';
+import '../../../nteam/controller.dart';
 import '../../service.dart';
 
 class TeamPreviewController extends BaseController {
