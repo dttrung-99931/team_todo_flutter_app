@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/base/base_get_widget.dart';
-import 'package:team_todo_app/constants/sizes.dart';
-import 'package:team_todo_app/modules/notification/controller.dart';
-import 'package:team_todo_app/widgets/badge_widget.dart';
-import 'package:team_todo_app/widgets/menu_item.dart';
+import '../../../base/base_get_widget.dart';
+import '../../../constants/sizes.dart';
+import '../../notification/controller.dart';
+import '../../../widgets/badge_widget.dart';
+import '../../../widgets/menu_item.dart';
 
 class Menu extends BaseGetWidget<NotificationController> {
   @override

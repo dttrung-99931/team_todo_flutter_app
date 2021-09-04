@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:team_todo_app/constants/sizes.dart';
-import 'package:team_todo_app/constants/styles.dart';
+import '../constants/sizes.dart';
+import '../constants/styles.dart';
 
 class MenuItem extends StatelessWidget {
   final Function onTap;

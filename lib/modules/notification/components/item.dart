@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:team_todo_app/constants/font_sizes.dart';
-import 'package:team_todo_app/constants/sizes.dart';
-import 'package:team_todo_app/constants/styles.dart';
-import 'package:team_todo_app/utils/utils.dart';
+import '../../../constants/font_sizes.dart';
+import '../../../constants/sizes.dart';
+import '../../../constants/styles.dart';
+import '../../../utils/utils.dart';
 
 import '../model.dart';
 

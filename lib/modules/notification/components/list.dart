@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_todo_app/widgets/listview_widget.dart';
+import '../../../widgets/listview_widget.dart';
 
 import '../model.dart';
 import 'item.dart';

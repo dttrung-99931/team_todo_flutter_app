@@ -1,25 +1,16 @@
 import 'package:get/get.dart';
+import 'controller.dart';
+import 'components/join_requests/controller.dart';
+import 'components/todo_board/controller.dart';
 
-import '../nteam/components/actions/service.dart';
-import '../nteam/components/join_requests/controller.dart';
-import 'components/team_explore/controller.dart';
-import 'components/team_preview/controller.dart';
-import '../nteam/controller.dart';
-
-class TeamListBinding extends Bindings {
+class TeamBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(ActionService());
     Get.put(TeamController());
-
-    /// @FIXME these below controller should be put lazily
-    /// but it will cause controller not found exception in TeamScreen
-    Get.put(TeamExploreController());
-    Get.put(TeamPreviewController());
-
     Get.lazyPut(() => JoinRequestController());
+    Get.lazyPut(() => TodoBoardController());
 
-// Get.lazyPut(() => TeamExploreController());
-//     Get.lazyPut(() => TeamPreviewController());
+    // Get.put(TeamExploreController());
+    // Get.put(TeamPreviewController());
   }
 }

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:team_todo_app/modules/nteam/binding.dart';
+import '../team/binding.dart';
 
 import 'controller.dart';
 

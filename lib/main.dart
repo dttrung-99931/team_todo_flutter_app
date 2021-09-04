@@ -4,15 +4,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/controller.dart';
-import 'package:team_todo_app/exceptions/no_internet.dart';
-import 'package:team_todo_app/utils/utils.dart';
+import 'controller.dart';
+import 'exceptions/no_internet.dart';
+import 'utils/utils.dart';
 import 'global_binding.dart';
 import 'constants/constants.dart';
 import 'modules/auth/controller.dart';
 import 'modules/auth/pages.dart';
 import 'modules/home/pages.dart';
-import 'modules/team/pages.dart';
+import 'modules/teams/pages.dart';
 
 void main() async => startApp();
 

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:team_todo_app/modules/common/models/notification_data_model.dart';
+import 'notification_data_model.dart';
 
 class NotificationSenderModel {
   final String to;

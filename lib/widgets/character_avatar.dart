@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_todo_app/utils/utils.dart';
+import '../utils/utils.dart';
 
 class CharacterAvatar extends StatelessWidget {
   const CharacterAvatar({

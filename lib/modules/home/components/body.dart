@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/constants/sizes.dart';
+import '../../../constants/sizes.dart';
 
 import '../controller.dart';
 import 'menu.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/base/base_get_widget.dart';
-import 'package:team_todo_app/constants/sizes.dart';
-import 'package:team_todo_app/constants/styles.dart';
-import 'package:team_todo_app/modules/notification/components/list.dart';
-import 'package:team_todo_app/modules/notification/controller.dart';
+import '../../../base/base_get_widget.dart';
+import '../../../constants/sizes.dart';
+import '../../../constants/styles.dart';
+import '../../notification/components/list.dart';
+import '../../notification/controller.dart';
 
 class RecentActions extends BaseGetWidget<NotificationController> {
   @override

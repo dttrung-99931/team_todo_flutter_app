@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:team_todo_app/constants/font_sizes.dart';
+import 'font_sizes.dart';
 
 class Styles {
   static final textTitle = TextStyle(fontSize: FontSizes.s16);

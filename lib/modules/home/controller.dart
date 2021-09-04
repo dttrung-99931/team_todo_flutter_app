@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:team_todo_app/controller.dart';
-import 'package:team_todo_app/modules/nteam/controller.dart';
-import 'package:team_todo_app/modules/user/service.dart';
+import '../../controller.dart';
+import '../team/controller.dart';
+import '../user/service.dart';
 
 import '../../base/base_controller.dart';
 

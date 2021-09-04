@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/modules/notification/model.dart';
-import 'package:team_todo_app/modules/nteam/components/actions/model.dart';
+import '../notification/model.dart';
+import '../team/components/actions/model.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
 import '../common/services/firebase_auth_service.dart';
 import 'model.dart';
-import '../team/user_team_model.dart';
+import '../teams/user_team_model.dart';
 
 class UserService extends FirestoreService {
   final _authService = Get.find<FirebaseAuthService>();
@@ -83,7 +83,8 @@ class UserService extends FirestoreService {
     return noti.id;
   }
 
-  DocumentReference<Map<String, dynamic>> teamDoc(String userID, String teamID) {
+  DocumentReference<Map<String, dynamic>> teamDoc(
+      String userID, String teamID) {
     return getDocRef(userID).collection(Collections.teams).doc(teamID);
   }
 

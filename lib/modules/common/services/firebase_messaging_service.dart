@@ -1,14 +1,14 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/constants/constants.dart';
-import 'package:team_todo_app/modules/common/models/notification_data_model.dart';
-import 'package:team_todo_app/modules/notification/model.dart';
-import 'package:team_todo_app/modules/notification/service.dart';
-import 'package:team_todo_app/modules/nteam/components/actions/service.dart';
-import 'package:team_todo_app/modules/nteam/components/todo_board/components/task/service.dart';
-import 'package:team_todo_app/modules/team/service.dart';
-import 'package:team_todo_app/utils/utils.dart';
+import '../../../constants/constants.dart';
+import '../models/notification_data_model.dart';
+import '../../notification/model.dart';
+import '../../notification/service.dart';
+import '../../team/components/actions/service.dart';
+import '../../team/components/todo_board/components/task/service.dart';
+import '../../teams/service.dart';
+import '../../../utils/utils.dart';
 
 import '../../../main.dart';
 

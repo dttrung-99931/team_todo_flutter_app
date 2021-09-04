@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:team_todo_app/modules/common/models/notification_data_model.dart';
-import 'package:team_todo_app/modules/common/models/notification_sender_model.dart';
-import 'package:team_todo_app/utils/utils.dart';
+import '../models/notification_data_model.dart';
+import '../models/notification_sender_model.dart';
+import '../../../utils/utils.dart';
 
 class NotificationSenderService extends GetConnect {
   static const String FCM_NOTI_URL = 'https://fcm.googleapis.com/fcm/send';
