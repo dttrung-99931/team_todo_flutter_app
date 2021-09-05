@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:team_todo_app/widgets/listview_widget.dart';
 
 import '../model.dart';
 import 'item.dart';
@@ -7,26 +8,25 @@ import 'item.dart';
 class TeamList extends StatelessWidget {
   final List<TeamModel> teams;
   final Function(TeamModel team) onTeamSelected;
-  const TeamList({@required this.teams, this.onTeamSelected});
+  final String noDataTitle;
+
+  const TeamList({
+    @required this.teams,
+    this.onTeamSelected,
+    this.noDataTitle = '',
+  });
 
   @override
   Widget build(BuildContext context) {
-    print('build team list');
-    return _buildTeamList();
-  }
-
-  Widget _buildTeamList() {
-    return teams.length != 0
-        ? ListView(
-            children: teams
-                .map((e) => TeamItem(
-                      team: e,
-                      onTeamSelected: onTeamSelected,
-                    ))
-                .toList(),
-          )
-        : Center(
-            child: Text('No teams'),
-          );
+    return ListViewWidget(
+      shrinkWrap: true,
+      noDataTitle: noDataTitle,
+      children: teams
+          .map((e) => TeamItem(
+                team: e,
+                onTeamSelected: onTeamSelected,
+              ))
+          .toList(),
+    );
   }
 }

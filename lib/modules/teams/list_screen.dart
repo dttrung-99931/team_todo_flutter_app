@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../base/base_get_widget.dart';
 import 'components/my_team_list.dart';
-import 'components/team_explore/team_explore.dart';
+import '../team/components/team_search/screen.dart';
 import '../team/controller.dart';
 
 class TeamListScreen extends BaseGetWidget<TeamController> {
@@ -31,7 +31,7 @@ class TeamListScreen extends BaseGetWidget<TeamController> {
           ),
           body: TabBarView(children: [
             MyTeamList(),
-            TeamExplore(),
+            TeamSearchScreen(),
           ]),
         ),
       ),

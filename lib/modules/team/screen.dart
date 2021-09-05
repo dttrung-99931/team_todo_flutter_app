@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../base/base_get_widget.dart';
 import 'components/upsert_team_dialog.dart';
-import '../teams/components/team_explore/controller.dart';
+import 'components/team_search/controller.dart';
 import 'controller.dart';
 import 'components/body.dart';
 
@@ -88,7 +88,7 @@ class TeamScreen extends BaseGetWidget<TeamController> {
     await showAlertDialog('Unjoin team?', () async {
       await controller.unjoinAppUserFromTeam(controller.selectedTeam.id);
       Get.back();
-      final teamExploreController = Get.find<TeamExploreController>();
+      final teamExploreController = Get.find<TeamSearchController>();
       teamExploreController.loadSuggestTeams();
     });
   }

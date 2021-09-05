@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../../../base/base_get_widget.dart';
-import '../../team_explore/controller.dart';
+import '../../../../team/components/team_search/controller.dart';
 import '../../../model.dart';
-import '../controller.dart';
+import '../../../../team/components/team_preview/controller.dart';
 
 class HeaderAppBar extends BaseGetWidget<TeamPreviewController> {
   final double height;
@@ -51,7 +51,7 @@ class HeaderAppBar extends BaseGetWidget<TeamPreviewController> {
     ];
   }
 
-  final _teamExploreController = Get.find<TeamExploreController>();
+  final _teamExploreController = Get.find<TeamSearchController>();
 
   Future<void> _onMenuItemSelected(int menuID) async {
     if (menuID == ID_ITEM_JOIN_TEAM) {

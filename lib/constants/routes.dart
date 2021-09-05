@@ -5,4 +5,5 @@ class RouteNames {
   static const MEMBERS = '/members';
   static const ACTIONS = '/actions';
   static const TEAM_PREVIEW = '/team-preview';
+  static const TEAM_SEARCH = '/team-search';
 }

@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 
 import '../team/components/actions/service.dart';
 import '../team/components/join_requests/controller.dart';
-import 'components/team_explore/controller.dart';
-import 'components/team_preview/controller.dart';
+import '../team/components/team_search/controller.dart';
+import '../team/components/team_preview/controller.dart';
 import '../team/controller.dart';
 
 class TeamListBinding extends Bindings {
@@ -14,7 +14,7 @@ class TeamListBinding extends Bindings {
 
     /// @FIXME these below controller should be put lazily
     /// but it will cause controller not found exception in TeamScreen
-    Get.put(TeamExploreController());
+    Get.put(TeamSearchController());
     Get.put(TeamPreviewController());
 
     Get.lazyPut(() => JoinRequestController());

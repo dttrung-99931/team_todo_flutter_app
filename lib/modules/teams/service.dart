@@ -172,4 +172,15 @@ class TeamService extends FirestoreService {
         .get();
     return docSnap.exists;
   }
+
+  Future<List<TeamModel>> getByName(String teamName) async {
+    if (teamName.isEmpty) return [];
+    final query = await collection
+        .where(
+          Fields.name,
+          isEqualTo: teamName,
+        )
+        .get();
+    return query.docs.map((e) => TeamModel.fromMap(e.data())).toList();
+  }
 }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:team_todo_app/modules/team/components/my_teams/my_teams.dart';
+import 'package:team_todo_app/constants/routes.dart';
 import '../../constants/sizes.dart';
 import '../team/screen.dart';
 import '../team/controller.dart';
 
 import '../../base/base_get_widget.dart';
 import '../../constants/constants.dart';
-import '../auth/controller.dart';
 import 'components/drawer_menu.dart';
 import 'controller.dart';
 
@@ -55,17 +54,38 @@ class HomeScreen extends BaseGetWidget<HomeController> {
             : buildProgressBar(),
       ),
       actions: [
-        IconButton(
-          icon: Icon(
-            Icons.menu,
-            color: kPrimarySwatch,
-          ),
-          onPressed: () {
-            scaffoldKey.currentState.openEndDrawer();
-          },
-        )
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              onTap: () {
+                toNamedRelative(RouteNames.TEAM_SEARCH);
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: Sizes.s4),
+                padding: EdgeInsets.all(Sizes.s8),
+                child: Icon(
+                  Icons.search,
+                  color: kPrimarySwatch,
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                scaffoldKey.currentState.openEndDrawer();
+              },
+              child: Container(
+                padding: EdgeInsets.all(Sizes.s8),
+                child: Icon(
+                  Icons.menu,
+                  color: kPrimarySwatch,
+                  // size: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
 }
-

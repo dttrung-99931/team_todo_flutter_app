@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/base_get_widget.dart';
 import 'package:team_todo_app/constants/constants.dart';
+import 'package:team_todo_app/constants/routes.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
 import 'package:team_todo_app/modules/auth/controller.dart';
@@ -40,13 +41,20 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  MyTeams(onTeamSelected: (team) => Navigator.of(context).pop(),),
-                  TextButton(
-                    onPressed: showExitAlertDialog,
-                    child: Text(
-                      "Sign out",
-                      style: Styles.textTitle,
-                    ),
+                  MyTeams(
+                    onTeamSelected: (team) => Navigator.of(context).pop(),
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.logout),
+                      TextButton(
+                        onPressed: showExitAlertDialog,
+                        child: Text(
+                          "Sign out",
+                          style: Styles.textTitle,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

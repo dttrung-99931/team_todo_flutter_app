@@ -21,6 +21,7 @@ class Fields {
   static const fcmToken = "fcmToken";
   static const type = "type";
   static const referenceID = "referenceID";
+  static const name = "name";
 }
 
 enum TaskStatus {

@@ -6,6 +6,8 @@ import 'components/join_requests/list_screen.dart';
 import 'components/members/binding.dart';
 import 'components/members/list_screen.dart';
 import '../../constants/routes.dart';
+import 'components/team_search/binding.dart';
+import 'components/team_search/screen.dart';
 
 final teamChildPages = [
   GetPage(
@@ -22,5 +24,10 @@ final teamChildPages = [
     name: RouteNames.ACTIONS,
     page: () => TeamActionListScreen(),
     binding: TeamActionBinding(),
+  ),
+  GetPage(
+    name: RouteNames.TEAM_SEARCH,
+    page: () => TeamSearchScreen(),
+    binding: TeamSearchBinding(),
   )
 ];

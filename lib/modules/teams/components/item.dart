@@ -20,6 +20,7 @@ class TeamItem extends StatelessWidget {
         }
       },
       child: Card(
+        color: Colors.grey[100],
         child: ListTile(
           leading: CircleAvatar(
             backgroundColor: _getRandomColor(),
