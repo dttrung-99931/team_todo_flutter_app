@@ -15,7 +15,10 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
     showAlertDialog("Do you want to sign out?", () async {
       AuthController authController = Get.find();
       await authController.signOut();
-      Get.toNamed('/auth');
+      // close all dialogs 
+      Get.back(closeOverlays: true);
+      // back to the auth screen
+      Get.back();
     });
   }
 

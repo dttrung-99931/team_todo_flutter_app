@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../../../base/base_get_widget.dart';
-import '../../../../team/components/team_search/controller.dart';
-import '../../../model.dart';
-import '../../../../team/components/team_preview/controller.dart';
+import '../../team_search/controller.dart';
+import '../../../../teams/model.dart';
+import '../controller.dart';
 
 class HeaderAppBar extends BaseGetWidget<TeamPreviewController> {
   final double height;

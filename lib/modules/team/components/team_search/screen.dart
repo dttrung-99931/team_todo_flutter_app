@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/routes.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
 import '../../../../base/base_get_widget.dart';
@@ -47,7 +48,7 @@ class TeamSearchScreen extends BaseGetWidget<TeamSearchController> {
                   ? controller.suggestedTeams
                   : controller.searchTeams,
               onTeamSelected: (team) async {
-                // await Get.toNamed('/teams/team-preview', arguments: team);
+                toNamedRelative(RouteNames.TEAM_PREVIEW, arguments: team);
               },
             ),
           ),

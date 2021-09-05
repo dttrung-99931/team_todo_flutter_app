@@ -39,21 +39,22 @@ class MyTeams extends BaseGetWidget<TeamController> {
             )
           ],
         ),
-        ListViewWidget(
-          shrinkWrap: true,
-          children: controller.myTeams
-              .map(
-                (e) => MyTeamItem(
-                  team: e,
-                  onPressed: () {
-                    controller.selectTeam(e);
-                    onTeamSelected?.call(e);
-                  },
-                  isSelected: controller.selectedTeam.id == e.id
-                ),
-              )
-              .toList(),
-        ),
+        Obx(() {
+          return ListViewWidget(
+            shrinkWrap: true,
+            children: controller.myTeams
+                .map(
+                  (e) => MyTeamItem(
+                      team: e,
+                      onPressed: () {
+                        controller.selectTeam(e);
+                        onTeamSelected?.call(e);
+                      },
+                      isSelected: controller.selectedTeam.id == e.id),
+                )
+                .toList(),
+          );
+        }),
       ],
     );
   }

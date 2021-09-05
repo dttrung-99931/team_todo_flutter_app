@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import '../../controller.dart';
 import '../notification/model.dart';
 import '../notification/service.dart';
 import '../../base/base_controller.dart';

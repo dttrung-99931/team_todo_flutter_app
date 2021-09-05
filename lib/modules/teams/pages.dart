@@ -5,7 +5,7 @@ import 'binding.dart';
 import 'list_screen.dart';
 import '../team/binding.dart';
 import '../team/screen.dart';
-import 'components/team_preview/screen.dart';
+import '../team/components/team_preview/screen.dart';
 
 final teamListPages = GetPage(
   name: "/teams",
