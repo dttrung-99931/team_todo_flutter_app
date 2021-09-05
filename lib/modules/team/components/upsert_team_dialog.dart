@@ -93,7 +93,7 @@ class UpsertTeamDialog extends GetWidget<TeamController> {
       await controller.add(team);
       controller.selectTeam(team);
     }
-    Get.back();
+    Get.back(result: true);
   }
 
   TeamModel buildTeamModel() {

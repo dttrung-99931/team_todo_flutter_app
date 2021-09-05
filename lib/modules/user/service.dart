@@ -12,6 +12,8 @@ import '../teams/user_team_model.dart';
 
 class UserService extends FirestoreService {
   final _authService = Get.find<FirebaseAuthService>();
+  User get user => _authService.user;
+  String get userID => user?.uid;
 
   @override
   String getCollectionPath() {
@@ -118,9 +120,6 @@ class UserService extends FirestoreService {
   bool hasLoggedIn() {
     return _authService.user != null;
   }
-
-  User get user => _authService.user;
-  String get userID => user?.uid;
 
   Future<int> getNewNotiNum() async {
     var querySnap = await getNewNotis();

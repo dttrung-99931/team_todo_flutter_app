@@ -41,18 +41,21 @@ bool isNotNullAndEmpty(String str) {
 }
 
 class Utils {
+  static final List<Color> COLORS = [
+    Colors.purple[200],
+    Colors.cyanAccent[200],
+    Colors.amberAccent[200],
+    Colors.lime[200],
+    Colors.orange[200],
+    Colors.teal[300]
+  ];
+
   static Color stringToColor(String str) {
     var value = 0;
     for (int i = 0; i < str.length; i++) {
       value += str[i].codeUnitAt(0) - 48;
     }
-    final colorIndex = value % 5;
-    return [
-      Colors.purple,
-      Colors.cyanAccent,
-      Colors.amberAccent,
-      Colors.lime,
-      Colors.orange
-    ][colorIndex];
+    final colorIndex = value % COLORS.length;
+    return COLORS[colorIndex];
   }
 }

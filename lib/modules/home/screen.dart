@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/font_sizes.dart';
 import 'package:team_todo_app/constants/routes.dart';
+import 'package:team_todo_app/widgets/character_avatar.dart';
 import '../../constants/sizes.dart';
 import '../team/screen.dart';
 import '../team/controller.dart';
@@ -35,21 +37,26 @@ class HomeScreen extends BaseGetWidget<HomeController> {
   Widget buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
-      leading: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-        child: Padding(
-          padding: const EdgeInsets.all(1),
-          child: CircleAvatar(
-            backgroundColor: kPrimarySwatch,
-            child: Text('T'),
-          ),
-        ),
+      leading: Container(
+        padding: const EdgeInsets.all(Sizes.s10),
+        child: Obx(() {
+          return CharacterAvatar(
+            name: _teamController.selectedTeam != null
+                ? _teamController.selectedTeam.name
+                : '.',
+            color: kPrimarySwatch[400],
+          );
+        }),
       ),
+      titleSpacing: Sizes.s2,
       title: Obx(
         () => _teamController.selectedTeam != null
             ? Text(
                 _teamController.selectedTeam.name,
-                style: TextStyle(color: kPrimarySwatch),
+                style: TextStyle(
+                  color: kPrimarySwatch,
+                  fontSize: FontSizes.s20,
+                ),
               )
             : buildProgressBar(),
       ),
