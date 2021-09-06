@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import '../../base/base_controller.dart';
 import '../home/controller.dart';
 
-import '../common/services/firebase_messaging_service.dart';
 import 'model.dart';
 import 'service.dart';
 
@@ -11,13 +10,11 @@ class NotificationController extends BaseController {
   List<NotificationModel> get notifications => _notifications.toList();
 
   final _notiService = Get.find<NotificationService>();
-  final _messagingService = Get.find<PushNotificationService>();
 
   @override
   Future<void> onInit() async {
     super.onInit();
     loadNotis();
-    await _messagingService.setup();
   }
 
   void loadNotis() {

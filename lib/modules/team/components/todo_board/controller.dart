@@ -100,8 +100,10 @@ class TodoBoardController extends BaseController {
     String teamID,
     String actionId,
     String notiTitle,
-  ) async {
-    _userService.addTaskNoti(userID, teamID, actionId).then((notiId) async {
+  ) {
+    return _userService
+        .addTaskNoti(userID, teamID, actionId)
+        .then((notiId) async {
       // Not send noti to the sender user
       // if (userID == _userService.userID) return;
 
@@ -130,15 +132,15 @@ class TodoBoardController extends BaseController {
         throw Exception('Task status = ${element.status}');
       }
     });
-    _orderTasksByStatusChangedDate(todoTasks);
+    orderTasksByStatusChangedDate(todoTasks);
     _todoTasks.assignAll(todoTasks);
-    _orderTasksByStatusChangedDate(doingTasks);
+    orderTasksByStatusChangedDate(doingTasks);
     _doingTasks.assignAll(doingTasks);
-    _orderTasksByStatusChangedDate(finishTasks);
+    orderTasksByStatusChangedDate(finishTasks);
     _finishTasks.assignAll(finishTasks);
   }
 
-  void _orderTasksByStatusChangedDate(List<TaskModel> todoTasks) {
+  void orderTasksByStatusChangedDate(List<TaskModel> todoTasks) {
     todoTasks.sort((task1, task2) =>
         -task1.statusChangedDate.compareTo(task2.statusChangedDate));
   }
@@ -161,7 +163,10 @@ class TodoBoardController extends BaseController {
       task.id,
     );
     await addNotiForMembers(
-        actionID, selectedTeamID, "Updated task " + task.title);
+      actionID,
+      selectedTeamID,
+      "Updated task " + task.title,
+    );
   }
 
   RxList<TaskModel> getTasksInBoard(int boardIndex) {

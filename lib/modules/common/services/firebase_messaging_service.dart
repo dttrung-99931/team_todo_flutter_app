@@ -6,14 +6,12 @@ import '../models/notification_data_model.dart';
 import '../../notification/model.dart';
 import '../../notification/service.dart';
 import '../../team/components/actions/service.dart';
-import '../../team/components/todo_board/components/task/service.dart';
-import '../../teams/service.dart';
 import '../../../utils/utils.dart';
 
 import '../../../main.dart';
 
 class PushNotificationService extends GetxService {
-  final messaging = FirebaseMessaging.instance;
+  final _messaging = FirebaseMessaging.instance;
   final _notiService = Get.find<NotificationService>();
   // final _teamService = Get.find<TeamService>();
   final _actionService = Get.find<ActionService>();
@@ -26,7 +24,7 @@ class PushNotificationService extends GetxService {
   }
 
   Future requestPermissions() async {
-    final notiSettings = await messaging.requestPermission(
+    final notiSettings = await _messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -36,7 +34,7 @@ class PushNotificationService extends GetxService {
   }
 
   Future<String> getFcmToken() async {
-    return await messaging.getToken();
+    return await _messaging.getToken();
   }
 
   Future<void> configPushNoti() async {

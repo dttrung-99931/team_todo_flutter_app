@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/base_get_widget.dart';
 import 'package:team_todo_app/constants/constants.dart';
+import 'package:team_todo_app/constants/routes.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
 import 'package:team_todo_app/modules/auth/controller.dart';
@@ -18,10 +19,10 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
     showAlertDialog("Do you want to sign out?", () async {
       AuthController authController = Get.find();
       await authController.signOut();
-      // close all dialogs
-      Get.back(closeOverlays: true);
-      // back to the auth screen
-      Get.back();
+      
+      // Navigate to auth screen by 
+      // removing all current routes and push the auth route the nav stack
+      Get.offNamedUntil(RouteNames.AUTH, (route) => true);
     });
   }
 

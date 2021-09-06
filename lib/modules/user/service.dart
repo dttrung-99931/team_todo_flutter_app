@@ -142,12 +142,21 @@ class UserService extends FirestoreService {
     await Future.wait(futures);
   }
 
-  Future<void> updateFCMToken(String fcmToken) async {
+  Future<void> updateFCMTokenForCurrentUser(String fcmToken) async {
     await getDocRef(userID).update({Fields.fcmToken: fcmToken});
   }
 
   Future<String> getFcmToken(userID) async {
     var user = await getByID(userID);
     return user.fcmToken;
+  }
+
+  Future<void> clearFCMTokenOfUsers(String fcmToken) async {
+    final querySnap =
+        await collection.where(Fields.fcmToken, isEqualTo: fcmToken).get();
+    final futures = querySnap.docs.map((element) {
+      return element.reference.update({Fields.fcmToken: ''});
+    });
+    await Future.wait(futures);
   }
 }

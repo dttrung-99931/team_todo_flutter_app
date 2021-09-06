@@ -24,7 +24,8 @@ class AuthController extends BaseController {
 
   Future updateFcmToken() async {
     var fcmToken = await _messagingService.getFcmToken();
-    await _userService.updateFCMToken(fcmToken);
+    await _userService.clearFCMTokenOfUsers(fcmToken);
+    await _userService.updateFCMTokenForCurrentUser(fcmToken);
   }
 
   Future<bool> signUp(String email, String password) async {

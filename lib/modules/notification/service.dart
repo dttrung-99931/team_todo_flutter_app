@@ -92,7 +92,7 @@ class NotificationService extends FirestoreService {
     return NotificationModel.fromMap(notiSnap.data());
   }
 
-  buildPushNotiBody(String notiID) async {
+  Future<String> buildPushNotiBody(String notiID) async {
     final noti = await getByID(notiID);
     if (noti.type == NotificationModel.TYPE_ACTION) {
       final action = await _actionService.getAction(noti.referenceID);

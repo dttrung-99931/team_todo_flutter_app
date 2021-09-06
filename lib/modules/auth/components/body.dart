@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/routes.dart';
 
 import '../../../constants/constants.dart';
 import '../controller.dart';
@@ -113,7 +114,7 @@ class Body extends GetWidget<AuthController> {
     var isloggedInSuccess = await controller.login(
         _usernameEdtController.text, _passwordEdtController.text);
     if (isloggedInSuccess) {
-      Get.toNamed("/");
+      Get.offAndToNamed(RouteNames.HOME);
     } else {
       Get.showSnackbar(GetBar(
         message: "Login failed",
@@ -126,7 +127,7 @@ class Body extends GetWidget<AuthController> {
     var isSignInSuccess = await controller.signUp(
         _usernameEdtController.text, _passwordEdtController.text);
     if (isSignInSuccess) {
-      Get.toNamed("/");
+      Get.offAndToNamed(RouteNames.HOME);
     } else {
       Get.showSnackbar(GetBar(
         message: "Login failed",

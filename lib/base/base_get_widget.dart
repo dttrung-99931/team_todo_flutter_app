@@ -39,8 +39,8 @@ abstract class BaseGetWidget<TController extends BaseController>
         ),
         TextButton(
           onPressed: () {
-            onYes();
             Get.back();
+            onYes();
           },
           child: Text("YES"),
         ),
