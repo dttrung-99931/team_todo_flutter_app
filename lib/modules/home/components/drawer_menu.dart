@@ -19,10 +19,11 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
     showAlertDialog("Do you want to sign out?", () async {
       AuthController authController = Get.find();
       await authController.signOut();
-      
-      // Navigate to auth screen by 
+
+      // Navigate to auth screen by
       // removing all current routes and push the auth route the nav stack
-      Get.offNamedUntil(RouteNames.AUTH, (route) => true);
+      Navigator.of(Get.context).popUntil((route) => false);
+      Navigator.of(Get.context).pushNamed(RouteNames.AUTH);
     });
   }
 

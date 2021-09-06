@@ -12,7 +12,7 @@ import '../teams/service.dart';
 class TeamController extends BaseController {
   final _teamService = Get.find<TeamService>();
   final _notiService = Get.find<NotificationService>();
-  
+
   final _myTeams = RxList<TeamModel>();
   List<TeamModel> get myTeams => _myTeams.toList();
 
@@ -76,7 +76,7 @@ class TeamController extends BaseController {
     });
   }
 
-  /// Add a team  
+  /// Add a team
   Future<void> add(TeamModel team) async {
     isLoading = true;
     var createdTeam = await _teamService.add(team);
