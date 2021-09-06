@@ -43,3 +43,4 @@ final kAppTheme = ThemeData(
     iconTheme: IconThemeData(color: kPrimarySwatch),
     appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white)));
 const double kDefaultPadding = 8;
+const kPageSize = 10;

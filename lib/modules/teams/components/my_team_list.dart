@@ -11,7 +11,7 @@ class MyTeamList extends BaseGetWidget<TeamController> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: _buildFloatingActionButton(),
-        body: buildFutureWidget(Obx(
+        body: buildLoadingObx(Obx(
           () => TeamList(
             teams: controller.myTeams,
             onTeamSelected: (team) {

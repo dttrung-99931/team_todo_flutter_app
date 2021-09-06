@@ -14,18 +14,24 @@ class TeamActionListScreen extends BaseGetWidget<TeamActionController> {
         appBar: AppBar(
           title: Text('Actions'),
         ),
-        body: Obx(() => buildFutureWidget(
-              ListViewWidget(
-                children: controller.actions
-                    .map(
-                      (e) => TeamActionItem(
-                        onPress: (item) {},
-                        item: e,
-                      ),
-                    )
-                    .toList(),
-              ),
-            )),
+        body: Obx(
+          () => buildLoadingObx(
+            ListViewWidget(
+              canLoadMore: controller.canLoadMore,
+              onLoadMore: () async {
+                await controller.loadMoreActions();
+              },
+              children: controller.actions
+                  .map(
+                    (e) => TeamActionItem(
+                      onPress: (item) {},
+                      item: e,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
       ),
     );
   }

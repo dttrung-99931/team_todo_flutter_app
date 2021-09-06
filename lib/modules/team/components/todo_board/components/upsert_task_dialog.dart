@@ -126,7 +126,7 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
                   vertical: kDefaultPadding, horizontal: kDefaultPadding * 1.5),
               border: OutlineInputBorder(gapPadding: 0),
               labelText: 'Assign'),
-          child: buildFutureWidget(
+          child: buildLoadingObx(
             StatefulBuilder(builder: (context, setState) {
               return DropdownButton<String>(
                   value: _assigneeUserID,
@@ -162,7 +162,7 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
                 }
                 Get.back();
               },
-              child: buildFutureWidget(Text('OK'))),
+              child: buildLoadingObx(Text('OK'))),
         )),
       ],
     );

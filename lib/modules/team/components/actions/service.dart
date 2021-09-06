@@ -14,7 +14,6 @@ import 'model.dart';
 class ActionService extends FirestoreService {
   final _userService = Get.find<UserService>();
   final _taskService = Get.find<TaskService>();
-
   final _newAction = Rx<ActionModel>();
   Stream<ActionModel> get newActionStream => _newAction.stream;
   StreamSubscription<QuerySnapshot> actionsChangedSubscription;
@@ -49,7 +48,7 @@ class ActionService extends FirestoreService {
     return "teams/$selectedTeamID/actions";
   }
 
-  Future<ActionModel> getAction(String actionID) async {
+  Future<ActionModel> getByID(String actionID) async {
     var querySnap = await queryByID(actionID);
     if (querySnap.docs.length != 0) {
       return ActionModel.fromMap(querySnap.docs[0].data());
@@ -60,8 +59,8 @@ class ActionService extends FirestoreService {
   // Group query action by action ID
   Future<QuerySnapshot<Map<String, dynamic>>> queryByID(String actionID) async {
     return await getCollectionGroup(Collections.actions)
-      .where(Fields.id, isEqualTo: actionID)
-      .get();
+        .where(Fields.id, isEqualTo: actionID)
+        .get();
   }
 
   Future<String> getTeamIDOfAction(String actionID) async {
@@ -75,13 +74,12 @@ class ActionService extends FirestoreService {
     throw NotFoundException(); // why exception throwing is not catched
   }
 
-
   /// Load [NotificationModel.action] for notis
   Future<void> loadActionsForTaskNotis(
     List<NotificationModel> taskNotis,
   ) async {
     var futures = taskNotis.map((noti) {
-      return getAction(noti.referenceID).then((value) => noti.action = value);
+      return getByID(noti.referenceID).then((value) => noti.action = value);
     });
     await Future.wait(futures);
     var actions = taskNotis.map((e) => e.action).toList();
@@ -111,14 +109,32 @@ class ActionService extends FirestoreService {
   }
 
   Future<List<ActionModel>> getActions() async {
-    final querySnap =
-        await collection.orderBy(Fields.date, descending: true).get();
-    var actions = querySnap.docs
-        .map(
-          (e) => ActionModel.fromMap(e.data()),
-        )
-        .toList();
+    final docs = await getActionDocs();
+    var actions = docsToModels(docs);
     return actions;
+  }
+
+  List<ActionModel> docsToModels(List<DocumentSnapshot<Map<String, dynamic>>> docs) {
+    return docs
+      .map(
+        (e) => ActionModel.fromMap(e.data()),
+      )
+      .toList();
+  }
+
+  Future<List<DocumentSnapshot<Map<String, dynamic>>>> getActionDocs({
+    DocumentSnapshot startAfterDoc,
+    int pageSize = kPageSize,
+  }) async {
+    var query = collection.orderBy(Fields.date, descending: true);
+    if (startAfterDoc != null) {
+      query = query.startAfterDocument((startAfterDoc));
+    }
+    query = query.limit(pageSize);
+
+    var querySnap = await query.get();
+
+    return querySnap.docs;
   }
 
   // Future<List<ActionModel>> getActionsIn(

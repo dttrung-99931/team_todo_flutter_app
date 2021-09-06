@@ -36,7 +36,7 @@ class TeamSearchScreen extends BaseGetWidget<TeamSearchController> {
             ),
           ),
         ),
-        buildFutureWidget(
+        buildLoadingObx(
           Obx(
             () => TeamList(
               noDataTitle: controller.areSuggestedTeamsShown

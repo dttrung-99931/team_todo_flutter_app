@@ -22,7 +22,7 @@ class RecentActions extends BaseGetWidget<NotificationController> {
             ),
           ),
         ),
-        Obx(() => buildFutureWidget(
+        Obx(() => buildLoadingObx(
             NotificationList(
               notifications: controller.notifications,
             ),

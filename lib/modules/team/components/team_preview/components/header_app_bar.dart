@@ -47,7 +47,7 @@ class HeaderAppBar extends BaseGetWidget<TeamPreviewController> {
   List<PopupMenuItem> _buildPopupMenuItem(BuildContext context) {
     return [
       PopupMenuItem(
-          value: ID_ITEM_JOIN_TEAM, child: buildFutureWidget(Text('Join team')))
+          value: ID_ITEM_JOIN_TEAM, child: buildLoadingObx(Text('Join team')))
     ];
   }
 

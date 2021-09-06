@@ -95,7 +95,7 @@ class NotificationService extends FirestoreService {
   Future<String> buildPushNotiBody(String notiID) async {
     final noti = await getByID(notiID);
     if (noti.type == NotificationModel.TYPE_ACTION) {
-      final action = await _actionService.getAction(noti.referenceID);
+      final action = await _actionService.getByID(noti.referenceID);
       final user = await _userService.getByID(action.userID);
       return user.email;
     }

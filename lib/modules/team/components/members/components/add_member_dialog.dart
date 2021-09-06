@@ -60,7 +60,7 @@ class AddMemberDialog extends BaseGetWidget<MembersController> {
               onPressed: () {
                 controller.addMember(_emailTxtController.text);
               },
-              child: buildFutureWidget(Text('OK'))),
+              child: buildLoadingObx(Text('OK'))),
         )),
       ],
     );
