@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import '../../controller.dart';
 import '../notification/model.dart';
 import '../notification/service.dart';
 import '../../base/base_controller.dart';
@@ -12,11 +13,12 @@ import '../teams/service.dart';
 class TeamController extends BaseController {
   final _teamService = Get.find<TeamService>();
   final _notiService = Get.find<NotificationService>();
+  final _mainController = Get.find<MainController>();
 
   final _myTeams = RxList<TeamModel>();
   List<TeamModel> get myTeams => _myTeams.toList();
 
-  final selectedTeamObs = Rx<TeamModel>();
+  Rx<TeamModel> get selectedTeamObs => _mainController.selectedTeamObs;
   TeamModel get selectedTeam => selectedTeamObs.value;
 
   // new action IDs of the selected team
@@ -49,14 +51,14 @@ class TeamController extends BaseController {
       try {
         final teams = await _teamService.getMyTeams();
         _myTeams.assignAll(teams);
-        onMyTeamLoad();
+        onMyTeamsLoad();
       } catch (e) {
         logd('Load my teams error $e');
       }
     });
   }
 
-  void onMyTeamLoad() {
+  void onMyTeamsLoad() {
     if (myTeams.isNotEmpty) {
       selectTeam(myTeams.first);
     }
