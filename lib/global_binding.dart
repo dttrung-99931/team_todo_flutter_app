@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'controller.dart';
+import 'modules/error_handler/error_report_service.dart';
 import 'modules/teams/service.dart';
 
 import 'modules/auth/controller.dart';
@@ -17,6 +18,7 @@ class GlobalBinding extends Bindings {
   // Provide dependencies used before GetMaterialApp created
   @override
   void dependencies() {
+    Get.put(ErrorReportService());
     Get.put(FirebaseAuthService());
 
 //->// @TODO: remove services depending on other services

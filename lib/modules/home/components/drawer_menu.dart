@@ -103,6 +103,8 @@ class ComposedButtonWidget extends StatelessWidget {
   final Color color;
   final EdgeInsets padding;
   final String title;
+  final bool expanded;
+  final double iconAndTitleSpace;
 
   const ComposedButtonWidget({
     @required this.iconData,
@@ -111,6 +113,8 @@ class ComposedButtonWidget extends StatelessWidget {
     this.iconSize = Sizes.s20,
     this.color = kPrimarySwatch,
     this.padding = const EdgeInsets.all(Sizes.s4),
+    this.expanded = false,
+    this.iconAndTitleSpace = Sizes.s8,
   });
 
   @override
@@ -120,9 +124,10 @@ class ComposedButtonWidget extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: Row(
+          mainAxisSize: expanded ? MainAxisSize.max : MainAxisSize.min,
           children: [
             if (iconData != null) Icon(iconData, size: iconSize),
-            if (iconData != null) SizedBox(width: Sizes.s8),
+            if (iconData != null) SizedBox(width: iconAndTitleSpace),
             Text(
               title,
               style: Styles.textTitle.copyWith(
