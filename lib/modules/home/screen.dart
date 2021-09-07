@@ -31,7 +31,7 @@ class HomeScreen extends BaseGetWidget<HomeController> {
       ),
       appBar: buildAppBar(),
       endDrawer: HomeDrawerMenu(),
-    ));
+    ),);
   }
 
   Widget buildAppBar() {

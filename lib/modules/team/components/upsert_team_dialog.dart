@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/sizes.dart';
+import 'package:team_todo_app/widgets/above_keyboard_bottom_bar.dart';
 
 import '../../../constants/constants.dart';
 import '../../teams/model.dart';
@@ -33,27 +35,37 @@ class UpsertTeamDialog extends GetWidget<TeamController> {
         horizontal: kDefaultPadding * 2,
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: Form(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: kDefaultPadding),
-                  padding: const EdgeInsets.all(kDefaultPadding * 1.5),
-                  child: Text(
-                    'Add a team',
-                    style: Theme.of(context).textTheme.headline5.copyWith(
-                        color: kPrimarySwatch, fontWeight: FontWeight.bold),
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(kDefaultPadding),
+            child: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: kDefaultPadding),
+                    padding: const EdgeInsets.all(kDefaultPadding * 1.5),
+                    child: Text(
+                      'Add a team',
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: kPrimarySwatch, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                buildTextFormField(controller: _nameTextCtl, hint: 'Name'),
-                buildTextFormField(
-                    controller: _descTextCtl, hint: 'Description'),
-                buildOKBtn()
-              ],
+                  buildTextFormField(controller: _nameTextCtl, hint: 'Name'),
+                  buildTextFormField(
+                      controller: _descTextCtl, hint: 'Description'),
+                ],
+              ),
             ),
+          ),
+        ),
+        bottomNavigationBar: AboveKeyboardBottomBar(
+          yOffsetRaising: -kDefaultPadding * 8,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                bottom: Sizes.s8, left: Sizes.s8, right: Sizes.s8,),
+            child: buildOKBtn(),
           ),
         ),
       ),

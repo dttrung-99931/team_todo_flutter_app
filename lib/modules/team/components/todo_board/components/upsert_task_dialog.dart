@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/sizes.dart';
+import 'package:team_todo_app/widgets/above_keyboard_bottom_bar.dart';
 
 import '../../../../../base/base_get_widget.dart';
 import '../../../../../constants/constants.dart';
@@ -47,33 +49,36 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
             padding: const EdgeInsets.all(kDefaultPadding),
             child: Form(
               child: SingleChildScrollView(
-                child: _buildFormColumn(context),
+                child: buildFormColumn(context),
               ),
             ),
           ),
-          bottomNavigationBar: _buildOKBtn(),
-          resizeToAvoidBottomInset: false,
+          bottomNavigationBar: AboveKeyboardBottomBar(
+            child: buildOKBtn(),
+            yOffsetRaising: -Sizes.s32,
+          ),
+          resizeToAvoidBottomInset: true,
         ));
   }
 
-  Column _buildFormColumn(BuildContext context) {
+  Column buildFormColumn(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildTitle(context),
-        _buildTaskStatusChoiceChips(),
-        _buildAssigneeSelector(),
-        _buildTxtFormField(
+        buildTitle(context),
+        buildTaskStatusChoiceChips(),
+        buildAssigneeSelector(),
+        buildTxtFormField(
           'Title',
           _titleTxtController,
         ),
-        _buildTxtFormField('Description', _descTxtController,
+        buildTxtFormField('Description', _descTxtController,
             inputType: TextInputType.multiline,
             minLines: 3,
             inputAction: TextInputAction.newline),
-        _buildDateTxtFormField(context, 'Start date', _startDateTxtController,
+        buildDateTxtFormField(context, 'Start date', _startDateTxtController,
             (date) => _startDate = date),
-        _buildDateTxtFormField(context, 'Due date', _dueDateTxtController,
+        buildDateTxtFormField(context, 'Due date', _dueDateTxtController,
             (date) => _dueDate = date),
         SizedBox(
           height: 8,
@@ -82,12 +87,12 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
     );
   }
 
-  Widget _buildDateTxtFormField(
+  Widget buildDateTxtFormField(
       BuildContext context,
       String lable,
       TextEditingController controller,
       Function(DateTime date) onDateSelected) {
-    return _buildTxtFormField(lable, controller,
+    return buildTxtFormField(lable, controller,
         inputType: TextInputType.datetime,
         isReadOnly: true, onClicked: () async {
       final selectedDate = await showDatePicker(
@@ -100,7 +105,7 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
     });
   }
 
-  Widget _buildTitle(BuildContext context) {
+  Widget buildTitle(BuildContext context) {
     return Center(
       child: Container(
         margin: EdgeInsets.only(top: kDefaultPadding),
@@ -117,7 +122,7 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
     );
   }
 
-  Widget _buildAssigneeSelector() {
+  Widget buildAssigneeSelector() {
     return Padding(
         padding: EdgeInsets.all(8),
         child: InputDecorator(
@@ -146,29 +151,28 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
         ));
   }
 
-  Widget _buildOKBtn() {
-    return Row(
-      children: [
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-          child: ElevatedButton(
-              onPressed: () async {
-                if (taskToUpdate != null) {
-                  _setTaskInputValues();
-                  await controller.updateTask(taskToUpdate, boardIndex);
-                } else {
-                  await controller.addTask(_buildTaskModel());
-                }
-                Get.back();
-              },
-              child: buildLoadingObx(Text('OK'))),
-        )),
-      ],
+  Widget buildOKBtn() {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: Sizes.s8,
+        right: Sizes.s16,
+        left: Sizes.s16,
+      ),
+      child: ElevatedButton(
+          onPressed: () async {
+            if (taskToUpdate != null) {
+              setTaskInputValues();
+              await controller.updateTask(taskToUpdate, boardIndex);
+            } else {
+              await controller.addTask(buildTaskModel());
+            }
+            Get.back();
+          },
+          child: buildLoadingObx(Text('OK'))),
     );
   }
 
-  void _setTaskInputValues() {
+  void setTaskInputValues() {
     taskToUpdate.title = _titleTxtController.text;
     taskToUpdate.description = _descTxtController.text;
     taskToUpdate.startDate = _startDate;
@@ -178,7 +182,7 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
     taskToUpdate.status = _status.stringValue();
   }
 
-  TaskModel _buildTaskModel() {
+  TaskModel buildTaskModel() {
     return TaskModel(
       title: _titleTxtController.text,
       description: _descTxtController.text,
@@ -191,7 +195,7 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
     );
   }
 
-  Widget _buildTxtFormField(String lable, TextEditingController txtController,
+  Widget buildTxtFormField(String lable, TextEditingController txtController,
       {TextInputType inputType = TextInputType.text,
       int maxLines = 100,
       int minLines = 1,
@@ -216,7 +220,7 @@ class UpsertTaskDialog extends BaseGetWidget<TodoBoardController> {
     );
   }
 
-  Widget _buildTaskStatusChoiceChips() {
+  Widget buildTaskStatusChoiceChips() {
     return Container(
       margin: EdgeInsets.only(left: kDefaultPadding),
       child: ChoiChips<TaskStatus>(

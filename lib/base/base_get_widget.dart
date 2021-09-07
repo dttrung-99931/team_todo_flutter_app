@@ -16,7 +16,7 @@ abstract class BaseGetWidget<TController extends BaseController>
     return UIUtils.buildCenterProgressBar();
   }
 
-  CircularProgressIndicator buildProgressBar() {
+  Widget buildProgressBar() {
     return UIUtils.buildProgressBar();
   }
 

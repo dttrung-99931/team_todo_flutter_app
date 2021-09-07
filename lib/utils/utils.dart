@@ -9,6 +9,7 @@ int random(int max) {
 }
 
 String formatDate(DateTime dateTime, [bool showTime = false]) {
+  if (dateTime == null) return null;
   var date = '${dateTime.day}/${dateTime.month}/${dateTime.year}';
   if (showTime) {
     date += ' ${dateTime.hour}:${dateTime.minute}';
