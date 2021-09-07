@@ -48,9 +48,12 @@ class _ListViewWidgetState extends State<ListViewWidget> {
         widget.canLoadMore &&
         _scrollController.position.extentAfter < widget.loadMoreOffset) {
       await widget.onLoadMore?.call();
-      setState(() {
-        widget.isLoadingMore = true;
-      });
+      // Make sure the setState call before disposed
+      if (this.mounted) {
+        setState(() {
+          widget.isLoadingMore = true;
+        });
+      }
     }
   }
 
