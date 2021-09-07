@@ -33,7 +33,7 @@ class MyTeams extends BaseGetWidget<TeamController> {
                 Icon(Icons.group, size: Sizes.s20),
                 SizedBox(width: Sizes.s8),
                 Text(
-                  'My teams',
+                  'my-teams'.tr,
                   style: Styles.textTitle.copyWith(color: kPrimarySwatch),
                 ),
               ],

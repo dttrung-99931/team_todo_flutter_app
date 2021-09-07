@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/translation/app_translation.dart';
 import 'constants/constants.dart';
 import 'modules/auth/pages.dart';
 import 'modules/home/pages.dart';
@@ -26,9 +27,9 @@ class App extends StatelessWidget {
       transitionDuration: Duration(milliseconds: 800),
       debugShowCheckedModeBanner: false,
       theme: kAppTheme,
-      // builder: (context, child) {
-      //   return Container(color: Colors.purple, child: Text('Error'));
-      // },
+      // Config translation
+      translations: AppTranslation(),
+      locale: AppTranslation.defaultLocale,
     );
   }
 }

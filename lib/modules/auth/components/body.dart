@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/constants/font_sizes.dart';
 import 'package:team_todo_app/constants/routes.dart';
+import 'package:team_todo_app/constants/sizes.dart';
 
 import '../../../constants/constants.dart';
 import '../controller.dart';
@@ -13,40 +15,41 @@ class Body extends GetWidget<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
-      margin: const EdgeInsets.only(top: 96, bottom: 64, left: 16, right: 16),
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.s24, vertical: 8),
+      margin: const EdgeInsets.only(
+        top: Sizes.s24,
+        bottom: Sizes.s128,
+        left: Sizes.s16,
+        right: Sizes.s16,
+      ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-          color: Colors.white),
+        borderRadius: BorderRadius.all(Radius.circular(Sizes.s24)),
+        color: Colors.white,
+      ),
       child: Column(
         children: [
-          SizedBox(
-            height: 48,
-          ),
-          _buildLoginTitle(),
-          _buildTextFormField("Email", _usernameEdtController),
-          SizedBox(
-            height: 8,
-          ),
-          _buildTextFormField("Password", _passwordEdtController,
+          SizedBox(height: Sizes.s48),
+          buildLoginTitle(),
+          SizedBox(height: Sizes.s8),
+          buildTextFormField("Email", _usernameEdtController),
+          SizedBox(height: Sizes.s8),
+          buildTextFormField("password".tr, _passwordEdtController,
               obscureText: true),
-          SizedBox(
-            height: 24,
-          ),
-          _buildLoginButton(),
-          _buildSwitchLoginSignupBtn()
+          SizedBox(height: Sizes.s24),
+          buildLoginButton(),
+          buildSwitchLoginSignupBtn(),
         ],
       ),
     );
   }
 
-  _buildLoginTitle() {
+  buildLoginTitle() {
     return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() => Text(
-              controller.isLoginScreen ? "Login" : "Sign up",
+              controller.isLoginScreen ? 'login'.tr : 'sign-up'.tr,
               style: TextStyle(
-                fontSize: 32,
+                fontSize: FontSizes.s28,
                 fontWeight: FontWeight.bold,
                 color: kPrimarySwatch,
                 fontStyle: FontStyle.italic,
@@ -54,25 +57,37 @@ class Body extends GetWidget<AuthController> {
             )));
   }
 
-  Widget _buildTextFormField(String hint, TextEditingController edtController,
+  Widget buildTextFormField(String hint, TextEditingController edtController,
       {bool obscureText = false}) {
     return TextFormField(
       decoration: InputDecoration(
-          hintText: hint,
-          border: OutlineInputBorder(gapPadding: 0),
-          contentPadding: EdgeInsets.all(8)),
+        hintText: hint,
+        border: OutlineInputBorder(
+          gapPadding: 0,
+          borderRadius: BorderRadius.circular(Sizes.s12),
+        ),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: Sizes.s12,
+          horizontal: Sizes.s12,
+        ),
+        isDense: true,
+      ),
       controller: edtController,
       obscureText: obscureText,
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget buildLoginButton() {
     return Row(
       children: [
         Expanded(
           child: Obx(
             () => ElevatedButton(
-              onPressed: _onBtnLoginOrSignUpClicked,
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(Sizes.s12),
+              )),
+              onPressed: onBtnLoginOrSignUpClicked,
               child: controller.isLoading
                   ? Container(
                       width: 24,
@@ -82,7 +97,11 @@ class Body extends GetWidget<AuthController> {
                         strokeWidth: 2,
                       ),
                     )
-                  : buildTitleObx(style: TextStyle(color: Colors.white)),
+                  : buildTitleObx(
+                      style: TextStyle(color: Colors.white),
+                      titleOnLogin: 'login'.tr,
+                      titleOnSignup: 'sign-up'.tr,
+                    ),
             ),
           ),
         ),
@@ -90,16 +109,19 @@ class Body extends GetWidget<AuthController> {
     );
   }
 
-  Obx buildTitleObx(
-      {TextStyle style, String loginTitle = 'Login', signUpTitle = 'Sign up'}) {
+  Obx buildTitleObx({
+    TextStyle style,
+    String titleOnLogin,
+    String titleOnSignup,
+  }) {
     return Obx(
-      () => Text(controller.isLoginScreen ? loginTitle : signUpTitle,
+      () => Text(controller.isLoginScreen ? titleOnLogin : titleOnSignup,
           style: style),
     );
   }
 
-  Future<void> _onBtnLoginOrSignUpClicked() async {
-    if (!_validate()) {
+  Future<void> onBtnLoginOrSignUpClicked() async {
+    if (!validate()) {
       return;
     }
 
@@ -116,10 +138,12 @@ class Body extends GetWidget<AuthController> {
     if (isloggedInSuccess) {
       Get.offAndToNamed(RouteNames.HOME);
     } else {
-      Get.showSnackbar(GetBar(
-        message: "Login failed",
-        isDismissible: true,
-      ));
+      Get.showSnackbar(
+        GetBar(
+          message: 'login-failed'.tr,
+          isDismissible: true,
+        ),
+      );
     }
   }
 
@@ -130,24 +154,28 @@ class Body extends GetWidget<AuthController> {
       Get.offAndToNamed(RouteNames.HOME);
     } else {
       Get.showSnackbar(GetBar(
-        message: "Login failed",
+        message: 'login-failed'.tr,
         isDismissible: true,
       ));
     }
   }
 
-  bool _validate() {
+  bool validate() {
     return true;
   }
 
-  _buildSwitchLoginSignupBtn() {
-    return TextButton(
+  buildSwitchLoginSignupBtn() {
+    return Transform.translate(
+      offset: Offset(0, -Sizes.s4),
+      child: TextButton(
         onPressed: () {
-          controller.swithScreen();
+          controller.switchScreen();
         },
         child: buildTitleObx(
-          loginTitle: "Sign up",
-          signUpTitle: "Login",
-        ));
+          titleOnLogin: 'sign-up'.tr,
+          titleOnSignup: 'login'.tr,
+        ),
+      ),
+    );
   }
 }

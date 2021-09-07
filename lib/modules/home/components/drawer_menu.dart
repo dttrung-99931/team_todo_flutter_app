@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:team_todo_app/base/base_get_widget.dart';
 import 'package:team_todo_app/constants/constants.dart';
+import 'package:team_todo_app/constants/images.dart';
 import 'package:team_todo_app/constants/routes.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
@@ -10,6 +11,7 @@ import 'package:team_todo_app/modules/team/components/my_teams/my_teams.dart';
 import 'package:team_todo_app/modules/user/controller.dart';
 import 'package:team_todo_app/widgets/character_avatar.dart';
 import 'package:team_todo_app/widgets/composed_button.dart';
+import 'package:team_todo_app/widgets/language_switch.dart';
 
 import '../controller.dart';
 
@@ -17,7 +19,7 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
   final _userController = Get.find<UserController>();
 
   Future<void> showExitAlertDialog() async {
-    showAlertDialog("Do you want to sign out?", () async {
+    showAlertDialog('confirm-sign-out'.tr, () async {
       AuthController authController = Get.find();
       await authController.signOut();
 
@@ -59,7 +61,7 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
               Expanded(
                 child: ComposedButtonWidget(
                   iconData: Icons.logout,
-                  title: 'Sign out',
+                  title: 'sign-out'.tr,
                   onPressed: showExitAlertDialog,
                 ),
               )
@@ -75,6 +77,7 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
       padding: EdgeInsets.all(Sizes.s12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Obx(() {
             return Row(
@@ -87,7 +90,10 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
                 ),
               ],
             );
-          })
+          }),
+          Align(
+            alignment: Alignment.centerRight,
+            child: LanguageSwitch(),),
         ],
       ),
       decoration: BoxDecoration(
@@ -96,4 +102,3 @@ class HomeDrawerMenu extends BaseGetWidget<HomeController> {
     );
   }
 }
-

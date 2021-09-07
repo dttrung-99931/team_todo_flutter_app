@@ -40,7 +40,7 @@ class AuthController extends BaseController {
     await _userService.signOut();
   }
 
-  void swithScreen() {
+  void switchScreen() {
     _isLoginScreen.value = !_isLoginScreen.value;
   }
 }

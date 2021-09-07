@@ -32,7 +32,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
   List<Widget> buildTeamMenuItems() {
     List<Widget> items = [
       MenuItem(
-        title: "Members",
+        title: 'members'.tr,
         child: Obx(
           () => BadgeWidget(
             badgeNumber: controller.selectedTeam.userIDs.length,
@@ -45,7 +45,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
         titleFontSize: FontSizes.s14,
       ),
       MenuItem(
-        title: "Actions",
+        title: 'actions'.tr,
         child: Obx(
           () => BadgeWidget(
             badgeNumber: controller.newActionIDs.length,
@@ -61,7 +61,7 @@ class TeamMenu extends BaseGetWidget<TeamController> {
     if (controller.isTeamOwner()) {
       items.add(
         MenuItem(
-          title: "Join requests",
+          title: 'join-requests'.tr,
           child: Obx(
             () => BadgeWidget(
               badgeNumber: controller.selectedTeam.pendingUserIDs.length,
@@ -69,7 +69,8 @@ class TeamMenu extends BaseGetWidget<TeamController> {
             ),
           ),
           onTap: () {
-            toNamedRelative(RouteNames.JOIN_REQUEST, arguments: controller.selectedTeam);
+            toNamedRelative(RouteNames.JOIN_REQUEST,
+                arguments: controller.selectedTeam);
           },
           titleFontSize: FontSizes.s14,
         ),
