@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:team_todo_app/constants/font_sizes.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
-import 'package:team_todo_app/modules/teams/model.dart';
+import 'package:team_todo_app/modules/team/model.dart';
 
 class MyTeamItem extends StatelessWidget {
   final TeamModel team;

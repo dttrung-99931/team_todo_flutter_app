@@ -5,7 +5,7 @@ import 'package:team_todo_app/constants/routes.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
 import '../../../../base/base_get_widget.dart';
-import '../../../teams/components/list.dart';
+import '../team_list/list.dart';
 
 import 'controller.dart';
 

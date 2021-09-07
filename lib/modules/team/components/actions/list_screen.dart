@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../widgets/listview_widget.dart';
+import '../../../../widgets/listview.dart';
 
 import '../../../../base/base_get_widget.dart';
 import 'controller.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../base/base_get_widget.dart';
-import '../../../teams/model.dart';
+import '../../model.dart';
 import '../../controller.dart';
 import 'components/body.dart';
 

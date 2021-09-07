@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../../constants/constants.dart';
-import '../../../utils/utils.dart';
+import '../../../../constants/constants.dart';
+import '../../../../utils/utils.dart';
 
-import '../model.dart';
+import '../../model.dart';
 
 class TeamItem extends StatelessWidget {
   final TeamModel team;

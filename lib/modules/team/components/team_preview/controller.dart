@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../../../../base/base_controller.dart';
 import '../../controller.dart';
-import '../../../teams/service.dart';
+import '../../service.dart';
 
 class TeamPreviewController extends BaseController {
   final _teamsService = Get.find<TeamService>();

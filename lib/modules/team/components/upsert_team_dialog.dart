@@ -5,7 +5,7 @@ import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/widgets/above_keyboard_bottom_bar.dart';
 
 import '../../../constants/constants.dart';
-import '../../teams/model.dart';
+import '../model.dart';
 import '../controller.dart';
 
 // ignore: must_be_immutable

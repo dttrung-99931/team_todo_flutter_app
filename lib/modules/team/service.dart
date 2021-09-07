@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import '../common/services/notification_sender_service.dart';
-import '../team/components/actions/model.dart';
 
 import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
 import '../../utils/utils.dart';
 import '../user/service.dart';
-import '../team/components/members/model.dart';
+import 'components/members/model.dart';
 import 'model.dart';
 
 class TeamService extends FirestoreService {
   final _userService = Get.find<UserService>();
-  final _notiSenderService = Get.find<NotificationSenderService>();
 
   @override
   String getCollectionPath() {

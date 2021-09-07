@@ -5,8 +5,9 @@ import 'package:team_todo_app/constants/constants.dart';
 import 'package:team_todo_app/constants/sizes.dart';
 import 'package:team_todo_app/constants/styles.dart';
 import 'package:team_todo_app/modules/team/components/upsert_team_dialog.dart';
-import 'package:team_todo_app/modules/teams/model.dart';
-import 'package:team_todo_app/widgets/listview_widget.dart';
+import 'package:team_todo_app/modules/team/model.dart';
+import 'package:team_todo_app/widgets/icon_button.dart';
+import 'package:team_todo_app/widgets/listview.dart';
 
 import '../../controller.dart';
 import 'item.dart';
@@ -67,32 +68,6 @@ class MyTeams extends BaseGetWidget<TeamController> {
           }),
         ),
       ],
-    );
-  }
-}
-
-class IconButtonWidget extends StatelessWidget {
-  final IconData iconData;
-  final Function onPressed;
-  final double size;
-  final Color color;
-  final EdgeInsets padding;
-  const IconButtonWidget({
-    @required this.iconData,
-    this.onPressed,
-    this.size = Sizes.s24,
-    this.color = kPrimarySwatch,
-    this.padding = const EdgeInsets.all(Sizes.s4),
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      child: Padding(
-        padding: padding,
-        child: Icon(iconData, size: size),
-      ),
-      onTap: onPressed,
     );
   }
 }

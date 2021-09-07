@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'constants/constants.dart';
 import 'modules/auth/pages.dart';
 import 'modules/home/pages.dart';
-import 'modules/teams/pages.dart';
 
 class App extends StatelessWidget {
   final String initialRoute;
@@ -22,7 +21,6 @@ class App extends StatelessWidget {
       getPages: [
         authPages,
         homePages,
-        teamListPages,
       ],
       defaultTransition: Transition.cupertino,
       transitionDuration: Duration(milliseconds: 800),

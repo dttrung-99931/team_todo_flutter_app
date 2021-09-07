@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../base/base_get_widget.dart';
 import '../../../../constants/constants.dart';
-import '../../../../widgets/badge_widget.dart';
+import '../../../../widgets/badge.dart';
 import 'components/doing.dart';
 import 'components/finish.dart';
 import 'components/todo.dart';

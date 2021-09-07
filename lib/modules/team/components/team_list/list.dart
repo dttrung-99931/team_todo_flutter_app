@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:team_todo_app/widgets/listview_widget.dart';
+import 'package:team_todo_app/widgets/listview.dart';
 
-import '../model.dart';
+import '../../model.dart';
 import 'item.dart';
 
 class TeamList extends StatelessWidget {

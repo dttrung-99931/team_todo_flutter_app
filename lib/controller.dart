@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 
 import '../../base/base_controller.dart';
 import 'modules/common/services/firebase_messaging_service.dart';
-import 'modules/teams/model.dart';
-import 'modules/teams/service.dart';
+import 'modules/team/model.dart';
+import 'modules/team/service.dart';
 
 class MainController extends BaseController {
   final _pushNotiService = Get.find<PushNotificationService>();

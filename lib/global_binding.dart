@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'controller.dart';
 import 'modules/error_handler/error_report_service.dart';
-import 'modules/teams/service.dart';
+import 'modules/team/service.dart';
 
 import 'modules/auth/controller.dart';
 import 'modules/common/services/notification_sender_service.dart';

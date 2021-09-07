@@ -6,7 +6,7 @@ import '../../../constants/routes.dart';
 import '../../../widgets/menu_item.dart';
 
 import '../../../base/base_get_widget.dart';
-import '../../../widgets/badge_widget.dart';
+import '../../../widgets/badge.dart';
 import '../controller.dart';
 
 class TeamMenu extends BaseGetWidget<TeamController> {

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../../base/base_get_widget.dart';
 import '../../team_search/controller.dart';
-import '../../../../teams/model.dart';
+import '../../../model.dart';
 import '../controller.dart';
 
 class HeaderAppBar extends BaseGetWidget<TeamPreviewController> {

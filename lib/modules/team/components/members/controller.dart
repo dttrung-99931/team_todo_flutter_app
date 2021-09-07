@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 
 import '../../../../base/base_controller.dart';
 import '../../../user/service.dart';
-import '../../../teams/model.dart';
+import '../../model.dart';
 import '../../controller.dart';
-import '../../../teams/service.dart';
+import '../../service.dart';
 import 'model.dart';
 
 class MembersController extends BaseController {

@@ -7,8 +7,8 @@ import '../notification/service.dart';
 import '../../base/base_controller.dart';
 import '../../utils/utils.dart';
 
-import '../teams/model.dart';
-import '../teams/service.dart';
+import 'model.dart';
+import 'service.dart';
 
 class TeamController extends BaseController {
   final _teamService = Get.find<TeamService>();

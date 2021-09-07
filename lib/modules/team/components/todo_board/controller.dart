@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:team_todo_app/modules/teams/model.dart';
+import 'package:team_todo_app/modules/team/model.dart';
 import '../../../common/services/notification_sender_service.dart';
 import '../actions/model.dart';
 import '../actions/service.dart';
@@ -10,7 +10,7 @@ import '../../../../base/base_controller.dart';
 import '../../../../constants/constants.dart';
 import '../../../user/service.dart';
 import '../../controller.dart';
-import '../../../teams/service.dart';
+import '../../service.dart';
 import '../members/model.dart';
 import 'components/task/model.dart';
 import 'components/task/service.dart';

@@ -8,7 +8,7 @@ import '../../base/firestore_service.dart';
 import '../../constants/constants.dart';
 import '../common/services/firebase_auth_service.dart';
 import 'model.dart';
-import '../teams/user_team_model.dart';
+import 'user_team_model.dart';
 
 class UserService extends FirestoreService {
   final _authService = Get.find<FirebaseAuthService>();

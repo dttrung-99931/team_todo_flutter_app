@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../../../teams/model.dart';
+import '../../../model.dart';
 
 import 'header_app_bar.dart';
 

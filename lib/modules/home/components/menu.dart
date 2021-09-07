@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../base/base_get_widget.dart';
 import '../../../constants/sizes.dart';
 import '../../notification/controller.dart';
-import '../../../widgets/badge_widget.dart';
+import '../../../widgets/badge.dart';
 import '../../../widgets/menu_item.dart';
 
 class Menu extends BaseGetWidget<NotificationController> {
