@@ -5,6 +5,7 @@ import 'package:team_todo_app/translation/app_translation.dart';
 import 'constants/constants.dart';
 import 'modules/auth/pages.dart';
 import 'modules/home/pages.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class App extends StatelessWidget {
   final String initialRoute;
@@ -17,19 +18,29 @@ class App extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: kPrimarySwatch),
     );
-    return GetMaterialApp(
-      initialRoute: initialRoute,
-      getPages: [
-        authPages,
-        homePages,
-      ],
-      defaultTransition: Transition.cupertino,
-      transitionDuration: Duration(milliseconds: 800),
-      debugShowCheckedModeBanner: false,
-      theme: kAppTheme,
-      // Config translation
-      translations: AppTranslation(),
-      locale: AppTranslation.defaultLocale,
+
+    // Wrap GetMaterialApp to use scale ui units in GetMaterialApp's widget children:
+    // 10.w -> 10 scale with units
+    // 10.h -> 10 scale height units
+    // 10.r -> 10 scale radius units
+    // 10.sp -> 10 scale fontsize units
+    // 0.3.sw -> 30% size of width
+    // 0.2.sh -> 30% size of height
+    return ScreenUtilInit(
+      builder: () => GetMaterialApp(
+        initialRoute: initialRoute,
+        getPages: [
+          authPages,
+          homePages,
+        ],
+        defaultTransition: Transition.cupertino,
+        transitionDuration: Duration(milliseconds: 800),
+        debugShowCheckedModeBanner: false,
+        theme: kAppTheme,
+        // Config translation
+        translations: AppTranslation(),
+        locale: AppTranslation.defaultLocale,
+      ),
     );
   }
 }
