@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/base/base_get_widget.dart';
 import 'package:team_todo_app/constants/constants.dart';
 import 'package:team_todo_app/constants/sizes.dart';
+import 'package:team_todo_app/modules/setting/controller.dart';
 import 'package:team_todo_app/translation/app_translation.dart';
 
-class LanguageSwitch extends StatelessWidget {
+class LanguageSwitch extends BaseGetWidget<SettingController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -14,9 +16,9 @@ class LanguageSwitch extends StatelessWidget {
           buildLanguageBtn(
             languageShort: 'EN',
             onPressed: () {
-              AppTranslation.changeLanguage(AppTranslation.LANG_CODE_EN);
+              controller.changeLanguage(AppTranslation.LANG_CODE_EN);
             },
-            color: AppTranslation.currentLanguage == AppTranslation.LANG_EN
+            color: controller.currentLanguageCode == AppTranslation.LANG_CODE_EN
                 ? kPrimarySwatch
                 : Colors.grey[400],
             roundLeft: true,
@@ -24,9 +26,9 @@ class LanguageSwitch extends StatelessWidget {
           buildLanguageBtn(
             languageShort: 'VI',
             onPressed: () {
-              AppTranslation.changeLanguage(AppTranslation.LANG_CODE_VI);
+              controller.changeLanguage(AppTranslation.LANG_CODE_VI);
             },
-            color: AppTranslation.currentLanguage == AppTranslation.LANG_VI
+            color: controller.currentLanguageCode == AppTranslation.LANG_CODE_VI
                 ? kPrimarySwatch
                 : Colors.grey[400],
             roundRight: true,

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:team_todo_app/base/base_get_widget.dart';
+import 'package:team_todo_app/modules/setting/controller.dart';
 import 'package:team_todo_app/translation/app_translation.dart';
 import 'constants/constants.dart';
 import 'modules/auth/pages.dart';
 import 'modules/home/pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class App extends StatelessWidget {
+class App extends BaseGetWidget<SettingController> {
   final String initialRoute;
 
   App(this.initialRoute);
@@ -19,7 +21,7 @@ class App extends StatelessWidget {
       SystemUiOverlayStyle(statusBarColor: kPrimarySwatch),
     );
 
-    // Wrap GetMaterialApp to use scale ui units in GetMaterialApp's widget children:
+    // Wrap GetMaterialApp with ScreenUtilInit to use scale ui units in GetMaterialApp's widget children:
     // 10.w -> 10 scale with units
     // 10.h -> 10 scale height units
     // 10.r -> 10 scale radius units
@@ -39,7 +41,7 @@ class App extends StatelessWidget {
         theme: kAppTheme,
         // Config translation
         translations: AppTranslation(),
-        locale: AppTranslation.defaultLocale,
+        locale: controller.currentLocale,
       ),
     );
   }

@@ -6,48 +6,38 @@ import 'package:team_todo_app/translation/vi.dart';
 
 import 'en.dart';
 
-/// Class contains configurations for multi-language: default language, change locale, ...
+/// Class contains language translation configurations, 
+/// static util methods about lanaguage 
 class AppTranslation extends Translations {
   static const LANG_CODE_EN = 'en';
   static const LANG_CODE_VI = 'vi';
-  static const LANG_VI = 'Tiếng việt';
-  static const LANG_EN = 'English';
   static const SUPPORTED_LOCALES = [
     Locale(LANG_CODE_EN, 'US'),
     Locale(LANG_CODE_VI, 'VN'),
   ];
-  static const LANGUAGES = {LANG_CODE_EN: LANG_EN, LANG_CODE_VI: LANG_VI};
+  static const LANGUAGES = {LANG_CODE_EN: 'Tiếng việt', LANG_CODE_VI: 'English'};
 
-  static final defaultLocale = _getDefaultSupportedLocale();
-
-  static String get currentLanguage => currentLanguageObs.value;
-  static final currentLanguageObs = RxString(
-    LANGUAGES[defaultLocale.languageCode],
-  );
-
-  static changeLanguage(String languageCode) {
-    final locale = _findSupportedLocale(languageCode);
-    assert(locale != null, '$languageCode language is not supported');
-
-    if (currentLanguageObs.value != LANGUAGES[languageCode]) {
-      currentLanguageObs.value = LANGUAGES[languageCode];
-      Get.updateLocale(locale);
-    }
-  }
-
-  static Locale _findSupportedLocale(String languageCode) {
+  static Locale findSupportedLocale(String languageCode) {
     final locales = SUPPORTED_LOCALES.where(
       (element) => element.languageCode == languageCode,
     );
     return locales.isNotEmpty ? locales.first : null;
   }
 
-  static Locale _getDefaultSupportedLocale() {
-    final isDefaultLocaleSupported =
-        _findSupportedLocale(Get.deviceLocale.languageCode) != null;
-    return isDefaultLocaleSupported
+  static Locale getDefaultSupportedLocale() {
+    final isCurrentDeviceLocaleSupported =
+        findSupportedLocale(Get.deviceLocale.languageCode) != null;
+    return isCurrentDeviceLocaleSupported
         ? Get.deviceLocale
         : SUPPORTED_LOCALES.first;
+  }
+
+  static String getDefaultSupportedLangCode() {
+    return getDefaultSupportedLocale().languageCode;
+  }
+
+  static void changeLocale(Locale locale) {
+    Get.updateLocale(locale);
   }
 
   @override

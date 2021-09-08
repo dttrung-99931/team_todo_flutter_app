@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:team_todo_app/modules/setting/controller.dart';
 import 'controller.dart';
 import 'modules/error_handler/error_report_service.dart';
 import 'modules/team/service.dart';
@@ -20,6 +21,7 @@ class GlobalBinding extends Bindings {
   void dependencies() {
     Get.put(ErrorReportService());
     Get.put(FirebaseAuthService());
+    Get.put(SettingController());
 
 //->// @TODO: remove services depending on other services
     // like UserService depending on FirebaseAuthService for the below ones
