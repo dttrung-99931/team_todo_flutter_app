@@ -29,7 +29,7 @@ class App extends BaseGetWidget<SettingController> {
     // 0.3.sw -> 30% size of width
     // 0.2.sh -> 30% size of height
     return ScreenUtilInit(
-      builder: () => GetMaterialApp(
+      builder: (_, __) => GetMaterialApp(
         initialRoute: initialRoute,
         getPages: [
           authPages,

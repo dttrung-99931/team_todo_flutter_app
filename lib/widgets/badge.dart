@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../constants/constants.dart';
@@ -20,7 +20,7 @@ class BadgeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Badge(
+    return badge.Badge(
       badgeContent: Text(
         badgeNumber.toString(),
         style: TextStyle(color: badgeTextColor),
